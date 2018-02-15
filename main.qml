@@ -20,9 +20,11 @@ ApplicationWindow {
     id: root
 
     Item {
-        id: coord
+        id: gps
         property real longitude: 53.051307
         property real latitude: 5.835714
+        property real messages: 0
+        property real errors: 0
     }
     Item {
         id: motor
@@ -31,7 +33,7 @@ ApplicationWindow {
     }
     Item {
         id: mppt
-        property real name: value
+        property real uin: 0
     }
 
 
@@ -239,9 +241,9 @@ ApplicationWindow {
                     enabled: true
                     stepSize: 1
                     scale: 1
-                    value: 15
-                    to: 19
-                    onValueChanged:
+                    value: map.zoomLevel
+                    to: 20
+                    onValueModified:
                     {
                         map.zoomLevel = mapZoom.value
                     }
@@ -363,21 +365,25 @@ ApplicationWindow {
                     x: 10
                     y: 40
                     width: 420
-                    height: 100
+                    height: 70
                     font.pixelSize: 10
                     readOnly: true
                     wrapMode: TextArea.WrapAnywhere
                 }
                 Timer {
                     id: timer1
-                    interval: 200
+                    interval: jsonInterval.value
                     running: false
                     repeat: true
                     onTriggered: {
                         if (serial.isOpen()){
 
                             var array = serial.readBytes();
-                            if (array.length > 357){
+                            if (array.length > 500){
+                                gps.messages++;
+                                jsonLength.text =   "Serial Bytes: " + array.length;
+                                jsonMessages.text = "Messages: " + gps.messages;
+                                jsonErrors.text =   "Errors: " + gps.errors;
 
                                 var result = "";
                                 for(var i = 0; i < array.length; ++i){
@@ -391,23 +397,57 @@ ApplicationWindow {
                                     }
                                 }
                                 // JSON parser
+                                // Testing JSON manual
+                                //var input = '{"motor":{"RPM":1533,"Turning_Direction":false,"Battery_Voltage":41.23,"Current":4.54,"Temp_PCB":23.21,"Temp_Motor":39.25,"Drive_Enable":true,"Drive_Ready":true,"Killswitch_Error":false},"gps":{"latitude":4.744417,"longitude":51.57063,"speed":12.57,"accuracy":0.98,"course":45.00,"fix":false,"sats":6}}';
+                                try {
+                                    var JsonObject= JSON.parse(result);
+
+                                    motor.rpm           = JsonObject.motor.RPM;
+                                    motor.current       = JsonObject.motor.Current;
+                                    gps.longitude       = JsonObject.gps.coords[0];
+                                    gps.latitude        = JsonObject.gps.coords[1];
+
+                                    map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+
+                                } catch(e) {
+                                    gps.errors++;
+                                    //console.info(e); // error in the above string (in this case, yes)!
+                                    //console.info(result);
+                                    //console.info("Msg: " + gps.messages + ". Errors: " + gps.errors);
+                                }
                             }
                         }
-                        // Testing JSON manual
-                        var input = '{"motor":{"RPM":1533,"Turning_Direction":false,"Battery_Voltage":41.23,"Current":4.54,"Temp_PCB":23.21,"Temp_Motor":39.25,"Drive_Enable":true,"Drive_Ready":true,"Killswitch_Error":false},"gps":{"latitude":4.744417,"longitude":51.57063,"speed":12.57,"accuracy":0.98,"course":45.00,"fix":false,"sats":6}}';
-                        try {
-                            var JsonObject= JSON.parse(input);
-
-                            motor.rpm           = JsonObject.motor.RPM;
-                            motor.current       = JsonObject.motor.Current;
-                            coord.longitude     = JsonObject.gps.longitude;
-                            coord.latitude      = JsonObject.gps.latitude;
-
-                        } catch(e) {
-                            console.info(e); // error in the above string (in this case, yes)!
-                            console.info(result);
-                        }
                     }
+                }
+
+                Text {
+                    id: jsonMessages
+                    x: 10
+                    y: 110
+                    font.pixelSize: 12
+                }
+                Text {
+                    id: jsonErrors
+                    x: 120
+                    y: 110
+                    font.pixelSize: 12
+                }
+                Text {
+                    id: jsonLength
+                    x: 200
+                    y: 110
+                    font.pixelSize: 12
+                }
+                SpinBox {
+                    id: jsonInterval
+                    x: 300
+                    y: 95
+                    enabled: true
+                    stepSize: 50
+                    scale: 0.8
+                    value: 200
+                    to: 500
+                    width: 150
                 }
 
             }
@@ -494,8 +534,9 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.rightMargin: 0
         plugin: mapPlugin
-        center: QtPositioning.coordinate(coord.longitude, coord.latitude)
-        zoomLevel: 14
+        center: QtPositioning.coordinate(gps.longitude, gps.latitude)
+        //onCenterChanged: QtPositioning.coordinate(gps.longitude, gps.latitude)
+        zoomLevel: 19
         state: "small"
         states: [
                 State {
@@ -520,7 +561,7 @@ ApplicationWindow {
        }
         MapCircle {
                 id: boatCircle
-                center: QtPositioning.coordinate(53.051307, 5.835714)
+                center: QtPositioning.coordinate(gps.longitude, gps.latitude)
                 radius: 5.0
                 color: 'red'
                 opacity: 0.8
@@ -553,6 +594,20 @@ ApplicationWindow {
             }
             //var coord = src.position.coordinate;
             //console.log("Coordinate:", coord.longitude, coord.latitude);
+        }
+    }
+    Button {
+        id: recenterMap
+        x: 751
+        y: 45
+        width: 50
+        height: 50
+        text: qsTr("*")
+        opacity: 0.8
+        checked: false
+        onPressed:
+        {
+            map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
         }
     }
 

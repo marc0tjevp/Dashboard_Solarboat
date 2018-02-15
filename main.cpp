@@ -9,7 +9,6 @@
 
 #include "comboboxmodel.h"
 #include "ql-channel-serial.hpp"
-//#include "gpsdecoder.h"
 
 
 
