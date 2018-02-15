@@ -7,13 +7,13 @@ CONFIG += c++11
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-SOURCES += main.cpp \
-    comboboxmodel.cpp \
-    ql-channel.cpp \
-    ql-channel-serial.cpp
+SOURCES += src/main.cpp \
+    src/comboboxmodel.cpp \
+    src/ql-channel.cpp \
+    src/ql-channel-serial.cpp
 
 RESOURCES += \
-    qml.qrc \
+    src/qml.qrc \
 
 QTPLUGIN += qtvirtualkeyboardplugin
 
@@ -27,14 +27,12 @@ disable-xcb {
 }
 
 HEADERS += \
-    comboboxmodel.h \
-    ql-channel.hpp \
-    ql-channel-serial.hpp
+    src/comboboxmodel.h \
+    src/ql-channel.hpp \
+    src/ql-channel-serial.hpp
 
 DISTFILES += \
-    main.qml \
-    DashboardGaugeStyle.qml \
-    IconGaugeStyle.qml \
-    TachometerStyle.qml \
-    ValueSource.qml \
-    TurnIndicator.qml
+    src/main.qml \
+    src/DashboardGaugeStyle.qml \
+    src/TachometerStyle.qml \
+    src/ValueSource.qml

@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>qtquickcontrols2.conf</file>
         <file>img/gps-disconnected.png</file>
         <file>img/gps-icon.png</file>
         <file>img/gsm.png</file>
@@ -13,9 +11,9 @@
         <file>img/signal4.png</file>
         <file>img/signal5.png</file>
         <file>ValueSource.qml</file>
-        <file>TurnIndicator.qml</file>
         <file>TachometerStyle.qml</file>
-        <file>IconGaugeStyle.qml</file>
         <file>DashboardGaugeStyle.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>main.qml</file>
     </qresource>
 </RCC>
