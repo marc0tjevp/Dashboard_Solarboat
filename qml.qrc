@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>nmealog.txt</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>gps-icon.png</file>
+        <file>gps-disconnected.png</file>
+        <file>basic-b2qt.qml</file>
+        <file>signal0.png</file>
+        <file>signal1.png</file>
+        <file>signal2.png</file>
+        <file>signal3.png</file>
+        <file>signal4.png</file>
+        <file>signal5.png</file>
+        <file>quit.png</file>
+    </qresource>
+</RCC>
