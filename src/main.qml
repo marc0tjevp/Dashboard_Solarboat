@@ -10,6 +10,7 @@ import QtLocation 5.6
 import QtPositioning 5.6
 import QtCharts 2.2
 import QlChannelSerial 1.0
+import QtGraphicalEffects 1.0
 
 
 ApplicationWindow {
@@ -26,6 +27,10 @@ ApplicationWindow {
         id: gps
         property real longitude: 53.051307
         property real latitude: 5.835714
+        property real fix_age: 0
+        property real speed: 0
+        property real time: 0
+        property real date: 0
         property real messages: 0
         property real errors: 0
     }
@@ -111,7 +116,6 @@ ApplicationWindow {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: Qt.quit()
-                            //onClicked: { serialList.append({text: "NEW"})}
                         }
                     }
                 }
@@ -205,7 +209,7 @@ ApplicationWindow {
                     x: 15
                     y: 100
                     text: qsTr("GPS")
-                    checked: true
+                    checked: gps.fix_age > 500 ? true : false; //true
                     onCheckedChanged:
                     {
                         if(gpsSwitch.checked)
@@ -438,6 +442,7 @@ ApplicationWindow {
                                     motor.current       = JsonObject.motor.Current;
                                     gps.longitude       = JsonObject.gps.coords[0];
                                     gps.latitude        = JsonObject.gps.coords[1];
+                                    gps.fix_age         = JsonObject.gps.Fix_Age;
 
                                     map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
 
@@ -497,13 +502,30 @@ ApplicationWindow {
                 contentHeight: 1000
 
                 ChartView {
+                    id: chartView
                     height: 300
                     width: parent.width
+                    backgroundColor: "transparent"
                     antialiasing: true
                     legend.visible: false
+                    ValueAxis {
+                        id: valueAxisX
+                        min: 0
+                        max: 5 + 1
+                        visible: false
+                    }
 
-                    SplineSeries {
-
+                    ValueAxis {
+                        id: valueAxisY
+                        min: 0
+                        max: 4
+                        visible: true
+                    }
+                    LineSeries {
+                        id: avgTempSeries
+                        axisX: valueAxisX
+                        axisY: valueAxisY
+                        color: "#C6002A"
                         XYPoint { x: 0; y: 0.0 }
                         XYPoint { x: 1.1; y: 3.2 }
                         XYPoint { x: 1.9; y: 2.4 }
@@ -511,6 +533,13 @@ ApplicationWindow {
                         XYPoint { x: 2.9; y: 2.6 }
                         XYPoint { x: 3.4; y: 2.3 }
                         XYPoint { x: 4.1; y: 3.1 }
+                    }
+                    Glow {
+                        anchors.fill: chartView
+                        radius: 18
+                        samples: 37
+                        color: "#C6002A"
+                        source: chartView
                     }
                 }
             }
