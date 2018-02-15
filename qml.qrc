@@ -12,5 +12,10 @@
         <file>img/signal3.png</file>
         <file>img/signal4.png</file>
         <file>img/signal5.png</file>
+        <file>ValueSource.qml</file>
+        <file>TurnIndicator.qml</file>
+        <file>TachometerStyle.qml</file>
+        <file>IconGaugeStyle.qml</file>
+        <file>DashboardGaugeStyle.qml</file>
     </qresource>
 </RCC>

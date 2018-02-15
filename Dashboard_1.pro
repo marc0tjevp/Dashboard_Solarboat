@@ -26,17 +26,15 @@ disable-xcb {
     CONFIG += disable-desktop
 }
 
-#LIBS += -lqmapboxgl
-
-#unix:!macx: LIBS += -L$$PWD/./ -lqmapboxgl
-
-#INCLUDEPATH += $$PWD/.
-#DEPENDPATH += $$PWD/.
-
 HEADERS += \
     comboboxmodel.h \
     ql-channel.hpp \
     ql-channel-serial.hpp
 
 DISTFILES += \
-    main.qml
+    main.qml \
+    DashboardGaugeStyle.qml \
+    IconGaugeStyle.qml \
+    TachometerStyle.qml \
+    ValueSource.qml \
+    TurnIndicator.qml

@@ -1,11 +1,14 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.1
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Extras 1.4
 import QtQuick.VirtualKeyboard 2.2
 import QtLocation 5.6
 import QtPositioning 5.6
 import QtCharts 2.2
-import QtQuick.Dialogs 1.2
 import QlChannelSerial 1.0
 
 
@@ -51,36 +54,65 @@ ApplicationWindow {
 
         Item {
             id: dashboardTab
-
-            Flickable {
-                flickableDirection: Flickable.VerticalFlick
-                width: parent.width;
+            Rectangle {
+                width: parent.width
                 height: parent.height
-                contentWidth: parent.width;
-                contentHeight: 1000
+                color : "#161616"
 
-                Text {
-                    id: txt_RPM
-                    x: 0
-                    y: 100
-                    text: motor.rpm
-                }
-                Text {
-                    id: txt_Current
-                    x: 100
-                    y: 100
-                    text: motor.current
-                }
+                Flickable {
+                    flickableDirection: Flickable.VerticalFlick
+                    width: parent.width;
+                    height: parent.height
+                    contentWidth: parent.width;
+                    contentHeight: 1000
 
-                Image {
-                    id: quitButton
-                    x: 0
-                    y: 400
-                    source: "qrc:///img/quit.png"
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: Qt.quit()
-                        //onClicked: { serialList.append({text: "NEW"})}
+                    Text {
+                        id: txt_RPM
+                        x: 0
+                        y: 300
+                        text: motor.rpm
+                    }
+                    Text {
+                        id: txt_Current
+                        x: 100
+                        y: 300
+                        text: motor.current
+                    }
+
+                    ValueSource {
+                        id: valueSource
+                    }
+                    CircularGauge {
+                        id: speedometer
+                        value: valueSource.kph
+                        maximumValue: 280
+                        width: 250
+                        height: 250
+                        x: 10
+                        y: 10
+                        style: DashboardGaugeStyle {}
+                    }
+
+                    CircularGauge {
+                        id: tachometer
+                        width: 150
+                        height: 150
+                        value: valueSource.rpm
+                        maximumValue: 8
+                        x: 270
+                        y: 10
+                        style: TachometerStyle {}
+                    }
+                    Image {
+                        id: quitButton
+                        x: 0
+                        y: 400
+                        source: "qrc:///img/quit.png"
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: Qt.quit()
+                            //onClicked: { serialList.append({text: "NEW"})}
+                        }
                     }
                 }
             }
@@ -139,7 +171,7 @@ ApplicationWindow {
                     y: 55
                     width: 125
                     height: 39
-                    spacing: 6
+                    //spacing: 6
                     value: 5
                     to: 5
                     onValueChanged:
