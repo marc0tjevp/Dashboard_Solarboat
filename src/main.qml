@@ -25,23 +25,31 @@ ApplicationWindow {
 
     Item {
         id: gps
-        property real longitude: 53.051307
-        property real latitude: 5.835714
-        property real fix_age: 0
-        property real speed: 0
-        property real time: 0
-        property real date: 0
-        property real messages: 0
-        property real errors: 0
+        property real   longitude:      53.051307
+        property real   latitude:       5.835714
+        property int    fix_age:        0
+        property bool   fix:            false
+        property real   speed:          0
+        property int    time:           0
+        property int    date:           0
+        property bool   tracking:       false
     }
     Item {
+        id: network
+        property int    mobileSignal:   0
+        property string carrier:        "NA"
+        property int    messages:       0
+        property int    errors:         0
+    }
+
+    Item {
         id: motor
-        property real rpm: 0
-        property real current: 0
+        property real   rpm:            0
+        property real   current:        0
     }
     Item {
         id: mppt
-        property real uin: 0
+        property real   uin:            0
     }
 
 
@@ -62,7 +70,7 @@ ApplicationWindow {
             Rectangle {
                 width: parent.width
                 height: parent.height
-                color : "#161616"
+                //color : "#161616"
 
                 Flickable {
                     flickableDirection: Flickable.VerticalFlick
@@ -84,13 +92,32 @@ ApplicationWindow {
                         text: motor.current
                     }
 
+                    Timer {
+                        property int timeline: 0 // Start of the timeline
+                        interval: 100
+                        running: true
+                        repeat: true
+                        onTriggered: {
+                            timeline++;
+                            speedGraph.append(timeline, speedometer.value);
+
+                            if(timeline + 100 > valueAxisX.max){
+                                valueAxisX.min = timeline - 900;
+                                valueAxisX.max = timeline + 100;
+                            }
+                            if (timeline > 1000){
+                                speedGraph.remove(0);
+                            }
+                        }
+                    }
+
                     ValueSource {
                         id: valueSource
                     }
                     CircularGauge {
                         id: speedometer
                         value: valueSource.kph
-                        maximumValue: 280
+                        maximumValue: 50
                         width: 250
                         height: 250
                         x: 10
@@ -176,7 +203,7 @@ ApplicationWindow {
                     width: 125
                     height: 39
                     //spacing: 6
-                    value: 5
+                    value: network.mobileSignal
                     to: 5
                     onValueChanged:
                     {
@@ -209,7 +236,7 @@ ApplicationWindow {
                     x: 15
                     y: 100
                     text: qsTr("GPS")
-                    checked: gps.fix_age > 500 ? true : false; //true
+                    checked: gps.fix
                     onCheckedChanged:
                     {
                         if(gpsSwitch.checked)
@@ -248,7 +275,7 @@ ApplicationWindow {
                     y: 163
                     width: 125
                     height: 43
-                    text: qsTr("KPN NL")
+                    text: network.carrier
                     font.letterSpacing: 0
                     font.wordSpacing: 0
                     onTextChanged: {
@@ -357,6 +384,35 @@ ApplicationWindow {
 
                 QlChannelSerial { id:serial }
 
+                Rectangle {
+                    width: 90
+                    height: 300
+                    x: 450
+                    y: 10
+                    color: "#161616"
+
+                    Gauge {
+                        id: gauge
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        minimumValue: 0
+                        value: network.errors / network.messages * 100
+                        maximumValue: 20
+                        Behavior on value {
+                            NumberAnimation {
+                                duration: 600; easing.type: Easing.InOutQuad
+                            }
+                        }
+
+                        style: GaugeStyle {
+                            valueBar: Rectangle {
+                                implicitWidth: 16
+                                color: Qt.rgba(gauge.value / gauge.maximumValue, 0, 1 - gauge.value / gauge.maximumValue, 1)
+                            }
+                        }
+                    }
+                }
+
                 ComboBox {
                     id: comboBox13
                     width: 300
@@ -416,10 +472,10 @@ ApplicationWindow {
 
                             var array = serial.readBytes();
                             if (array.length > 500){
-                                gps.messages++;
+                                network.messages++;
                                 jsonLength.text =   "Serial Bytes: " + array.length;
-                                jsonMessages.text = "Messages: " + gps.messages;
-                                jsonErrors.text =   "Errors: " + gps.errors;
+                                jsonMessages.text = "Messages: " + network.messages;
+                                jsonErrors.text =   "Errors: " + network.errors;
 
                                 var result = "";
                                 for(var i = 0; i < array.length; ++i){
@@ -443,11 +499,10 @@ ApplicationWindow {
                                     gps.longitude       = JsonObject.gps.coords[0];
                                     gps.latitude        = JsonObject.gps.coords[1];
                                     gps.fix_age         = JsonObject.gps.Fix_Age;
-
-                                    map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+                                    gps.time            = JsonObject.gps.Time;
 
                                 } catch(e) {
-                                    gps.errors++;
+                                    network.errors++;
                                     //console.info(e); // error in the above string (in this case, yes)!
                                     //console.info(result);
                                     //console.info("Msg: " + gps.messages + ". Errors: " + gps.errors);
@@ -506,42 +561,28 @@ ApplicationWindow {
                     height: 300
                     width: parent.width
                     backgroundColor: "transparent"
-                    antialiasing: true
+                    antialiasing: false
                     legend.visible: false
                     ValueAxis {
                         id: valueAxisX
-                        min: 0
-                        max: 5 + 1
+                        max: 1000
                         visible: false
                     }
 
                     ValueAxis {
                         id: valueAxisY
                         min: 0
-                        max: 4
+                        max: 50
                         visible: true
                     }
                     LineSeries {
-                        id: avgTempSeries
+                        id: speedGraph
                         axisX: valueAxisX
                         axisY: valueAxisY
                         color: "#C6002A"
-                        XYPoint { x: 0; y: 0.0 }
-                        XYPoint { x: 1.1; y: 3.2 }
-                        XYPoint { x: 1.9; y: 2.4 }
-                        XYPoint { x: 2.1; y: 2.1 }
-                        XYPoint { x: 2.9; y: 2.6 }
-                        XYPoint { x: 3.4; y: 2.3 }
-                        XYPoint { x: 4.1; y: 3.1 }
-                    }
-                    Glow {
-                        anchors.fill: chartView
-                        radius: 18
-                        samples: 37
-                        color: "#C6002A"
-                        source: chartView
                     }
                 }
+
             }
         }
     }
@@ -577,7 +618,7 @@ ApplicationWindow {
         id: mapPlugin
         name: "osm"
         PluginParameter {
-            name: "osm.mapping.highdpi_tiles"; value: "true"
+            name: "osm.mapping.highdpi_tiles"; value: "false"
         }
     }
 
@@ -585,18 +626,17 @@ ApplicationWindow {
         id: map
         x: 550
         y: 40
-        height: parent.height - 40
+        height: parent.height + 200
         antialiasing: false
         tilt: 0
         bearing: 0
         copyrightsVisible: false
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 40
         anchors.right: parent.right
         anchors.rightMargin: 0
         plugin: mapPlugin
-        center: QtPositioning.coordinate(gps.longitude, gps.latitude)
-        //onCenterChanged: QtPositioning.coordinate(gps.longitude, gps.latitude)
+        center: QtPositioning.coordinate(53.051307, 5.835714)
         zoomLevel: 19
         state: "small"
         states: [
@@ -623,6 +663,12 @@ ApplicationWindow {
         MapCircle {
                 id: boatCircle
                 center: QtPositioning.coordinate(gps.longitude, gps.latitude)
+                onCenterChanged: {
+                    if (gps.tracking) {
+                        map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+                    }
+                }
+
                 radius: 5.0
                 color: 'red'
                 opacity: 0.8
@@ -653,8 +699,6 @@ ApplicationWindow {
             } else {
                 map.state = "small"
             }
-            //var coord = src.position.coordinate;
-            //console.log("Coordinate:", coord.longitude, coord.latitude);
         }
     }
     Button {
@@ -663,12 +707,16 @@ ApplicationWindow {
         y: 45
         width: 50
         height: 50
-        text: qsTr("*")
+        text: qsTr("[+]")
         opacity: 0.8
-        checked: false
-        onPressed:
+        checkable: true
+        checked: gps.tracking
+        onCheckedChanged:
         {
-            map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+            gps.tracking = recenterMap.checked;
+            if (recenterMap.checked) {
+                map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+            }
         }
     }
 
@@ -692,8 +740,8 @@ ApplicationWindow {
             x: 70
             y: 27
             width: 50
-            color: "#2eaa0c"
-            text: qsTr("GPS FIX")
+            color: "#a54208"
+            text: qsTr("NO FIX")
             font.pixelSize: 11
             horizontalAlignment: Text.AlignHCenter
         }
@@ -703,7 +751,7 @@ ApplicationWindow {
             x: 120
             y: 7
             color: "#000000"
-            text: qsTr("3G")
+            text: "" //qsTr("3G")
             font.pixelSize: 11
         }
 
@@ -714,7 +762,7 @@ ApplicationWindow {
             width: 90
             height: 14
             color: "#000000"
-            text: qsTr("ZERO EMISSION")
+            text: network.carrier
             anchors.right: parent.right
             anchors.rightMargin: 0
             wrapMode: Text.WordWrap
@@ -781,7 +829,7 @@ ApplicationWindow {
             anchors.rightMargin: 96
             anchors.top: parent.top
             anchors.topMargin: 8
-            state: "5"
+            state: network.mobileSignal
             states:
             [
                 State {

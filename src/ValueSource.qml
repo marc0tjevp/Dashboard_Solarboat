@@ -108,7 +108,7 @@ Item {
                     property: "kph"
                     easing.type: Easing.InOutSine
                     from: 0
-                    to: 30
+                    to: 10
                     duration: 3000
                 }
                 NumberAnimation {
@@ -126,9 +126,9 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    from: 30
-                    to: 26
-                    duration: 600
+                    from: 10
+                    to: 30
+                    duration: 3000
                 }
                 NumberAnimation {
                     target: valueSource
@@ -144,7 +144,7 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    to: 60
+                    to: 30
                     duration: 3000
                 }
                 NumberAnimation {
@@ -161,8 +161,8 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    to: 56
-                    duration: 600
+                    to: 48
+                    duration: 6000
                 }
                 NumberAnimation {
                     target: valueSource
@@ -177,7 +177,7 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    to: 100
+                    to: 26
                     duration: 3000
                 }
                 NumberAnimation {
@@ -194,8 +194,8 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    to: 96
-                    duration: 600
+                    to: 5
+                    duration: 6000
                 }
                 NumberAnimation {
                     target: valueSource
@@ -211,7 +211,7 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    to: 140
+                    to: 29
                     duration: 3000
                 }
                 NumberAnimation {
@@ -231,7 +231,7 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.Linear
-                    to: 100
+                    to: 44
                     duration: 5000
                 }
 
@@ -258,7 +258,7 @@ Item {
                     target: valueSource
                     property: "kph"
                     easing.type: Easing.InOutSine
-                    to: 60
+                    to: 20
                     duration: 5000
                 }
                 NumberAnimation {
