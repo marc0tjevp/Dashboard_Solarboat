@@ -12,7 +12,6 @@ import QtCharts 2.2
 import QlChannelSerial 1.0
 import QtGraphicalEffects 1.0
 
-
 ApplicationWindow {
     visible: true
     width: 800
@@ -25,14 +24,13 @@ ApplicationWindow {
 
     Item {
         id: gps
+        property bool   tracking:       true
         property real   longitude:      53.051307
         property real   latitude:       5.835714
-        property int    fix_age:        0
-        property bool   fix:            false
         property real   speed:          0
-        property int    time:           0
-        property int    date:           0
-        property bool   tracking:       false
+        property real   fix:            0
+        property real   sats:           0
+        property real   course:         0
     }
     Item {
         id: network
@@ -67,308 +65,37 @@ ApplicationWindow {
 
         Item {
             id: dashboardTab
+
             Rectangle {
                 width: parent.width
                 height: parent.height
-                //color : "#161616"
+                color : "#161616"
 
                 Flickable {
                     flickableDirection: Flickable.VerticalFlick
                     width: parent.width;
                     height: parent.height
                     contentWidth: parent.width;
-                    contentHeight: 1000
+                    contentHeight: 1000;
 
-                    Text {
-                        id: txt_RPM
-                        x: 0
-                        y: 300
-                        text: motor.rpm
-                    }
-                    Text {
-                        id: txt_Current
-                        x: 100
-                        y: 300
-                        text: motor.current
-                    }
-
-                    Timer {
-                        property int timeline: 0 // Start of the timeline
-                        interval: 100
-                        running: true
-                        repeat: true
-                        onTriggered: {
-                            timeline++;
-                            speedGraph.append(timeline, speedometer.value);
-
-                            if(timeline + 100 > valueAxisX.max){
-                                valueAxisX.min = timeline - 900;
-                                valueAxisX.max = timeline + 100;
-                            }
-                            if (timeline > 1000){
-                                speedGraph.remove(0);
-                            }
-                        }
-                    }
-
-                    ValueSource {
-                        id: valueSource
-                    }
-                    CircularGauge {
-                        id: speedometer
-                        value: valueSource.kph
-                        maximumValue: 50
-                        width: 250
-                        height: 250
-                        x: 10
-                        y: 10
-                        style: DashboardGaugeStyle {}
-                    }
-
-                    CircularGauge {
-                        id: tachometer
-                        width: 150
-                        height: 150
-                        value: valueSource.rpm
-                        maximumValue: 8
-                        x: 270
-                        y: 10
-                        style: TachometerStyle {}
-                    }
-                    Image {
-                        id: quitButton
-                        x: 0
-                        y: 400
-                        source: "qrc:///img/quit.png"
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: Qt.quit()
-                        }
-                    }
+                    Dashboard {}
                 }
             }
         }
 
+
         Item {
             id: controlTab
+
             Flickable {
                 id: flickable
                 flickableDirection: Flickable.VerticalFlick
                 width: parent.width;
                 height: parent.height
                 contentWidth: parent.width;
-                contentHeight: 1000
+                contentHeight: 1000;
 
-                Slider {
-                    id: bearingSlider
-                    x: 16
-                    y: 13
-                    width: 125
-                    height: 48
-                    orientation: Qt.Horizontal
-                    stepSize: 1
-                    to: 360
-                    value: map.bearing
-                    onValueChanged:
-                    {
-                        map.bearing = bearingSlider.value
-                        compass.text = Math.round(bearingSlider.value) + "º"
-
-                        if((bearingSlider.value >= 0) && (bearingSlider.value < 22)) {
-                            compassLetter.text = "N"
-                        } else if ((bearingSlider.value >= 22) && (bearingSlider.value < 67)) {
-                            compassLetter.text = "NE"
-                        } else if ((bearingSlider.value >= 67) && (bearingSlider.value < 112)) {
-                            compassLetter.text = "E"
-                        } else if ((bearingSlider.value >= 112) && (bearingSlider.value < 157)) {
-                            compassLetter.text = "ES"
-                        } else if ((bearingSlider.value >= 157) && (bearingSlider.value < 202)) {
-                            compassLetter.text = "S"
-                        } else if ((bearingSlider.value >= 202) && (bearingSlider.value < 247)) {
-                            compassLetter.text = "SW"
-                        } else if ((bearingSlider.value >= 247) && (bearingSlider.value < 292)) {
-                            compassLetter.text = "W"
-                        } else if ((bearingSlider.value >= 292) && (bearingSlider.value < 337)) {
-                            compassLetter.text = "WN"
-                        } else if ((bearingSlider.value >= 337) && (bearingSlider.value <= 360)) {
-                            compassLetter.text = "N"
-                        }
-                    }
-                }
-
-                SpinBox {
-                    id: signalStrength
-                    x: 16
-                    y: 55
-                    width: 125
-                    height: 39
-                    //spacing: 6
-                    value: network.mobileSignal
-                    to: 5
-                    onValueChanged:
-                    {
-                        gsmIcon.state = signalStrength.value
-                        if (signalStrength.value == 0)
-                        {
-                            modeIndicator.visible = false
-                        } else {
-                            modeIndicator.visible = true
-                        }
-                    }
-                }
-
-                Label {
-                    id: label1
-                    x: 161
-                    y: 29
-                    text: qsTr("Bearing")
-                }
-
-                Label {
-                    id: label2
-                    x: 161
-                    y: 60
-                    text: qsTr("Signal")
-                }
-
-                Switch {
-                    id: gpsSwitch
-                    x: 15
-                    y: 100
-                    text: qsTr("GPS")
-                    checked: gps.fix
-                    onCheckedChanged:
-                    {
-                        if(gpsSwitch.checked)
-                        {
-                            fixLabel.text = "GPS FIX"
-                            fixLabel.color = "#2eaa0c"
-                            gpsIcon.state = "connected"
-                        } else {
-                            fixLabel.text = "NO FIX"
-                            fixLabel.color = "#a54208"
-                            gpsIcon.state = "disconnected"
-                        }
-                    }
-                }
-
-                Switch {
-                    id: gsmModeSwitch
-                    checked: true
-                    x: 112
-                    y: 100
-                    text: qsTr("3G ONLY")
-                    onCheckedChanged:
-                    {
-                        if(gsmModeSwitch.checked)
-                        {
-                            modeIndicator.text = "3G"
-                        } else {
-                            modeIndicator.text = "2G"
-                        }
-                    }
-                }
-
-                TextField {
-                    id: carrierTxt
-                    x: 16
-                    y: 163
-                    width: 125
-                    height: 43
-                    text: network.carrier
-                    font.letterSpacing: 0
-                    font.wordSpacing: 0
-                    onTextChanged: {
-                        if (activeFocus) {
-                            inputPanel.visible = activeFocus
-                            flickable.contentY = carrierTxt.y - 120;
-                        }
-                    }
-                }
-
-                Button {
-                    id: setCarrierBtn
-                    x: 151
-                    y: 158
-                    text: qsTr("Set")
-                    onPressed:
-                    {
-                        carrier.text = carrierTxt.text
-                    }
-                }
-
-                SpinBox {
-                    id: mapZoom
-                    x: 350
-                    y: 400
-                    enabled: true
-                    stepSize: 1
-                    scale: 1
-                    value: map.zoomLevel
-                    to: 20
-                    onValueModified:
-                    {
-                        map.zoomLevel = mapZoom.value
-                    }
-                }
-
-                Text {
-                    id: label3
-                    x: 375
-                    y: 380
-                    text: qsTr("Zoom level")
-                }
-
-                SpinBox {
-                    id: handleLimit
-                    x: 0
-                    y: 400
-                    enabled: true
-                    stepSize: 500
-                    scale: 1
-                    value: 1500
-                    to: 4000
-                    textFromValue: function(value, locale) {
-                                               return (qsTr("%1 RPM")).arg(value);
-                                      }
-                }
-
-                Button {
-                    id: setHandleSpeed
-                    x: 200
-                    y: 400
-                    text: qsTr("Set handle limits")
-                    onPressed:
-                    {
-                        console.info("[INFO] Handle limit set to: " + handleLimit.value + " RPM");
-                    }
-                }
-
-                SpinBox {
-                    id: motorCurrentLimit
-                    x: 0
-                    y: 450
-                    enabled: true
-                    stepSize: 1
-                    scale: 1
-                    value: 6
-                    to: 20
-                    textFromValue: function(value, locale) {
-                                               return (value === 1 ? qsTr("%1 Amp")
-                                                                   : qsTr("%1 Amps")).arg(value);
-                                      }
-                }
-
-                Button {
-                    id: setMotorLimit
-                    x: 200
-                    y: 450
-                    text: qsTr("Set current limit")
-                    onPressed:
-                    {
-                        console.info("[INFO] Motor current limit set to: " + motorCurrentLimit.value + " Amps");
-                    }
-                }
+                Control {}
             }
         }
 
@@ -382,166 +109,7 @@ ApplicationWindow {
                 contentWidth: parent.width;
                 contentHeight: 1000
 
-                QlChannelSerial { id:serial }
-
-                Rectangle {
-                    width: 90
-                    height: 300
-                    x: 450
-                    y: 10
-                    color: "#161616"
-
-                    Gauge {
-                        id: gauge
-                        anchors.fill: parent
-                        anchors.margins: 10
-                        minimumValue: 0
-                        value: network.errors / network.messages * 100
-                        maximumValue: 20
-                        Behavior on value {
-                            NumberAnimation {
-                                duration: 600; easing.type: Easing.InOutQuad
-                            }
-                        }
-
-                        style: GaugeStyle {
-                            valueBar: Rectangle {
-                                implicitWidth: 16
-                                color: Qt.rgba(gauge.value / gauge.maximumValue, 0, 1 - gauge.value / gauge.maximumValue, 1)
-                            }
-                        }
-                    }
-                }
-
-                ComboBox {
-                    id: comboBox13
-                    width: 300
-                    x: 10
-                    y: 0
-                    model: comboModel.comboList
-                    editable: false
-                }
-                Button {
-                    id: connectSerial
-                    text: "Connect"
-                    x: 320
-                    y: 0
-                    width: 110
-                    onClicked: {
-                        //console.info("[INFO] Connecting to: " + comboBox13.currentText);
-                        if (connectSerial.text == "Connect"){
-                            connectSerial.text = "Disconnect";
-                            serial.open(serial.channels()[comboBox13.currentIndex]);
-
-                            // if success - configure port parameters
-                            if (serial.isOpen()){
-                                serial.paramSet('baud', '9600');
-                                serial.paramSet('bits', '8');
-                                serial.paramSet('parity', 'no');
-                                serial.paramSet('stops', '0');
-
-                                serial.paramSet('dtr', '0');
-                                serial.paramSet('rts', '1');
-                            }
-                            timer1.start();
-                        } else {
-                            connectSerial.text = "Connect";
-                            serial.close(serial.channels()[comboBox13.currentIndex]);
-                            serialOutput.text = "";
-                            timer1.stop();
-                        }
-                    }
-                }
-                TextArea {
-                    id: serialOutput
-                    x: 10
-                    y: 40
-                    width: 420
-                    height: 70
-                    font.pixelSize: 10
-                    readOnly: true
-                    wrapMode: TextArea.WrapAnywhere
-                }
-                Timer {
-                    id: timer1
-                    interval: jsonInterval.value
-                    running: false
-                    repeat: true
-                    onTriggered: {
-                        if (serial.isOpen()){
-
-                            var array = serial.readBytes();
-                            if (array.length > 500){
-                                network.messages++;
-                                jsonLength.text =   "Serial Bytes: " + array.length;
-                                jsonMessages.text = "Messages: " + network.messages;
-                                jsonErrors.text =   "Errors: " + network.errors;
-
-                                var result = "";
-                                for(var i = 0; i < array.length; ++i){
-
-                                    if (array[i] !== 10)
-                                    {
-                                        result+= (String.fromCharCode(array[i]));
-                                    } else {
-                                        serialOutput.text = result;
-                                        break;
-                                    }
-                                }
-                                // JSON parser
-                                // Testing JSON manual
-                                //var input = '{"motor":{"RPM":1533,"Turning_Direction":false,"Battery_Voltage":41.23,"Current":4.54,"Temp_PCB":23.21,"Temp_Motor":39.25,"Drive_Enable":true,"Drive_Ready":true,"Killswitch_Error":false},"gps":{"latitude":4.744417,"longitude":51.57063,"speed":12.57,"accuracy":0.98,"course":45.00,"fix":false,"sats":6}}';
-                                try {
-                                    var JsonObject= JSON.parse(result);
-
-                                    motor.rpm           = JsonObject.motor.RPM;
-                                    motor.current       = JsonObject.motor.Current;
-                                    gps.longitude       = JsonObject.gps.coords[0];
-                                    gps.latitude        = JsonObject.gps.coords[1];
-                                    gps.fix_age         = JsonObject.gps.Fix_Age;
-                                    gps.time            = JsonObject.gps.Time;
-
-                                } catch(e) {
-                                    network.errors++;
-                                    //console.info(e); // error in the above string (in this case, yes)!
-                                    //console.info(result);
-                                    //console.info("Msg: " + gps.messages + ". Errors: " + gps.errors);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Text {
-                    id: jsonMessages
-                    x: 10
-                    y: 110
-                    font.pixelSize: 12
-                }
-                Text {
-                    id: jsonErrors
-                    x: 120
-                    y: 110
-                    font.pixelSize: 12
-                }
-                Text {
-                    id: jsonLength
-                    x: 200
-                    y: 110
-                    font.pixelSize: 12
-                }
-                SpinBox {
-                    id: jsonInterval
-                    x: 300
-                    y: 95
-                    enabled: true
-                    stepSize: 50
-                    scale: 0.8
-                    value: 200
-                    to: 500
-                    width: 150
-                }
-
+                Connectivity {}
             }
 
         }
@@ -583,6 +151,17 @@ ApplicationWindow {
                     }
                 }
 
+                Switch {
+                    id: chartEnable
+                    onCheckedChanged: {
+                        if (chartEnable.checked) {
+                            speedoTimer.start();
+                        } else {
+                            speedoTimer.stop();
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -618,7 +197,7 @@ ApplicationWindow {
         id: mapPlugin
         name: "osm"
         PluginParameter {
-            name: "osm.mapping.highdpi_tiles"; value: "false"
+            name: "osm.mapping.highdpi_tiles"; value: "true"
         }
     }
 
@@ -629,7 +208,7 @@ ApplicationWindow {
         height: parent.height + 200
         antialiasing: false
         tilt: 0
-        bearing: 0
+        bearing: gps.course
         copyrightsVisible: false
         anchors.top: parent.top
         anchors.topMargin: 40
@@ -654,12 +233,6 @@ ApplicationWindow {
             Transition {
                     PropertyAnimation { properties: "width"; easing.type: Easing.InOutQuad }
                 }
-       Behavior on center {
-         CoordinateAnimation {
-           duration: 400
-           easing.type: Easing.InOutQuad
-          }
-       }
         MapCircle {
                 id: boatCircle
                 center: QtPositioning.coordinate(gps.longitude, gps.latitude)

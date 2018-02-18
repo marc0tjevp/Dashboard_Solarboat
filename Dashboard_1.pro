@@ -34,5 +34,6 @@ HEADERS += \
 DISTFILES += \
     src/main.qml \
     src/DashboardGaugeStyle.qml \
-    src/TachometerStyle.qml \
-    src/ValueSource.qml
+    src/Dashboard.qml \
+    src/Control.qml \
+    src/Connectivity.qml

@@ -85,12 +85,12 @@ bool QlChannelSerial::paramSet(const QString &name, const QString &value) {
 }
 
 QList<int> QlChannelSerial::readBytes() {
-	QList<int> *l = new QList<int>();
-	if (isOpen() && port_->bytesAvailable()){
-		QByteArray buf = port_->readAll();
-		for (int i=0; i<buf.size(); i++) l->append(buf.at(i));
-	}
-	return *l;
+    QList<int> *l = new QList<int>();
+    if (isOpen() && port_->bytesAvailable()){
+        QByteArray buf = port_->readAll();
+        for (int i=0; i<buf.size(); i++) l->append(buf.at(i));
+    }
+    return *l;
 }
 
 bool QlChannelSerial::writeBytes(const QList<int> &l) {

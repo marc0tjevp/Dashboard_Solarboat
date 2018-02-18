@@ -10,10 +10,11 @@
         <file>img/signal3.png</file>
         <file>img/signal4.png</file>
         <file>img/signal5.png</file>
-        <file>ValueSource.qml</file>
-        <file>TachometerStyle.qml</file>
         <file>DashboardGaugeStyle.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>main.qml</file>
+        <file>Dashboard.qml</file>
+        <file>Control.qml</file>
+        <file>Connectivity.qml</file>
     </qresource>
 </RCC>
