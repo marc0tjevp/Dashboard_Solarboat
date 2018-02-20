@@ -16,5 +16,6 @@
         <file>Dashboard.qml</file>
         <file>Control.qml</file>
         <file>Connectivity.qml</file>
+        <file>MpptStatus.qml</file>
     </qresource>
 </RCC>

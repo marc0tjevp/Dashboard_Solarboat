@@ -4,6 +4,7 @@ import QtQuick.Extras 1.4
 
 Item {
     id: dashboard
+
     height: parent.height
     width: parent.width
 

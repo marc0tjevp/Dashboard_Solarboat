@@ -30,7 +30,7 @@ Item {
         y: 0
         width: 110
         onClicked: {
-            //console.info("[INFO] Connecting to: " + comboBox13.currentText);
+            console.info("[INFO] Connecting to: " + comboBox13.currentText);
             if (connectSerial.text == "Connect"){
                 connectSerial.text = "Disconnect";
                 serial.open(serial.channels()[comboBox13.currentIndex]);

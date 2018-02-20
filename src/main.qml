@@ -47,7 +47,8 @@ ApplicationWindow {
     }
     Item {
         id: mppt
-        property real   uin:            0
+        property real   currentIn:      3.26
+        property real   voltageIn:      55.12
     }
 
 
@@ -95,7 +96,13 @@ ApplicationWindow {
                 contentWidth: parent.width;
                 contentHeight: 1000;
 
-                Control {}
+                Rectangle {
+                    height: 200
+                    width: 100
+                    color: "green"
+                }
+
+                //Control {}
             }
         }
 
@@ -126,42 +133,87 @@ ApplicationWindow {
 
                 ChartView {
                     id: chartView
+                    title: "Power balance"
                     height: 300
+                    x: 0
+                    y: 320
                     width: parent.width
-                    backgroundColor: "transparent"
-                    antialiasing: false
+                    //backgroundColor: "transparent"
+                    antialiasing: true
                     legend.visible: false
+
                     ValueAxis {
                         id: valueAxisX
-                        max: 1000
+                        max: 5
                         visible: false
                     }
 
                     ValueAxis {
                         id: valueAxisY
                         min: 0
-                        max: 50
+                        max: 100
                         visible: true
                     }
-                    LineSeries {
+                   SplineSeries {
                         id: speedGraph
                         axisX: valueAxisX
                         axisY: valueAxisY
                         color: "#C6002A"
+                        width: 2
+                        XYPoint { x: 0; y: 50 }
+                        XYPoint { x: 1.1; y: 52 }
+                        XYPoint { x: 1.9; y: 66 }
+                        XYPoint { x: 2.1; y: 73 }
+                        XYPoint { x: 2.9; y: 81 }
+                        XYPoint { x: 3.4; y: 74 }
+                        XYPoint { x: 4.1; y: 71 }
+                        XYPoint { x: 5; y: 79 }
                     }
+                    SplineSeries {
+                        id: speedGraph1
+                        axisX: valueAxisX
+                        axisY: valueAxisY
+                        color: "#006C2A"
+                        width: 2
+                        XYPoint { x: 0; y: 63 }
+                        XYPoint { x: 1.1; y: 65 }
+                        XYPoint { x: 1.9; y: 62 }
+                        XYPoint { x: 2.1; y: 57 }
+                        XYPoint { x: 2.9; y: 59 }
+                        XYPoint { x: 3.4; y: 65 }
+                        XYPoint { x: 4.1; y: 65 }
+                        XYPoint { x: 5; y: 66 }
+                    }
+
+
                 }
 
-                Switch {
-                    id: chartEnable
-                    onCheckedChanged: {
-                        if (chartEnable.checked) {
-                            speedoTimer.start();
-                        } else {
-                            speedoTimer.stop();
-                        }
-                    }
+                Text {
+                    x: 430
+                    y: 380
+                    text: "+67 W"
+                    color: "#006C2A"
+                    font.weight: Font.Black
+                    font.pixelSize: 30
                 }
 
+                MpptStatus {
+                    y: 0
+                    text: "MPPT #1"
+                }
+
+                MpptStatus {
+                    y: 80
+                    text: "MPPT #2"
+                }
+                MpptStatus {
+                    y: 160
+                    text: "MPPT #3"
+                }
+                MpptStatus {
+                    y: 240
+                    text: "MPPT #4"
+                }
             }
         }
     }
