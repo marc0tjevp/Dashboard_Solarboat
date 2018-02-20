@@ -16,14 +16,18 @@ Item {
     width: parent.width
     height: parent.height
 
-    property alias text: mpptNr.text
+    property alias name: mpptNr.text
+    property alias status: mpptStatus.text
+    property alias output: mpptPowerOuput.text
+    property alias indicator: mpptIndicator.color
 
     Rectangle {
         id: mppt1Container
-        x: 0
+        x: 10
         y: 10
-        width: parent.width
+        width: parent.width - 20
         height: 70
+        radius: 5
 
         Text {
             id: mpptNr
@@ -44,10 +48,12 @@ Item {
             color: "#C6002A"
             height: 25
             width: 40
+            radius: 3
             Text {
                 anchors.centerIn: parent
                 text: qsTr("NOC");
                 color: "white"
+                font.pixelSize: 14
             }
         }
         Rectangle {
@@ -59,10 +65,12 @@ Item {
             color: "green"
             height: 25
             width: 40
+            radius: 3
             Text {
                 anchors.centerIn: parent
                 text: qsTr("OVT");
                 color: "white"
+                font.pixelSize: 14
             }
         }
         Rectangle {
@@ -74,10 +82,12 @@ Item {
             color: "Green"
             height: 25
             width: 40
+            radius: 3
             Text {
                 anchors.centerIn: parent
                 text: qsTr("BNC");
                 color: "white"
+                font.pixelSize: 14
             }
         }
         Rectangle {
@@ -89,6 +99,7 @@ Item {
             color: "green"
             height: 25
             width: 40
+            radius: 3
             Text {
                 anchors.centerIn: parent
                 text: qsTr("UNDV");
@@ -97,6 +108,7 @@ Item {
             }
         }
         StatusIndicator {
+            id: mpptIndicator
             anchors.left: parent.left
             anchors.leftMargin: 0
             anchors.top: parent.top
@@ -108,30 +120,49 @@ Item {
 
         Text {
             anchors.left: parent.left
-            anchors.leftMargin: 250
+            anchors.leftMargin: 235
             anchors.top: parent.top
-            anchors.topMargin: 10
-            text: qsTr("PV Voltage: " + mppt.voltageIn + " V");
+            anchors.topMargin: 15
+            text: qsTr("PV Voltage:");
+            font.pixelSize: 14
+        }
+        Text {
+            anchors.right: parent.right
+            anchors.rightMargin: 150
+            anchors.top: parent.top
+            anchors.topMargin: 15
+            text: mppt.voltageIn + " V"
+            font.pixelSize: 14
         }
         Text {
             anchors.left: parent.left
-            anchors.leftMargin: 250
+            anchors.leftMargin: 235
             anchors.top: parent.top
-            anchors.topMargin: 40
-            text: qsTr("PV Current: " + mppt.currentIn + " A");
+            anchors.topMargin: 45
+            text: qsTr("PV Current:");
+            font.pixelSize: 14
+        }
+        Text {
+            anchors.right: parent.right
+            anchors.rightMargin: 150
+            anchors.top: parent.top
+            anchors.topMargin: 45
+            text: mppt.currentIn + " A"
+            font.pixelSize: 14
         }
 
         Text {
             id: mpptPowerOuput
             anchors.left: parent.left
-            anchors.leftMargin: 400
+            anchors.leftMargin: 420
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr("180 W");
-            font.pixelSize: 40
+            font.pixelSize: 25
             font.weight: Font.Black
         }
 
         Text {
+            id: mpptStatus
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.top: parent.top

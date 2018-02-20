@@ -199,20 +199,29 @@ ApplicationWindow {
 
                 MpptStatus {
                     y: 0
-                    text: "MPPT #1"
+                    name: "MPPT #1"
+                    output: "167 W"
+                    status: "Tracking"
+                    indicator: "green"
                 }
 
                 MpptStatus {
                     y: 80
-                    text: "MPPT #2"
+                    name: "MPPT #2"
+                    output: "189 W"
+                    status: "Not Charging"
                 }
                 MpptStatus {
                     y: 160
-                    text: "MPPT #3"
+                    name: "MPPT #3"
+                    output: "171 W"
+                    status: "Undervoltage"
                 }
                 MpptStatus {
                     y: 240
-                    text: "MPPT #4"
+                    name: "MPPT #4"
+                    output: "123 W"
+                    status: "No Battery"
                 }
             }
         }
