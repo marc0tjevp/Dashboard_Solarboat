@@ -16,12 +16,6 @@ Item {
     height: parent.height
     width: parent.width
 
-    Rectangle {
-        height: 100
-        width: 100
-        color: "black"
-    }
-/*
     Slider {
         id: bearingSlider
         x: 16
@@ -232,5 +226,4 @@ Item {
             console.info("[INFO] Motor current limit set to: " + motorCurrentLimit.value + " Amps");
         }
     }
-    */
 }

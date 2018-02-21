@@ -96,13 +96,8 @@ ApplicationWindow {
                 contentWidth: parent.width;
                 contentHeight: 1000;
 
-                Rectangle {
-                    height: 200
-                    width: 100
-                    color: "green"
-                }
-
                 //Control {}
+                SystemControl {}
             }
         }
 
@@ -131,12 +126,14 @@ ApplicationWindow {
                 contentWidth: parent.width;
                 contentHeight: 1000
 
+                ScrollBar.vertical: ScrollBar { width: 5 }
+
                 ChartView {
                     id: chartView
                     title: "Power balance"
                     height: 300
                     x: 0
-                    y: 320
+                    y: 330
                     width: parent.width
                     //backgroundColor: "transparent"
                     antialiasing: true

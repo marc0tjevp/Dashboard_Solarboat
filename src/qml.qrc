@@ -14,8 +14,8 @@
         <file>qtquickcontrols2.conf</file>
         <file>main.qml</file>
         <file>Dashboard.qml</file>
-        <file>Control.qml</file>
         <file>Connectivity.qml</file>
         <file>MpptStatus.qml</file>
+        <file>SystemControl.qml</file>
     </qresource>
 </RCC>
