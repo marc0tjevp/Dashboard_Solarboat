@@ -131,7 +131,7 @@ ApplicationWindow {
                 ChartView {
                     id: chartView
                     title: "Power balance"
-                    height: 300
+                    height: 200
                     x: 0
                     y: 330
                     width: parent.width
@@ -147,7 +147,7 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: valueAxisY
-                        min: 0
+                        min: 30
                         max: 100
                         visible: true
                     }
@@ -183,6 +183,41 @@ ApplicationWindow {
                     }
 
 
+                }
+
+                ChartView {
+                    title: "Battery Cell-Voltage"
+                    height: 300
+                    x: 0
+                    y: 530
+                    width: parent.width
+                    antialiasing: true
+                    legend.visible: false
+
+                    ValueAxis {
+                        id: batteryAxisY
+                        min: 2.5
+                        max: 4.2
+                        visible: true
+                    }
+                    ValueAxis {
+                        id: batteryNorm
+                        min: 0
+                        max: 1
+                        visible: false
+                    }
+
+                    StackedBarSeries {
+                        id: mySeries
+                        axisY: batteryAxisY
+                        axisX: BarCategoryAxis { categories: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ] }
+                        BarSet { label: "Cell"; values: [3.1, 3.1, 3.3, 3.8, 3.2, 3.0, 4.0, 4.1, 4.0, 3.2, 3.2, 4.0] }
+                    }
+                    LineSeries {
+                        axisX : batteryNorm
+                        XYPoint { x: 0; y: 3.65 }
+                        XYPoint { x: 1; y: 3.65 }
+                    }
                 }
 
                 Text {
