@@ -93,7 +93,7 @@ Item {
         x: 15
         y: 100
         text: qsTr("GPS")
-        checked: gps.fix
+        checked: (gps.fix < 5000 ? true : false)
         onCheckedChanged:
         {
             if(gpsSwitch.checked)

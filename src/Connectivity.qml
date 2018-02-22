@@ -108,6 +108,7 @@ Item {
                         gps.sats            = JsonObject.gps.sats;
                         gps.course          = JsonObject.gps.course;
                         gps.speed           = JsonObject.gps.speed;
+                        batteryBarSet.values = JsonObject.battery.cells;
 
                     } catch(e) {
                         network.errors++;
@@ -148,7 +149,7 @@ Item {
         enabled: true
         stepSize: 50
         scale: 0.8
-        value: 200
+        value: 500
         to: 500
         width: 150
     }

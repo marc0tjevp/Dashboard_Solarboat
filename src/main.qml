@@ -211,7 +211,7 @@ ApplicationWindow {
                         id: mySeries
                         axisY: batteryAxisY
                         axisX: BarCategoryAxis { categories: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ] }
-                        BarSet { label: "Cell"; values: [3.1, 3.1, 3.3, 3.8, 3.2, 3.0, 4.0, 4.1, 4.0, 3.2, 3.2, 4.0] }
+                        BarSet { id: batteryBarSet; label: "Cell"; values: [3.1, 3.1, 3.3, 3.8, 3.2, 3.0, 4.0, 4.1, 4.0, 3.2, 3.2, 4.0] }
                     }
                     LineSeries {
                         axisX : batteryNorm
@@ -339,6 +339,17 @@ ApplicationWindow {
                 color: 'red'
                 opacity: 0.8
                 border.width: 1
+            }
+        MapPolyline {
+                line.width: 5
+                opacity: 0.5
+                line.color: 'blue'
+                path: [
+                    { latitude: 51.57024, longitude: 4.74425 },
+                    { latitude: 51.57   , longitude: 4.74432 },
+                    { latitude: 51.57006, longitude: 4.74493 },
+                    { latitude: 51.57035, longitude: 4.74686 }
+                ]
             }
 
 

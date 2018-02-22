@@ -128,7 +128,7 @@ Item {
         }
         Text {
             anchors.right: parent.right
-            anchors.rightMargin: 160
+            anchors.rightMargin: 150
             anchors.top: parent.top
             anchors.topMargin: 15
             text: mppt.voltageIn + " V"
@@ -145,7 +145,7 @@ Item {
         }
         Text {
             anchors.right: parent.right
-            anchors.rightMargin: 160
+            anchors.rightMargin: 150
             anchors.top: parent.top
             anchors.topMargin: 45
             text: mppt.currentIn + " A"
