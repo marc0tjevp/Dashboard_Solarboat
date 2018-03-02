@@ -67,21 +67,7 @@ ApplicationWindow {
         Item {
             id: dashboardTab
 
-            Rectangle {
-                width: parent.width
-                height: parent.height
-                color : "#161616"
-
-                Flickable {
-                    flickableDirection: Flickable.VerticalFlick
-                    width: parent.width;
-                    height: parent.height
-                    contentWidth: parent.width;
-                    contentHeight: 1000;
-
-                    Dashboard {}
-                }
-            }
+            Dashboard {}
         }
 
 
@@ -578,6 +564,22 @@ ApplicationWindow {
             anchors.right: parent.right
             focus: true
             z:100
+
+            Rectangle {
+                id: inputTextField
+                y: Qt.inputMethod.visible ? parent.height - inputPanel.height - inputTextField.height : parent.height
+                anchors.left: parent.left
+                anchors.right: parent.right
+                z: 100
+                height: 30
+                color: "white"
+
+                TextField {
+                    focus: true
+                    width: parent.width
+                }
+
+            }
         }
 
 }

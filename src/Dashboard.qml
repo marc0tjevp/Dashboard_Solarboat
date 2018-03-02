@@ -45,8 +45,8 @@ Item {
         id: speedometer
         value: gps.speed
         maximumValue: 50
-        width: 250
-        height: 250
+        width: 200
+        height: 200
         x: 10
         y: 10
         style: DashboardGaugeStyle {}

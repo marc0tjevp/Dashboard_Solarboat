@@ -30,7 +30,7 @@ Item {
         y: 0
         width: 110
         onClicked: {
-            console.info("[INFO] Connecting to: " + comboBox13.currentText);
+            console.info("[INFO] Trying to " + connectSerial.text + " : " + comboBox13.currentText);
             if (connectSerial.text == "Connect"){
                 connectSerial.text = "Disconnect";
                 serial.open(serial.channels()[comboBox13.currentIndex]);
@@ -99,16 +99,14 @@ Item {
                     try {
                         var JsonObject= JSON.parse(result);
 
-                        //motor.rpm           = JsonObject.motor.rpm;
-                        //motor.current       = JsonObject.motor.i;
-
-                        gps.longitude       = JsonObject.gps.alt;
-                        gps.latitude        = JsonObject.gps.lon;
-                        gps.fix             = JsonObject.gps.fix;
-                        gps.sats            = JsonObject.gps.sats;
-                        gps.course          = JsonObject.gps.course;
-                        gps.speed           = JsonObject.gps.speed;
-                        batteryBarSet.values = JsonObject.battery.cells;
+                        gps.longitude           = JsonObject.gps.alt;
+                        gps.latitude            = JsonObject.gps.lon;
+                        gps.fix                 = JsonObject.gps.fix;
+                        gps.sats                = JsonObject.gps.sats;
+                        gps.course              = JsonObject.gps.course;
+                        gps.speed               = JsonObject.gps.speed;
+                        
+                        batteryBarSet.values    = JsonObject.battery.cells;
 
                     } catch(e) {
                         network.errors++;
