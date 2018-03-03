@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
@@ -16,7 +16,7 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 480
-    color: "#eeeeee"
+    color: "#DDDDDD"
     property alias controlTab: controlTab
     property alias dashboardTab: dashboardTab
     title: qsTr("Dashboard")
@@ -67,21 +67,65 @@ ApplicationWindow {
         Item {
             id: dashboardTab
 
-            Rectangle {
-                width: parent.width
-                height: parent.height
-                color : "#161616"
+                Dashboard {
+                    ChartView {
+                        id: chartView
+                        title: "Power balance"
+                        height: 200
+                        x: 0
+                        y: 100
+                        width: parent.width
+                        //backgroundColor: "transparent"
+                        antialiasing: true
+                        legend.visible: false
 
-                Flickable {
-                    flickableDirection: Flickable.VerticalFlick
-                    width: parent.width;
-                    height: parent.height
-                    contentWidth: parent.width;
-                    contentHeight: 1000;
+                        ValueAxis {
+                            id: valueAxisX
+                            max: 5
+                            visible: false
+                        }
 
-                    Dashboard {}
+                        ValueAxis {
+                            id: valueAxisY
+                            min: 30
+                            max: 100
+                            visible: true
+                        }
+                       SplineSeries {
+                            id: speedGraph
+                            axisX: valueAxisX
+                            axisY: valueAxisY
+                            color: "#C6002A"
+                            width: 2
+                            XYPoint { x: 0; y: 50 }
+                            XYPoint { x: 1.1; y: 52 }
+                            XYPoint { x: 1.9; y: 66 }
+                            XYPoint { x: 2.1; y: 73 }
+                            XYPoint { x: 2.9; y: 81 }
+                            XYPoint { x: 3.4; y: 74 }
+                            XYPoint { x: 4.1; y: 71 }
+                            XYPoint { x: 5; y: 79 }
+                        }
+                        SplineSeries {
+                            id: speedGraph1
+                            axisX: valueAxisX
+                            axisY: valueAxisY
+                            color: "#006C2A"
+                            width: 2
+                            XYPoint { x: 0; y: 63 }
+                            XYPoint { x: 1.1; y: 65 }
+                            XYPoint { x: 1.9; y: 62 }
+                            XYPoint { x: 2.1; y: 57 }
+                            XYPoint { x: 2.9; y: 59 }
+                            XYPoint { x: 3.4; y: 65 }
+                            XYPoint { x: 4.1; y: 65 }
+                            XYPoint { x: 5; y: 66 }
+                        }
+
+
+                    }
+
                 }
-            }
         }
 
 
@@ -127,63 +171,6 @@ ApplicationWindow {
                 contentHeight: 1000
 
                 ScrollBar.vertical: ScrollBar { width: 5 }
-
-                ChartView {
-                    id: chartView
-                    title: "Power balance"
-                    height: 200
-                    x: 0
-                    y: 330
-                    width: parent.width
-                    //backgroundColor: "transparent"
-                    antialiasing: true
-                    legend.visible: false
-
-                    ValueAxis {
-                        id: valueAxisX
-                        max: 5
-                        visible: false
-                    }
-
-                    ValueAxis {
-                        id: valueAxisY
-                        min: 30
-                        max: 100
-                        visible: true
-                    }
-                   SplineSeries {
-                        id: speedGraph
-                        axisX: valueAxisX
-                        axisY: valueAxisY
-                        color: "#C6002A"
-                        width: 2
-                        XYPoint { x: 0; y: 50 }
-                        XYPoint { x: 1.1; y: 52 }
-                        XYPoint { x: 1.9; y: 66 }
-                        XYPoint { x: 2.1; y: 73 }
-                        XYPoint { x: 2.9; y: 81 }
-                        XYPoint { x: 3.4; y: 74 }
-                        XYPoint { x: 4.1; y: 71 }
-                        XYPoint { x: 5; y: 79 }
-                    }
-                    SplineSeries {
-                        id: speedGraph1
-                        axisX: valueAxisX
-                        axisY: valueAxisY
-                        color: "#006C2A"
-                        width: 2
-                        XYPoint { x: 0; y: 63 }
-                        XYPoint { x: 1.1; y: 65 }
-                        XYPoint { x: 1.9; y: 62 }
-                        XYPoint { x: 2.1; y: 57 }
-                        XYPoint { x: 2.9; y: 59 }
-                        XYPoint { x: 3.4; y: 65 }
-                        XYPoint { x: 4.1; y: 65 }
-                        XYPoint { x: 5; y: 66 }
-                    }
-
-
-                }
 
                 ChartView {
                     title: "Battery Cell-Voltage"
@@ -351,8 +338,6 @@ ApplicationWindow {
                     { latitude: 51.57035, longitude: 4.74686 }
                 ]
             }
-
-
     }
 
     Button {

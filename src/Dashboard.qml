@@ -8,6 +8,9 @@ Item {
     height: parent.height
     width: parent.width
 
+    FontLoader { id: handwriting; source: "qrc:///font/handwriting-draft_free-version.ttf" }
+    FontLoader { id: lcd; source: "qrc:///font/digital-7.ttf" }
+
     Text {
         id: txt_RPM
         x: 0
@@ -19,6 +22,13 @@ Item {
         x: 100
         y: 300
         text: motor.current
+    }
+
+    Text {
+        x: 10
+        y: 10
+        text: gps.speed + " km/h"
+        font { family: lcd.name; pixelSize: 100;}
     }
 
     Timer {
@@ -39,17 +49,6 @@ Item {
                 speedGraph.remove(0);
             }
         }
-    }
-
-    CircularGauge {
-        id: speedometer
-        value: gps.speed
-        maximumValue: 50
-        width: 250
-        height: 250
-        x: 10
-        y: 10
-        style: DashboardGaugeStyle {}
     }
 
     Image {
