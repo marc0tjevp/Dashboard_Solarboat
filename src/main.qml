@@ -176,7 +176,7 @@ ApplicationWindow {
                     title: "Battery Cell-Voltage"
                     height: 300
                     x: 0
-                    y: 530
+                    y: 330
                     width: parent.width
                     antialiasing: true
                     legend.visible: false
@@ -207,15 +207,6 @@ ApplicationWindow {
                     }
                 }
 
-                Text {
-                    x: 430
-                    y: 380
-                    text: "+67 W"
-                    color: "#006C2A"
-                    font.weight: Font.Black
-                    font.pixelSize: 30
-                }
-
                 MpptStatus {
                     y: 0
                     name: "MPPT #1"
@@ -244,6 +235,11 @@ ApplicationWindow {
                 }
             }
         }
+
+        Item {
+            id: chatTab
+
+        }
     }
 
     TabBar {
@@ -269,7 +265,13 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
+            width: 100
             text: qsTr("Energy")
+        }
+        TabButton {
+            height: 40
+            width: 60
+            text: qsTr("Chat")
         }
     }
 

@@ -30,7 +30,7 @@ Item {
             id: comboBox13
             width: 390
             x: 10
-            y: 0
+            y: 5
             model: comboModel.comboList
             editable: false
         }
@@ -38,7 +38,7 @@ Item {
             id: connectSerial
             text: "Connect"
             x: 410
-            y: 0
+            y: 5
             width: 110
             onClicked: {
                 console.info("[INFO] Connecting to: " + comboBox13.currentText);
@@ -68,7 +68,7 @@ Item {
         TextArea {
             id: serialOutput
             x: 10
-            y: 40
+            y: 45
             width: parent.width -20
             height: 120
             font.pixelSize: 12
@@ -167,5 +167,73 @@ Item {
             to: 500
             width: 150
         }
+   }
+
+   Rectangle {
+       x: 10
+       y: 220
+       width: parent.width - 20
+       height: 200
+       radius: 5
+       color: "white"
+
+       Button {
+           x: 400
+           y: 10
+           text: "Get XML"
+           onPressed: {
+               getXML("http://192.168.8.1/api/monitoring/traffic-statistics");
+
+               function getXML(url) {
+                   var client = new XMLHttpRequest();
+                   client.onreadystatechange = function() {
+                       if (client.readyState === XMLHttpRequest.DONE) {
+                           //console.info(client.responseText);
+                           xmlOutput.text = client.responseText;
+                       }
+                   }
+
+                   client.open("GET", url);
+                   client.send();
+               }
+           }
+       }
+       Button {
+           id: mobileSwitch
+           x: 400
+           y: 60
+           text: "Switch"
+           checkable: true
+           onCheckedChanged: {
+               var xhr = new XMLHttpRequest();
+               xhr.open("POST", 'http://192.168.8.1/api/dialup/mobile-dataswitch', true);
+
+               //Send the proper header information along with the request
+               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+               xhr.setRequestHeader("Referer", "http://192.168.8.1/html/home.html");
+               xhr.setRequestHeader("__RequestVerificationToken", "984426459");
+               xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+               xhr.onreadystatechange = function() {//Call a function when the state changes.
+                   if(xhr.readyState === XMLHttpRequest.DONE && xhr.status == 200) {
+                       // Request finished. Do processing here.
+                   }
+               }
+               if (mobileSwitch.checked)
+               {
+                   xhr.send('<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>1</dataswitch></request>');
+               } else {
+                   xhr.send('<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>0</dataswitch></request>');
+               }
+
+
+           }
+       }
+       Text {
+           id: xmlOutput
+           x: 10
+           y: 10
+           font.pixelSize: 12
+       }
    }
 }

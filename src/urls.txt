@@ -1,0 +1,6 @@
+view-source:http://192.168.8.1/api/monitoring/status
+view-source:http://192.168.8.1/api/monitoring/traffic-statistics
+view-source:http://192.168.8.1/api/net/current-plmn
+view-source:http://192.168.8.1/api/webserver/token
+view-source:http://192.168.8.1/api/monitoring/check-notifications
+
