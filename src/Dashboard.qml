@@ -50,21 +50,6 @@ Item {
             }
         }
     }
-
-<<<<<<< HEAD
-    CircularGauge {
-        id: speedometer
-        value: gps.speed
-        maximumValue: 50
-        width: 200
-        height: 200
-        x: 10
-        y: 10
-        style: DashboardGaugeStyle {}
-    }
-
-=======
->>>>>>> cea66ff527f5ba381262fde857caa85aacef3ad6
     Image {
         id: quitButton
         x: 0

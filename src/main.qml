@@ -67,9 +67,6 @@ ApplicationWindow {
         Item {
             id: dashboardTab
 
-<<<<<<< HEAD
-            Dashboard {}
-=======
                 Dashboard {
                     ChartView {
                         id: chartView
@@ -129,7 +126,6 @@ ApplicationWindow {
                     }
 
                 }
->>>>>>> cea66ff527f5ba381262fde857caa85aacef3ad6
         }
 
 
@@ -241,8 +237,21 @@ ApplicationWindow {
         }
 
         Item {
-            id: chatTab
+            id: chatTabs
 
+            Rectangle {
+                x: 0
+                y: 0
+                width: parent.width
+                height: swipeView.height - 40 - (swipeView.height - inputPanel.y)
+                color: "White"
+
+                TextField {
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 5
+                }
+
+            }
         }
     }
 
@@ -569,22 +578,6 @@ ApplicationWindow {
             anchors.right: parent.right
             focus: true
             z:100
-
-            Rectangle {
-                id: inputTextField
-                y: Qt.inputMethod.visible ? parent.height - inputPanel.height - inputTextField.height : parent.height
-                anchors.left: parent.left
-                anchors.right: parent.right
-                z: 100
-                height: 30
-                color: "white"
-
-                TextField {
-                    focus: true
-                    width: parent.width
-                }
-
-            }
         }
 
 }

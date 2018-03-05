@@ -18,30 +18,6 @@ Item {
 
    Rectangle {
         x: 10
-<<<<<<< HEAD
-        y: 0
-        model: comboModel.comboList
-        editable: false
-    }
-    Button {
-        id: connectSerial
-        text: "Connect"
-        x: 320
-        y: 0
-        width: 110
-        onClicked: {
-            console.info("[INFO] Trying to " + connectSerial.text + " : " + comboBox13.currentText);
-            if (connectSerial.text == "Connect"){
-                connectSerial.text = "Disconnect";
-                serial.open(serial.channels()[comboBox13.currentIndex]);
-
-                // if success - configure port parameters
-                if (serial.isOpen()){
-                    serial.paramSet('baud', '9600');
-                    serial.paramSet('bits', '8');
-                    serial.paramSet('parity', 'no');
-                    serial.paramSet('stops', '0');
-=======
         y: 10
         width: parent.width - 20
         height: 200
@@ -76,8 +52,6 @@ Item {
                         serial.paramSet('bits', '8');
                         serial.paramSet('parity', 'no');
                         serial.paramSet('stops', '0');
->>>>>>> cea66ff527f5ba381262fde857caa85aacef3ad6
-
                         serial.paramSet('dtr', '0');
                         serial.paramSet('rts', '1');
                     }
@@ -158,35 +132,6 @@ Item {
                             console.info(result);
                             //console.info("Msg: " + gps.messages + ". Errors: " + gps.errors);
                         }
-<<<<<<< HEAD
-                       if (array[i] === 36)
-                       {
-                          beginFound = true;
-                       }
-                    }
-                    // JSON parser
-                    try {
-                        var JsonObject= JSON.parse(result);
-
-                        gps.longitude           = JsonObject.gps.alt;
-                        gps.latitude            = JsonObject.gps.lon;
-                        gps.fix                 = JsonObject.gps.fix;
-                        gps.sats                = JsonObject.gps.sats;
-                        gps.course              = JsonObject.gps.course;
-                        gps.speed               = JsonObject.gps.speed;
-                        
-                        batteryBarSet.values    = JsonObject.battery.cells;
-
-                    } catch(e) {
-                        network.errors++;
-                        jsonLength.text =   "Serial Bytes: " + array.length;
-                        jsonMessages.text = "Messages: " + network.messages;
-                        jsonErrors.text =   "Errors: " + network.errors;
-                        console.info(e); // error in the above string (in this case, yes)!
-                        console.info(result);
-                        //console.info("Msg: " + gps.messages + ". Errors: " + gps.errors);
-=======
->>>>>>> cea66ff527f5ba381262fde857caa85aacef3ad6
                     }
                 }
             }
