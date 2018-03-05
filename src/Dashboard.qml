@@ -50,7 +50,10 @@ Item {
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f918f0f8b8629d9a7781d060d7dfe05b09b9cd83
     Image {
         id: quitButton
         x: 0

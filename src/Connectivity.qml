@@ -52,7 +52,10 @@ Item {
                         serial.paramSet('bits', '8');
                         serial.paramSet('parity', 'no');
                         serial.paramSet('stops', '0');
+<<<<<<< HEAD
 
+=======
+>>>>>>> f918f0f8b8629d9a7781d060d7dfe05b09b9cd83
                         serial.paramSet('dtr', '0');
                         serial.paramSet('rts', '1');
                     }

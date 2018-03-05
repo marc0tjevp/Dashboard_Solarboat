@@ -237,8 +237,21 @@ ApplicationWindow {
         }
 
         Item {
-            id: chatTab
+            id: chatTabs
 
+            Rectangle {
+                x: 0
+                y: 0
+                width: parent.width
+                height: swipeView.height - 40 - (swipeView.height - inputPanel.y)
+                color: "White"
+
+                TextField {
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 5
+                }
+
+            }
         }
     }
 
