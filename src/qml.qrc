@@ -17,5 +17,10 @@
         <file>Connectivity.qml</file>
         <file>MpptStatus.qml</file>
         <file>SystemControl.qml</file>
+        <file>font/handwriting-draft_free-version.ttf</file>
+        <file>font/digital-7.ttf</file>
+        <file>font/digital-7 (italic).ttf</file>
+        <file>font/digital-7 (mono).ttf</file>
+        <file>font/digital-7 (mono italic).ttf</file>
     </qresource>
 </RCC>
