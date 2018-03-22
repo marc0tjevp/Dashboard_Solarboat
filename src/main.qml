@@ -17,8 +17,6 @@ ApplicationWindow {
     width: 800
     height: 480
     color: "#DDDDDD"
-    property alias controlTab: controlTab
-    property alias dashboardTab: dashboardTab
     title: qsTr("Dashboard")
     id: root
 
@@ -67,65 +65,7 @@ ApplicationWindow {
         Item {
             id: dashboardTab
 
-                Dashboard {
-                    ChartView {
-                        id: chartView
-                        title: "Power balance"
-                        height: 200
-                        x: 0
-                        y: 100
-                        width: parent.width
-                        //backgroundColor: "transparent"
-                        antialiasing: true
-                        legend.visible: false
-
-                        ValueAxis {
-                            id: valueAxisX
-                            max: 5
-                            visible: false
-                        }
-
-                        ValueAxis {
-                            id: valueAxisY
-                            min: 30
-                            max: 100
-                            visible: true
-                        }
-                       SplineSeries {
-                            id: speedGraph
-                            axisX: valueAxisX
-                            axisY: valueAxisY
-                            color: "#C6002A"
-                            width: 2
-                            XYPoint { x: 0; y: 50 }
-                            XYPoint { x: 1.1; y: 52 }
-                            XYPoint { x: 1.9; y: 66 }
-                            XYPoint { x: 2.1; y: 73 }
-                            XYPoint { x: 2.9; y: 81 }
-                            XYPoint { x: 3.4; y: 74 }
-                            XYPoint { x: 4.1; y: 71 }
-                            XYPoint { x: 5; y: 79 }
-                        }
-                        SplineSeries {
-                            id: speedGraph1
-                            axisX: valueAxisX
-                            axisY: valueAxisY
-                            color: "#006C2A"
-                            width: 2
-                            XYPoint { x: 0; y: 63 }
-                            XYPoint { x: 1.1; y: 65 }
-                            XYPoint { x: 1.9; y: 62 }
-                            XYPoint { x: 2.1; y: 57 }
-                            XYPoint { x: 2.9; y: 59 }
-                            XYPoint { x: 3.4; y: 65 }
-                            XYPoint { x: 4.1; y: 65 }
-                            XYPoint { x: 5; y: 66 }
-                        }
-
-
-                    }
-
-                }
+                Dashboard {}
         }
 
 
@@ -206,6 +146,18 @@ ApplicationWindow {
                         XYPoint { x: 1; y: 3.65 }
                     }
                 }
+                Rectangle {
+                    y: 600
+                    x: 9
+                    height: 100
+                    width: 532
+
+                    Text {
+                        id: batterySOC
+                        x: 5
+                        text: qsTr("State of Charge: 83%")
+                    }
+                }
 
                 MpptStatus {
                     y: 0
@@ -240,17 +192,58 @@ ApplicationWindow {
             id: chatTabs
 
             Rectangle {
+                id: chatContainer
                 x: 0
                 y: 0
                 width: parent.width
-                height: swipeView.height - 40 - (swipeView.height - inputPanel.y)
                 color: "White"
+                height: parent.height
 
-                TextField {
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 5
+                Flickable {
+                    id: chatMessagesContainer
+                    anchors.top: parent.top
+                    anchors.topMargin: 5
+                    anchors.bottom: chatTextField.top
+                    width: parent.width
+                    flickableDirection: Flickable.VerticalFlick
+                    contentHeight: 1000
+
+                    Rectangle {
+                        height: 100
+                        width: 100
+                        color: "yellow"
+                    }
+
                 }
 
+                TextField {
+                    id: chatTextField
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    anchors.right: chatSendButton.left
+                    anchors.rightMargin: 5
+                    onFocusChanged: {
+                        if (chatTextField.focus == true) {
+                            chatContainer.height = 190;
+                        } else {
+                            chatContainer.height = 440;
+                        }
+                    }
+                }
+                Button {
+                    id: chatSendButton
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    text: "Send"
+                    width: 60
+                    onPressed: {
+                        chatTextField.text = "";
+                    }
+                }
             }
         }
     }
@@ -414,7 +407,7 @@ ApplicationWindow {
 
         Text {
             id: fixLabel
-            x: 70
+            x: 50
             y: 27
             width: 50
             color: "#a54208"
@@ -425,7 +418,7 @@ ApplicationWindow {
 
         Text {
             id: modeIndicator
-            x: 120
+            x: 110
             y: 7
             color: "#000000"
             text: "" //qsTr("3G")
@@ -433,25 +426,7 @@ ApplicationWindow {
         }
 
         Text {
-            id: carrier
-            x: 160
-            y: 11
-            width: 90
-            height: 14
-            color: "#000000"
-            text: network.carrier
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            wrapMode: Text.WordWrap
-            anchors.top: parent.top
-            anchors.topMargin: 23
-            font.pixelSize: 11
-        }
-
-        Text {
             id: clock
-            x: 160
-            y: -10
             color: "#000000"
             text: Qt.formatTime(new Date(), "hh:mm:ss")
             anchors.top: parent.top
@@ -459,7 +434,7 @@ ApplicationWindow {
             font.bold: true
             anchors.right: parent.right
             anchors.rightMargin: 10
-            font.pixelSize: 16
+            font.pixelSize: 24
 
             Timer {
                 id: timer
@@ -476,13 +451,12 @@ ApplicationWindow {
 
         Image {
             id: gpsIcon
-            x: 89
             width: 20
             height: 20
             anchors.top: parent.top
             anchors.topMargin: 3
             anchors.right: parent.right
-            anchors.rightMargin: 141
+            anchors.rightMargin: 160
             state: "connected"
             states:
             [
@@ -499,11 +473,10 @@ ApplicationWindow {
 
         Image {
             id: gsmIcon
-            x: 124
             width: 30
             height: 24
             anchors.right: parent.right
-            anchors.rightMargin: 96
+            anchors.rightMargin: 110
             anchors.top: parent.top
             anchors.topMargin: 8
             state: network.mobileSignal
@@ -536,38 +509,6 @@ ApplicationWindow {
             ]
         }
 
-        Text {
-            id: compassLetter
-            x: 31
-            width: 39
-            height: 14
-            text: qsTr("N")
-            anchors.top: parent.top
-            anchors.topMargin: 5
-            anchors.right: parent.right
-            anchors.rightMargin: 180
-            font.bold: true
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 12
-        }
-
-        Text {
-            id: compass
-            x: 28
-            width: 45
-            height: 20
-            text: qsTr("0º")
-            anchors.top: parent.top
-            anchors.topMargin: 19
-            anchors.right: parent.right
-            anchors.rightMargin: 177
-            horizontalAlignment: Text.AlignHCenter
-            font.family: "Arial"
-            font.bold: true
-            font.pixelSize: 16
-        }
-
-
 
     }
 
@@ -579,7 +520,6 @@ ApplicationWindow {
             focus: true
             z:100
         }
-
 }
 
 

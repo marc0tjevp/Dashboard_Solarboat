@@ -28,28 +28,7 @@ Item {
         value: map.bearing
         onValueChanged:
         {
-            map.bearing = bearingSlider.value
-            compass.text = Math.round(bearingSlider.value) + "º"
-
-            if((bearingSlider.value >= 0) && (bearingSlider.value < 22)) {
-                compassLetter.text = "N"
-            } else if ((bearingSlider.value >= 22) && (bearingSlider.value < 67)) {
-                compassLetter.text = "NE"
-            } else if ((bearingSlider.value >= 67) && (bearingSlider.value < 112)) {
-                compassLetter.text = "E"
-            } else if ((bearingSlider.value >= 112) && (bearingSlider.value < 157)) {
-                compassLetter.text = "ES"
-            } else if ((bearingSlider.value >= 157) && (bearingSlider.value < 202)) {
-                compassLetter.text = "S"
-            } else if ((bearingSlider.value >= 202) && (bearingSlider.value < 247)) {
-                compassLetter.text = "SW"
-            } else if ((bearingSlider.value >= 247) && (bearingSlider.value < 292)) {
-                compassLetter.text = "W"
-            } else if ((bearingSlider.value >= 292) && (bearingSlider.value < 337)) {
-                compassLetter.text = "WN"
-            } else if ((bearingSlider.value >= 337) && (bearingSlider.value <= 360)) {
-                compassLetter.text = "N"
-            }
+            map.bearing = bearingSlider.value;
         }
     }
 
@@ -224,6 +203,17 @@ Item {
         onPressed:
         {
             console.info("[INFO] Motor current limit set to: " + motorCurrentLimit.value + " Amps");
+        }
+    }
+
+    Image {
+        id: quitButton
+        x: 0
+        y: 800
+        source: "qrc:///img/quit.png"
+        MouseArea {
+            anchors.fill: parent
+            onClicked: Qt.quit()
         }
     }
 }
