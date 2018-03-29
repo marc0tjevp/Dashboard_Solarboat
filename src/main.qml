@@ -44,7 +44,22 @@ ApplicationWindow {
         property real   current:        0
     }
     Item {
-        id: mppt
+        id: mppt1
+        property real   currentIn:      3.26
+        property real   voltageIn:      55.12
+    }
+    Item {
+        id: mppt2
+        property real   currentIn:      3.26
+        property real   voltageIn:      55.12
+    }
+    Item {
+        id: mppt3
+        property real   currentIn:      3.26
+        property real   voltageIn:      55.12
+    }
+    Item {
+        id: mppt4
         property real   currentIn:      3.26
         property real   voltageIn:      55.12
     }
@@ -165,6 +180,7 @@ ApplicationWindow {
                     output: "167 W"
                     status: "Tracking"
                     indicator: "green"
+                    voltageInput: mppt1.voltageIn
                 }
 
                 MpptStatus {
@@ -172,18 +188,21 @@ ApplicationWindow {
                     name: "MPPT #2"
                     output: "189 W"
                     status: "Not Charging"
+                    voltageInput: mppt2.voltageIn
                 }
                 MpptStatus {
                     y: 160
                     name: "MPPT #3"
                     output: "171 W"
                     status: "Undervoltage"
+                    voltageInput: mppt3.voltageIn
                 }
                 MpptStatus {
                     y: 240
                     name: "MPPT #4"
                     output: "123 W"
                     status: "No Battery"
+                    voltageInput: mppt4.voltageIn
                 }
             }
         }

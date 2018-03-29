@@ -31,11 +31,10 @@ Item {
     }
 
     ChartView {
-        x: 220
-        y: 10
-        height: 160
-        width: 320
-        anchors.fill: parent
+        x: 212
+        y: 2
+        height: 175
+        width: 335
         antialiasing: true
         legend.visible: false
         margins.top: 0
@@ -56,11 +55,13 @@ Item {
         ValueAxis {
             id: balanceAxis
             visible: false
+            min: 0
+            max: 5
         }
 
 
         AreaSeries {
-            name: "Russian"
+            name: "balance"
             axisX: valueAxis
             axisY: balanceAxis
             upperSeries: LineSeries {
@@ -69,7 +70,7 @@ Item {
                 XYPoint { x: 2002; y: 1 }
                 XYPoint { x: 2003; y: 1 }
                 XYPoint { x: 2004; y: 1 }
-                XYPoint { x: 2005; y: 0 }
+                XYPoint { x: 2005; y: 2 }
                 XYPoint { x: 2006; y: 1 }
                 XYPoint { x: 2007; y: 1 }
                 XYPoint { x: 2008; y: 4 }

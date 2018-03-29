@@ -20,6 +20,7 @@ Item {
     property alias status: mpptStatus.text
     property alias output: mpptPowerOuput.text
     property alias indicator: mpptIndicator.color
+    property alias voltageInput: mpptVoltageIn.text
 
     Rectangle {
         id: mppt1Container
@@ -127,11 +128,12 @@ Item {
             font.pixelSize: 14
         }
         Text {
+            id: mpptVoltageIn
             anchors.right: parent.right
             anchors.rightMargin: 150
             anchors.top: parent.top
             anchors.topMargin: 15
-            text: mppt.voltageIn + " V"
+            text: mppt1.voltageIn + " V"
             font.pixelSize: 14
             font.bold: true
         }
@@ -148,7 +150,7 @@ Item {
             anchors.rightMargin: 150
             anchors.top: parent.top
             anchors.topMargin: 45
-            text: mppt.currentIn + " A"
+            text: mppt1.currentIn + " A"
             font.pixelSize: 14
             font.bold: true
         }

@@ -48,12 +48,12 @@ Item {
 
                     // if success - configure port parameters
                     if (serial.isOpen()){
-                        serial.paramSet('baud', '9600');
+                        serial.paramSet('baud', '115200');
                         serial.paramSet('bits', '8');
                         serial.paramSet('parity', 'no');
-                        serial.paramSet('stops', '0');
+                        serial.paramSet('stops', '1');
                         serial.paramSet('dtr', '0');
-                        serial.paramSet('rts', '1');
+                        serial.paramSet('rts', '0');
                     }
                     timer1.start();
                 } else {
@@ -86,7 +86,7 @@ Item {
                     var array = serial.readBytes();
                     var result = "";
                     var beginFound = false;
-                    if (array.length > 600){
+                    if (array.length > 0){
                         network.messages++;
                         jsonMessages.text = "Messages: " + network.messages;
 
@@ -113,7 +113,7 @@ Item {
                             //motor.rpm           = JsonObject.motor.rpm;
                             //motor.current       = JsonObject.motor.i;
 
-                            motor.rpm           = JsonObject.motor.rpm;
+                            //motor.rpm           = JsonObject.motor.rpm;
 
                             gps.longitude       = JsonObject.gps.alt;
                             gps.latitude        = JsonObject.gps.lon;
@@ -122,6 +122,12 @@ Item {
                             gps.course          = JsonObject.gps.course;
                             gps.speed           = JsonObject.gps.speed;
                             batteryBarSet.values = JsonObject.battery.cells;
+
+                            mppt1.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[0];
+                            mppt2.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[1];
+                            mppt3.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[2];
+                            mppt4.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[3];
+
 
                         } catch(e) {
                             network.errors++;
@@ -210,7 +216,7 @@ Item {
                //Send the proper header information along with the request
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                xhr.setRequestHeader("Referer", "http://192.168.8.1/html/home.html");
-               xhr.setRequestHeader("__RequestVerificationToken", "984426459");
+               xhr.setRequestHeader("__RequestVerificationToken", "1471930331");
                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
                xhr.onreadystatechange = function() {//Call a function when the state changes.
