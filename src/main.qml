@@ -177,10 +177,10 @@ ApplicationWindow {
                 MpptStatus {
                     y: 0
                     name: "MPPT #1"
-                    output: "167 W"
+                    output: Math.round(mppt1.voltageIn * mppt1.currentIn) + " W"
                     status: "Tracking"
                     indicator: "green"
-                    voltageInput: mppt1.voltageIn
+                    voltageInput: Math.round(mppt1.voltageIn * 100)/100 + " V"
                 }
 
                 MpptStatus {
@@ -188,21 +188,21 @@ ApplicationWindow {
                     name: "MPPT #2"
                     output: "189 W"
                     status: "Not Charging"
-                    voltageInput: mppt2.voltageIn
+                    voltageInput: mppt2.voltageIn + " V"
                 }
                 MpptStatus {
                     y: 160
                     name: "MPPT #3"
                     output: "171 W"
                     status: "Undervoltage"
-                    voltageInput: mppt3.voltageIn
+                    voltageInput: mppt3.voltageIn + " V"
                 }
                 MpptStatus {
                     y: 240
                     name: "MPPT #4"
                     output: "123 W"
                     status: "No Battery"
-                    voltageInput: mppt4.voltageIn
+                    voltageInput: mppt4.voltageIn + " V"
                 }
             }
         }

@@ -64,19 +64,20 @@ Item {
             name: "balance"
             axisX: valueAxis
             axisY: balanceAxis
+            color: "#C6002A"
             upperSeries: LineSeries {
                 XYPoint { x: 2000; y: 1 }
-                XYPoint { x: 2001; y: 1 }
+                XYPoint { x: 2001; y: 1.2 }
                 XYPoint { x: 2002; y: 1 }
-                XYPoint { x: 2003; y: 1 }
-                XYPoint { x: 2004; y: 1 }
-                XYPoint { x: 2005; y: 2 }
-                XYPoint { x: 2006; y: 1 }
-                XYPoint { x: 2007; y: 1 }
+                XYPoint { x: 2003; y: 3 }
+                XYPoint { x: 2004; y: 2 }
+                XYPoint { x: 2005; y: 3.3 }
+                XYPoint { x: 2006; y: 4 }
+                XYPoint { x: 2007; y: 4.2 }
                 XYPoint { x: 2008; y: 4 }
-                XYPoint { x: 2009; y: 3 }
-                XYPoint { x: 2010; y: 2 }
-                XYPoint { x: 2011; y: 1 }
+                XYPoint { x: 2009; y: 3.1 }
+                XYPoint { x: 2010; y: 2.6 }
+                XYPoint { x: 2011; y: 2 }
             }
         }
     }
