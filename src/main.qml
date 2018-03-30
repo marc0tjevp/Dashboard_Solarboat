@@ -26,7 +26,7 @@ ApplicationWindow {
         property real   longitude:      53.051307
         property real   latitude:       5.835714
         property real   speed:          0
-        property real   fix:            0
+        property real   fix:            30000
         property real   sats:           0
         property real   course:         0
     }
@@ -357,7 +357,7 @@ ApplicationWindow {
         MapPolyline {
                 line.width: 5
                 opacity: 0.5
-                line.color: 'blue'
+                line.color: 'red'
                 path: [
                     { latitude: 51.57024, longitude: 4.74425 },
                     { latitude: 51.57   , longitude: 4.74432 },
@@ -433,15 +433,6 @@ ApplicationWindow {
             text: qsTr("NO FIX")
             font.pixelSize: 11
             horizontalAlignment: Text.AlignHCenter
-        }
-
-        Text {
-            id: modeIndicator
-            x: 110
-            y: 7
-            color: "#000000"
-            text: "" //qsTr("3G")
-            font.pixelSize: 11
         }
 
         Text {
@@ -524,6 +515,39 @@ ApplicationWindow {
                 State {
                     name: "0"
                     PropertyChanges { target: gsmIcon; source: "qrc:///img/signal0.png"}
+                    PropertyChanges { target: modeIndicator; state: "none" }
+                }
+            ]
+        }
+        Text {
+            id: modeIndicator
+            x: 110
+            y: 7
+            color: "#000000"
+            text: ""
+            font.pixelSize: 11
+            states:
+                [
+                State {
+                    name: "none"
+                    PropertyChanges {
+                        target: modeIndicator; text: ""
+
+                    }
+                },
+                State {
+                    name: "3G"
+                    PropertyChanges {
+                        target: modeIndicator; text: "3G"
+
+                    }
+                },
+                State {
+                    name: "2G"
+                    PropertyChanges {
+                        target: modeIndicator; text: "2G"
+
+                    }
                 }
             ]
         }
