@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Extras 1.4
 import QtCharts 2.2
+import QtGraphicalEffects 1.0
 
 Item {
     id: dashboard
@@ -19,7 +20,7 @@ Item {
         Text {
             y: 10
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "15"
+            text: "9"
             font.pixelSize: 150
             font.family: "Arial"
         }
@@ -41,6 +42,7 @@ Item {
         margins.bottom: 0
         margins.left: 0
         margins.right: 0
+        theme: ChartView.ChartThemeDark
 
 
         // Define x-axis to be used with the series instead of default one
@@ -58,15 +60,14 @@ Item {
             min: 0
             max: 5
         }
-
-
         AreaSeries {
+            id: xhart
             name: "balance"
             axisX: valueAxis
             axisY: balanceAxis
-            color: "#C6002A"
+            color: "#88C6002A"
             upperSeries: LineSeries {
-                XYPoint { x: 2000; y: 1 }
+                XYPoint { x: 2000; y: 1;}
                 XYPoint { x: 2001; y: 1.2 }
                 XYPoint { x: 2002; y: 1 }
                 XYPoint { x: 2003; y: 3 }

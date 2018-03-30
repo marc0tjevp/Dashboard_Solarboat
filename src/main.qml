@@ -16,7 +16,7 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 480
-    color: "#DDDDDD"
+    color: "#CCCCCC"
     title: qsTr("Dashboard")
     id: root
 
@@ -440,11 +440,11 @@ ApplicationWindow {
             color: "#000000"
             text: Qt.formatTime(new Date(), "hh:mm:ss")
             anchors.top: parent.top
-            anchors.topMargin: 4
+            anchors.topMargin: 8
             font.bold: true
             anchors.right: parent.right
-            anchors.rightMargin: 10
-            font.pixelSize: 24
+            anchors.rightMargin: 5
+            font.pixelSize: 20
 
             Timer {
                 id: timer

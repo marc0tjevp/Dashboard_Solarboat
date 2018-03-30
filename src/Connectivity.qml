@@ -16,6 +16,11 @@ Item {
     width: parent.width
     height: parent.height
 
+   Item {
+        id: mobile
+        property real   token: 0
+   }
+
    Rectangle {
         x: 10
         y: 10
@@ -210,8 +215,35 @@ Item {
            text: "Switch"
            checkable: true
            onCheckedChanged: {
+
+               getToken("http://192.168.8.1/api/webserver/token");
+               //getToken("http://192.168.8.1/api/monitoring/traffic-statistics");
+
+               function getToken(url) {
+                   var request = new XMLHttpRequest();
+                   request.onreadystatechange = function() {
+                       if (request.readyState === XMLHttpRequest.DONE) {
+                           //console.info(client.responseText);
+                           //var a = request.responseXML;
+                           //var x = a.getElementsByTagName("token");
+                           //xmlOutput.text = x.childNodes[0].nodeValue;
+                           var doc = request.responseText;
+                           var parser = new DOMParser();
+                           var a = parser.parseFromString(doc, "application/xml");
+                           console.debug("Status: " + request.status + ", Status Text: " + request.statusText);
+                           console.debug(a);
+                           for (var ii = 0; ii < a.childNodes.length; ++ii) {
+                               console.info(a.childNodes[ii].nodeName);
+                           }
+                       }
+                   }
+
+                   request.open("GET", url);
+                   request.send();
+               }
+
                var xhr = new XMLHttpRequest();
-               xhr.open("POST", 'http://192.168.8.1/api/dialup/mobile-dataswitch', true);
+               xhr.open("POST", 'http://192.168.8.1/api/dialup/mobile-dataswitch');
 
                //Send the proper header information along with the request
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
