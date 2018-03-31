@@ -216,8 +216,8 @@ Item {
            checkable: true
            onCheckedChanged: {
 
-               getToken("http://192.168.8.1/api/webserver/token");
-               //getToken("http://192.168.8.1/api/monitoring/traffic-statistics");
+               //getToken("http://192.168.8.1/api/webserver/token");
+               getToken("http://192.168.8.1/api/monitoring/traffic-statistics");
 
                function getToken(url) {
                    var request = new XMLHttpRequest();
@@ -228,8 +228,6 @@ Item {
                            //var x = a.getElementsByTagName("token");
                            //xmlOutput.text = x.childNodes[0].nodeValue;
                            var doc = request.responseText;
-                           var parser = new DOMParser();
-                           var a = parser.parseFromString(doc, "application/xml");
                            console.debug("Status: " + request.status + ", Status Text: " + request.statusText);
                            console.debug(a);
                            for (var ii = 0; ii < a.childNodes.length; ++ii) {
@@ -238,7 +236,9 @@ Item {
                        }
                    }
 
-                   request.open("GET", url);
+                   request.open("GET", url, false);
+                   request.setRequestHeader('Content-Type',  'text/xml');
+                   request.overrideMimeType('text/xml');
                    request.send();
                }
 
