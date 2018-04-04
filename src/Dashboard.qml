@@ -13,15 +13,23 @@ Item {
     Rectangle {
         x: 10
         y: 10
-        height: 160
+        height: 120
         width: 200
         radius: 5
 
         Text {
             y: 10
-            anchors.horizontalCenter: parent.horizontalCenter
+            x: 50
             text: "9"
-            font.pixelSize: 150
+            font.pixelSize: 100
+            font.family: "Arial"
+        }
+        Text {
+            x: 110
+            y: 60
+            color: "#444444"
+            text: ".74"
+            font.pixelSize: 50
             font.family: "Arial"
         }
         Text {
@@ -34,15 +42,17 @@ Item {
     ChartView {
         x: 212
         y: 2
-        height: 175
+        height: 135
         width: 335
         antialiasing: true
+        backgroundRoundness: 5
+        backgroundColor: "#FFFFFF"
         legend.visible: false
         margins.top: 0
         margins.bottom: 0
         margins.left: 0
         margins.right: 0
-        theme: ChartView.ChartThemeDark
+        //theme: ChartView.ChartThemeDark
 
 
         // Define x-axis to be used with the series instead of default one
@@ -65,7 +75,7 @@ Item {
             name: "balance"
             axisX: valueAxis
             axisY: balanceAxis
-            color: "#88C6002A"
+            color: "#05aa65"
             upperSeries: LineSeries {
                 XYPoint { x: 2000; y: 1;}
                 XYPoint { x: 2001; y: 1.2 }
@@ -85,8 +95,8 @@ Item {
 
     Rectangle {
         x: 10
-        y: 180
-        height: 250
+        y: 140
+        height: 290
         width: 530
         radius: 5
     }

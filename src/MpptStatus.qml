@@ -18,9 +18,15 @@ Item {
 
     property alias name: mpptNr.text
     property alias status: mpptStatus.text
-    property alias output: mpptPowerOuput.text
-    property alias indicator: mpptIndicator.color
+    property alias indicator: mpptIndicator.state
     property alias voltageInput: mpptVoltageIn.text
+    property alias currentInput: mpptCurrentIn.text
+    property alias noCharge: mpptNOC.state
+    property alias batteryNotConnected: mpptBNC.state
+    property alias overVoltage: mpptOVT.state
+    property alias underVoltage: mpptUNDV.state
+
+    property variant statesNames: ["0", "1"]
 
     Rectangle {
         id: mppt1Container
@@ -36,7 +42,7 @@ Item {
             anchors.leftMargin: 35
             anchors.top: parent.top
             anchors.topMargin: 10
-            text: qsTr("MPPT")
+            text: "MPPT 0#"
             font.bold: true
             font.pixelSize: 18
         }
@@ -46,10 +52,20 @@ Item {
             anchors.leftMargin: 140
             anchors.top: parent.top
             anchors.topMargin: 10
-            color: "#C6002A"
             height: 25
             width: 40
             radius: 3
+            color: "grey"
+            states: [
+                    State {
+                        name: "1"
+                        PropertyChanges { target: mpptNOC; color: "#C6002A"}
+                    },
+                    State {
+                        name: "0"
+                        PropertyChanges { target: mpptNOC; color: "green"}
+                    }
+                ]
             Text {
                 anchors.centerIn: parent
                 text: qsTr("NOC");
@@ -63,10 +79,20 @@ Item {
             anchors.leftMargin: 140
             anchors.top: parent.top
             anchors.topMargin: 40
-            color: "green"
             height: 25
             width: 40
             radius: 3
+            color: "grey"
+            states: [
+                    State {
+                        name: "1"
+                        PropertyChanges { target: mpptOVT; color: "#C6002A"}
+                    },
+                    State {
+                        name: "0"
+                        PropertyChanges { target: mpptOVT; color: "green"}
+                    }
+                ]
             Text {
                 anchors.centerIn: parent
                 text: qsTr("OVT");
@@ -80,10 +106,20 @@ Item {
             anchors.leftMargin: 185
             anchors.top: parent.top
             anchors.topMargin: 10
-            color: "Green"
             height: 25
             width: 40
             radius: 3
+            color: "grey"
+            states: [
+                    State {
+                        name: "1"
+                        PropertyChanges { target: mpptBNC; color: "#C6002A"}
+                    },
+                    State {
+                        name: "0"
+                        PropertyChanges { target: mpptBNC; color: "green"}
+                    }
+                ]
             Text {
                 anchors.centerIn: parent
                 text: qsTr("BNC");
@@ -97,10 +133,20 @@ Item {
             anchors.leftMargin: 185
             anchors.top: parent.top
             anchors.topMargin: 40
-            color: "green"
             height: 25
             width: 40
             radius: 3
+            color: "grey"
+            states: [
+                    State {
+                        name: "1"
+                        PropertyChanges { target: mpptUNDV; color: "#C6002A"}
+                    },
+                    State {
+                        name: "0"
+                        PropertyChanges { target: mpptUNDV; color: "green"}
+                    }
+                ]
             Text {
                 anchors.centerIn: parent
                 text: qsTr("UNDV");
@@ -116,7 +162,17 @@ Item {
             anchors.topMargin: 10
             active: true
             height: 20
-            color: "red"
+            color: "grey"
+            states: [
+                    State {
+                        name: "1"
+                        PropertyChanges { target: mpptIndicator; color: "green"}
+                    },
+                    State {
+                        name: "0"
+                        PropertyChanges { target: mpptIndicator; color: "#C6002A"}
+                    }
+                ]
         }
 
         Text {
@@ -130,10 +186,19 @@ Item {
         Text {
             id: mpptVoltageIn
             anchors.right: parent.right
+            anchors.rightMargin: 165
+            anchors.top: parent.top
+            anchors.topMargin: 15
+            text: "0"
+            font.pixelSize: 14
+            font.bold: true
+        }
+        Text {
+            anchors.right: parent.right
             anchors.rightMargin: 150
             anchors.top: parent.top
             anchors.topMargin: 15
-            text: mppt1.voltageIn + " V"
+            text: "V"
             font.pixelSize: 14
             font.bold: true
         }
@@ -146,11 +211,21 @@ Item {
             font.pixelSize: 14
         }
         Text {
+            id: mpptCurrentIn
+            anchors.right: parent.right
+            anchors.rightMargin: 165
+            anchors.top: parent.top
+            anchors.topMargin: 45
+            text: "0"
+            font.pixelSize: 14
+            font.bold: true
+        }
+        Text {
             anchors.right: parent.right
             anchors.rightMargin: 150
             anchors.top: parent.top
             anchors.topMargin: 45
-            text: mppt1.currentIn + " A"
+            text: "A"
             font.pixelSize: 14
             font.bold: true
         }
@@ -160,7 +235,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: 420
             anchors.verticalCenter: parent.verticalCenter
-            text: qsTr("180 W");
+            text: Math.round(mpptVoltageIn.text * mpptCurrentIn.text) + " W"
             font.pixelSize: 25
             font.weight: Font.Black
         }
@@ -171,7 +246,7 @@ Item {
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: 40
-            text: qsTr("Not Charging");
+            text: "No Status"
 
         }
 

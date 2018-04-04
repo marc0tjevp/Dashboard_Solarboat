@@ -18,7 +18,6 @@ ApplicationWindow {
     height: 480
     color: "#CCCCCC"
     title: qsTr("Dashboard")
-    id: root
 
     Item {
         id: gps
@@ -33,7 +32,6 @@ ApplicationWindow {
     Item {
         id: network
         property int    mobileSignal:   0
-        property string carrier:        "NA"
         property int    messages:       0
         property int    errors:         0
     }
@@ -45,23 +43,23 @@ ApplicationWindow {
     }
     Item {
         id: mppt1
-        property real   currentIn:      3.26
-        property real   voltageIn:      55.12
+        property real   currentIn:      0
+        property real   voltageIn:      0
     }
     Item {
         id: mppt2
-        property real   currentIn:      3.26
-        property real   voltageIn:      55.12
+        property real   currentIn:      0
+        property real   voltageIn:      0
     }
     Item {
         id: mppt3
-        property real   currentIn:      3.26
-        property real   voltageIn:      55.12
+        property real   currentIn:      0
+        property real   voltageIn:      0
     }
     Item {
         id: mppt4
-        property real   currentIn:      3.26
-        property real   voltageIn:      55.12
+        property real   currentIn:      0
+        property real   voltageIn:      0
     }
 
 
@@ -94,6 +92,7 @@ ApplicationWindow {
                 height: parent.height
                 contentWidth: parent.width;
                 contentHeight: 1000;
+                ScrollBar.vertical: ScrollBar { width: 5 }
 
                 //Control {}
                 SystemControl {}
@@ -109,6 +108,7 @@ ApplicationWindow {
                 height: parent.height
                 contentWidth: parent.width;
                 contentHeight: 1000
+                ScrollBar.vertical: ScrollBar { width: 5 }
 
                 Connectivity {}
             }
@@ -131,7 +131,7 @@ ApplicationWindow {
                     title: "Battery Cell-Voltage"
                     height: 300
                     x: 0
-                    y: 330
+                    y: 320
                     width: parent.width
                     antialiasing: true
                     legend.visible: false
@@ -177,32 +177,27 @@ ApplicationWindow {
                 MpptStatus {
                     y: 0
                     name: "MPPT #1"
-                    output: Math.round(mppt1.voltageIn * mppt1.currentIn) + " W"
-                    status: "Tracking"
-                    indicator: "green"
-                    voltageInput: Math.round(mppt1.voltageIn * 100)/100 + " V"
+                    indicator: statesNames[0]
+                    status: "Not Connected"
+                    voltageInput: Math.round(mppt1.voltageIn * 100)/100
+                    currentInput: Math.round(mppt1.currentIn * 100)/100
+                    noCharge: statesNames[1]
+                    batteryNotConnected: statesNames[1]
+                    overVoltage: statesNames[1]
+                    underVoltage: statesNames[1]
                 }
 
                 MpptStatus {
                     y: 80
                     name: "MPPT #2"
-                    output: "189 W"
-                    status: "Not Charging"
-                    voltageInput: mppt2.voltageIn + " V"
                 }
                 MpptStatus {
                     y: 160
                     name: "MPPT #3"
-                    output: "171 W"
-                    status: "Undervoltage"
-                    voltageInput: mppt3.voltageIn + " V"
                 }
                 MpptStatus {
                     y: 240
                     name: "MPPT #4"
-                    output: "123 W"
-                    status: "No Battery"
-                    voltageInput: mppt4.voltageIn + " V"
                 }
             }
         }
@@ -210,60 +205,7 @@ ApplicationWindow {
         Item {
             id: chatTabs
 
-            Rectangle {
-                id: chatContainer
-                x: 0
-                y: 0
-                width: parent.width
-                color: "White"
-                height: parent.height
-
-                Flickable {
-                    id: chatMessagesContainer
-                    anchors.top: parent.top
-                    anchors.topMargin: 5
-                    anchors.bottom: chatTextField.top
-                    width: parent.width
-                    flickableDirection: Flickable.VerticalFlick
-                    contentHeight: 1000
-
-                    Rectangle {
-                        height: 100
-                        width: 100
-                        color: "yellow"
-                    }
-
-                }
-
-                TextField {
-                    id: chatTextField
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 0
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    anchors.right: chatSendButton.left
-                    anchors.rightMargin: 5
-                    onFocusChanged: {
-                        if (chatTextField.focus == true) {
-                            chatContainer.height = 190;
-                        } else {
-                            chatContainer.height = 440;
-                        }
-                    }
-                }
-                Button {
-                    id: chatSendButton
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 0
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    text: "Send"
-                    width: 60
-                    onPressed: {
-                        chatTextField.text = "";
-                    }
-                }
-            }
+            ChatContainer {}
         }
     }
 

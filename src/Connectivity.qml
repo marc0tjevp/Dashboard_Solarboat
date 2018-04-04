@@ -11,6 +11,7 @@ import QtPositioning 5.6
 import QtCharts 2.2
 import QlChannelSerial 1.0
 import QtGraphicalEffects 1.0
+//import QtWebEngine 1.0
 
 Item {
     width: parent.width
@@ -209,37 +210,53 @@ Item {
            }
        }
        Button {
+           x: 400
+           y: 110
+           text: "Get XML"
+           onPressed: {
+               getXML("http://192.168.8.1/api/monitoring/status");
+
+               function getXML(url) {
+                   var client = new XMLHttpRequest();
+                   client.onreadystatechange = function() {
+                       if (client.readyState === XMLHttpRequest.DONE) {
+                           //console.info(client.responseText);
+                           xmlOutput.text = client.responseText;
+                       }
+                   }
+
+                   client.open("GET", url);
+                   client.send();
+               }
+           }
+       }
+       Button {
            id: mobileSwitch
            x: 400
            y: 60
            text: "Switch"
            checkable: true
            onCheckedChanged: {
+               //getToken("http://hi.link/api/webserver/token");
+               //getToken("http://192.168.8.1/api/monitoring/traffic-statistics");
+               getToken("test.xml");
 
-               //getToken("http://192.168.8.1/api/webserver/token");
-               getToken("http://192.168.8.1/api/monitoring/traffic-statistics");
 
                function getToken(url) {
                    var request = new XMLHttpRequest();
+                   request.open("GET", url);
+                   request.send();
                    request.onreadystatechange = function() {
-                       if (request.readyState === XMLHttpRequest.DONE) {
-                           //console.info(client.responseText);
-                           //var a = request.responseXML;
-                           //var x = a.getElementsByTagName("token");
-                           //xmlOutput.text = x.childNodes[0].nodeValue;
-                           var doc = request.responseText;
-                           console.debug("Status: " + request.status + ", Status Text: " + request.statusText);
-                           console.debug(a);
-                           for (var ii = 0; ii < a.childNodes.length; ++ii) {
-                               console.info(a.childNodes[ii].nodeName);
-                           }
+                       if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+                           console.info(request.getAllResponseHeaders());
+
+                       } else if (request.readyState === XMLHttpRequest.DONE) {
+                           xmlOutput.text = request.responseText;
+                           console.debug(JSON.stringify(request));
+                           mobile.token = request.responseXML.documentElement.childNodes[1].firstChild.nodeValue;
+                           console.debug(mobile.token);
                        }
                    }
-
-                   request.open("GET", url, false);
-                   request.setRequestHeader('Content-Type',  'text/xml');
-                   request.overrideMimeType('text/xml');
-                   request.send();
                }
 
                var xhr = new XMLHttpRequest();
@@ -248,7 +265,7 @@ Item {
                //Send the proper header information along with the request
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                xhr.setRequestHeader("Referer", "http://192.168.8.1/html/home.html");
-               xhr.setRequestHeader("__RequestVerificationToken", "1471930331");
+               xhr.setRequestHeader("__RequestVerificationToken", mobile.token);
                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
                xhr.onreadystatechange = function() {//Call a function when the state changes.
@@ -273,4 +290,11 @@ Item {
            font.pixelSize: 12
        }
    }
+   /*WebEngineView {
+       x: 0
+       y: 480
+       height: 400
+       width: parent.width
+       url: "http://192.168.8.1"
+   }*/
 }

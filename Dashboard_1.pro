@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT       += core gui qml serialport
+QT       += core gui qml serialport sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -10,7 +10,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += src/main.cpp \
     src/comboboxmodel.cpp \
     src/ql-channel.cpp \
-    src/ql-channel-serial.cpp
+    src/ql-channel-serial.cpp \
+    src/sqlcontactmodel.cpp \
+    src/sqlconversationmodel.cpp
 
 RESOURCES += \
     src/qml.qrc \
@@ -29,11 +31,16 @@ disable-xcb {
 HEADERS += \
     src/comboboxmodel.h \
     src/ql-channel.hpp \
-    src/ql-channel-serial.hpp
+    src/ql-channel-serial.hpp \
+    src/process.h \
+    src/sqlcontactmodel.h \
+    src/sqlconversationmodel.h
 
 DISTFILES += \
     src/main.qml \
-    src/DashboardGaugeStyle.qml \
     src/Dashboard.qml \
     src/Control.qml \
-    src/Connectivity.qml
+    src/Connectivity.qml \
+    src/ChatContainer.qml \
+    src/MpptStatus.qml \
+    src/SystemControl.qml

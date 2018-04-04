@@ -10,7 +10,6 @@
         <file>img/signal3.png</file>
         <file>img/signal4.png</file>
         <file>img/signal5.png</file>
-        <file>DashboardGaugeStyle.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>main.qml</file>
         <file>Dashboard.qml</file>
@@ -22,5 +21,12 @@
         <file>font/digital-7 (italic).ttf</file>
         <file>font/digital-7 (mono).ttf</file>
         <file>font/digital-7 (mono italic).ttf</file>
+        <file>test.xml</file>
+        <file>ChatContainer.qml</file>
+        <file>img/Albert_Einstein.png</file>
+        <file>img/Ernest_Hemingway.png</file>
+        <file>img/Hans_Gude.png</file>
+        <file>ContactPage.qml</file>
+        <file>ConversationPage.qml</file>
     </qresource>
 </RCC>
