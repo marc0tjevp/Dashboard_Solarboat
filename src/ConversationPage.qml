@@ -43,7 +43,7 @@ Page {
                         width: Math.min(messageText.implicitWidth + 24,
                             listView.width - (!sentByMe ? avatar.width + messageRow.spacing : 0))
                         height: messageText.implicitHeight + 24
-                        color: sentByMe ? "lightgrey" : "#green"
+                        color: sentByMe ? "lightgrey" : "#C6002A"
 
                         Label {
                             id: messageText
