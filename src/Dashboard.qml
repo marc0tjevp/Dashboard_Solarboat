@@ -99,5 +99,60 @@ Item {
         height: 290
         width: 530
         radius: 5
+
+        Text {
+            x: 10
+            y: 10
+            text: "motor.rpm"
+        }
+        Text {
+            x: 150
+            y: 10
+            text: Math.round(motor.rpm);
+        }
+        Text {
+            x: 10
+            y: 30
+            text: "motor.current"
+        }
+        Text {
+            x: 150
+            y: 30
+            text: Math.round(motor.current * 100) / 100;
+        }
+        Text {
+            x: 10
+            y: 50
+            text: "motor.tempMTR"
+        }
+        Text {
+            x: 150
+            y: 50
+            text: motor.tempMTR
+        }
+        Text {
+            x: 10
+            y: 80
+            text: "motor.driveEnable"
+        }
+        StatusIndicator {
+            x: 140
+            y: 80
+            active: true
+            height: 20
+            color: motor.driveEnable ? "grey" : "red"
+        }
+        Text {
+            x: 10
+            y: 110
+            text: "motor.killSwitch"
+        }
+        StatusIndicator {
+            x: 140
+            y: 110
+            active: true
+            height: 20
+            color: motor.killSwitch ? "grey" : "red"
+        }
     }
 }

@@ -121,6 +121,12 @@ Item {
 
                             //motor.rpm           = JsonObject.motor.rpm;
 
+                            motor.rpm           = JsonObject.motor.RPM;
+                            motor.current       = JsonObject.motor.Current;
+                            motor.tempMTR       = JsonObject.motor.Temp_Motor;
+                            motor.driveEnable   = JsonObject.motor.Drive_Enable;
+                            motor.killSwitch    = JsonObject.motor.Drive_Ready;
+
                             gps.longitude       = JsonObject.gps.alt;
                             gps.latitude        = JsonObject.gps.lon;
                             gps.fix             = JsonObject.gps.fix;
@@ -133,6 +139,11 @@ Item {
                             mppt2.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[1];
                             mppt3.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[2];
                             mppt4.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[3];
+
+                            mppt1.currentIn     = JsonObject.MPPT.MPPT_Current[0];
+                            mppt2.currentIn     = JsonObject.MPPT.MPPT_Current[1];
+                            mppt3.currentIn     = JsonObject.MPPT.MPPT_Current[2];
+                            mppt4.currentIn     = JsonObject.MPPT.MPPT_Current[3];
 
 
                         } catch(e) {

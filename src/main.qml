@@ -40,6 +40,9 @@ ApplicationWindow {
         id: motor
         property real   rpm:            0
         property real   current:        0
+        property real   tempMTR:        0
+        property bool   driveEnable:    false
+        property bool   killSwitch:     false
     }
     Item {
         id: mppt1
@@ -138,8 +141,8 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: batteryAxisY
-                        min: 2.5
-                        max: 4.2
+                        min: 2500
+                        max: 5000
                         visible: true
                     }
                     ValueAxis {
@@ -190,14 +193,20 @@ ApplicationWindow {
                 MpptStatus {
                     y: 80
                     name: "MPPT #2"
+                    voltageInput: Math.round(mppt2.voltageIn * 100)/100
+                    currentInput: Math.round(mppt2.currentIn * 100)/100
                 }
                 MpptStatus {
                     y: 160
                     name: "MPPT #3"
+                    voltageInput: Math.round(mppt3.voltageIn * 100)/100
+                    currentInput: Math.round(mppt3.currentIn * 100)/100
                 }
                 MpptStatus {
                     y: 240
                     name: "MPPT #4"
+                    voltageInput: Math.round(mppt4.voltageIn * 100)/100
+                    currentInput: Math.round(mppt4.currentIn * 100)/100
                 }
             }
         }
