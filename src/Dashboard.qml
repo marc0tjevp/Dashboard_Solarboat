@@ -18,17 +18,21 @@ Item {
         radius: 5
 
         Text {
-            y: 10
-            x: 50
-            text: "9"
-            font.pixelSize: 100
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -10
+            anchors.right: parent.right
+            anchors.rightMargin: 80
+            text: "0"
+            font.pixelSize: 90
             font.family: "Arial"
         }
         Text {
-            x: 110
-            y: 60
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+            anchors.left: parent.left
+            anchors.leftMargin: 115
             color: "#444444"
-            text: ".74"
+            text: ".00"
             font.pixelSize: 50
             font.family: "Arial"
         }
@@ -103,56 +107,64 @@ Item {
         Text {
             x: 10
             y: 10
-            text: "motor.rpm"
+            text: "Revs"
+            font.pixelSize: 12
         }
         Text {
             x: 150
             y: 10
             text: Math.round(motor.rpm);
+            font.pixelSize: 12
         }
         Text {
             x: 10
             y: 30
-            text: "motor.current"
+            text: "Current"
+            font.pixelSize: 12
         }
         Text {
             x: 150
             y: 30
             text: Math.round(motor.current * 100) / 100;
+            font.pixelSize: 12
         }
         Text {
             x: 10
             y: 50
-            text: "motor.tempMTR"
+            text: "Motor Temp."
+            font.pixelSize: 12
         }
         Text {
             x: 150
             y: 50
-            text: motor.tempMTR
+            text: motor.tempMTR + " C"
+            font.pixelSize: 12
         }
         Text {
             x: 10
             y: 80
-            text: "motor.driveEnable"
+            text: "driveEnable"
+            font.pixelSize: 12
         }
         StatusIndicator {
             x: 140
             y: 80
             active: true
-            height: 20
-            color: motor.driveEnable ? "grey" : "red"
+            height: 15
+            color: motor.driveEnable ? "green" : "red"
         }
         Text {
             x: 10
             y: 110
-            text: "motor.killSwitch"
+            text: "killSwitch"
+            font.pixelSize: 12
         }
         StatusIndicator {
             x: 140
             y: 110
             active: true
-            height: 20
-            color: motor.killSwitch ? "grey" : "red"
+            height: 15
+            color: motor.killSwitch ? "green" : "red"
         }
     }
 }

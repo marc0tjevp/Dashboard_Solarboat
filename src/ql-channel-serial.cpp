@@ -110,3 +110,5 @@ bool QlChannelSerial::writeString(const QString &s) {
 	return false;
 }
 
+
+

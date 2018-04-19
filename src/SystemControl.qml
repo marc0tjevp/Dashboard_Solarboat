@@ -146,7 +146,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 10
         y: 220
-        height: 200
+        height: 150
         width: parent.width - 20
         radius: 5
 
@@ -178,7 +178,7 @@ Item {
         SpinBox {
             id: motorCurrentLimit
             x: 0
-            y: 150
+            y: 50
             enabled: true
             stepSize: 1
             scale: 1
@@ -190,7 +190,7 @@ Item {
         Button {
             id: setMotorLimit
             x: 200
-            y: 150
+            y: 50
             text: qsTr("Set current limit")
             onPressed:
             {
@@ -204,9 +204,9 @@ Item {
         }
         Slider {
             id: brightnessSlider
-            x: 16
-            y: 10
-            width: 200
+            x: 6
+            y: 0
+            width: 180
             height: 48
             orientation: Qt.Horizontal
             stepSize: 1
@@ -215,8 +215,8 @@ Item {
             value: 255
         }
         Button {
-            x: 220
-            y: 10
+            x: 200
+            y: 0
             text: "Set LCD-Brightness"
             onPressed: { process.start("rpi-backlight -b " + brightnessSlider.value + " -s -d 1"); }
         }

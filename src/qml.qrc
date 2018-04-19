@@ -28,5 +28,8 @@
         <file>img/Hans_Gude.png</file>
         <file>ContactPage.qml</file>
         <file>ConversationPage.qml</file>
+        <file>InfoBar.qml</file>
+        <file>img/Maps-Center-Direction-icon.png</file>
+        <file>img/enlarge.png</file>
     </qresource>
 </RCC>

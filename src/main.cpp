@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
     connectToDatabase();
 
     QQmlApplicationEngine engine;
-    ComboBoxModel combo;
 
+    ComboBoxModel combo;
     QStringList tmp;
     foreach(const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts()){
           qDebug() << ( serialPortInfo.portName() + " | " + serialPortInfo.description());

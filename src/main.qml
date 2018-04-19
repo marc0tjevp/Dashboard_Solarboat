@@ -88,38 +88,11 @@ ApplicationWindow {
         Item {
             id: controlTab
 
-            Flickable {
-                id: flickable
-                flickableDirection: Flickable.VerticalFlick
-                width: parent.width;
-                height: parent.height
-                contentWidth: parent.width;
-                contentHeight: 1000;
-                ScrollBar.vertical: ScrollBar { width: 5 }
-
-                //Control {}
-                SystemControl {}
-            }
+            SystemControl {}
         }
 
         Item {
-            id: connectivityTab
-
-            Flickable {
-                flickableDirection: Flickable.VerticalFlick
-                width: parent.width;
-                height: parent.height
-                contentWidth: parent.width;
-                contentHeight: 1000
-                ScrollBar.vertical: ScrollBar { width: 5 }
-
-                Connectivity {}
-            }
-
-        }
-
-        Item {
-            id: energyTab
+            id: detailsTab
 
             Flickable {
                 flickableDirection: Flickable.VerticalFlick
@@ -131,7 +104,7 @@ ApplicationWindow {
                 ScrollBar.vertical: ScrollBar { width: 5 }
 
                 ChartView {
-                    title: "Battery Cell-Voltage"
+                    title: "Battery Cell-Voltage [V]"
                     height: 300
                     x: 0
                     y: 320
@@ -141,8 +114,8 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: batteryAxisY
-                        min: 2500
-                        max: 5000
+                        min: 0
+                        max: 5
                         visible: true
                     }
                     ValueAxis {
@@ -180,14 +153,14 @@ ApplicationWindow {
                 MpptStatus {
                     y: 0
                     name: "MPPT #1"
-                    indicator: statesNames[0]
-                    status: "Not Connected"
+                    indicator: "none"
+                    //status: "Not Connected"
                     voltageInput: Math.round(mppt1.voltageIn * 100)/100
                     currentInput: Math.round(mppt1.currentIn * 100)/100
-                    noCharge: statesNames[1]
-                    batteryNotConnected: statesNames[1]
-                    overVoltage: statesNames[1]
-                    underVoltage: statesNames[1]
+                    noCharge: "none"
+                    batteryNotConnected: "none"
+                    overVoltage: "none"
+                    underVoltage: "none"
                 }
 
                 MpptStatus {
@@ -212,6 +185,22 @@ ApplicationWindow {
         }
 
         Item {
+            id: connectivityTab
+
+            Flickable {
+                flickableDirection: Flickable.VerticalFlick
+                width: parent.width;
+                height: parent.height
+                contentWidth: parent.width;
+                contentHeight: 1000
+                ScrollBar.vertical: ScrollBar { width: 5 }
+
+                Connectivity {}
+            }
+
+        }
+
+        Item {
             id: chatTabs
 
             ChatContainer {}
@@ -233,16 +222,16 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
-            text: qsTr("Control")
-        }
-        TabButton {
-            height: 40
-            text: qsTr("Connectivity")
+            text: qsTr("Settings")
         }
         TabButton {
             height: 40
             width: 100
-            text: qsTr("Energy")
+            text: qsTr("Details")
+        }
+        TabButton {
+            height: 40
+            text: qsTr("Connectivity")
         }
         TabButton {
             height: 40
@@ -318,192 +307,62 @@ ApplicationWindow {
             }
     }
 
-    Button {
+    Image {
         id: fullMap
+        source: "/img/enlarge.png"
+        fillMode: Image.PreserveAspectFit
         x: 751
         y: 432
         width: 50
-        height: 50
-        text: qsTr("<|>")
-        opacity: 0.8
-        checked: false
+        height: 35
+        opacity: 1
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
+        anchors.bottomMargin: 5
         anchors.right: parent.right
-        anchors.rightMargin: 6
-        onPressed:
-        {
-            if(map.state == "small")
-            {
-                map.state = "full"
-            } else {
-                map.state = "small"
+        anchors.rightMargin: 0
+        MouseArea {
+            anchors.fill: parent
+            onClicked:
+                {
+                    if(map.state == "small")
+                    {
+                        map.state = "full"
+                    } else {
+                        map.state = "small"
+                    }
+                }
             }
         }
-    }
-    Button {
+
+    Image {
         id: recenterMap
-        x: 751
-        y: 45
+        source: "img/Maps-Center-Direction-icon.png"
+        fillMode: Image.PreserveAspectFit
+        height: 35
         width: 50
-        height: 50
-        text: qsTr("[+]")
-        opacity: 0.8
-        checkable: true
-        checked: gps.tracking
-        onCheckedChanged:
-        {
-            gps.tracking = recenterMap.checked;
-            if (recenterMap.checked) {
-                map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+        x: 750
+        y: 50
+        opacity: 1
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (gps.tracking)
+                {
+                    gps.tracking = false;
+                    recenterMap.opacity = 0.5;
+                } else {
+                    gps.tracking = true;
+                    recenterMap.opacity = 1;
+                    map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
+                }
             }
         }
     }
 
-    Rectangle {
+    InfoBar {
         id: infoBar
         x: 550
         y: 0
-        width: parent.width * 0.3125
-        height: 40
-        color: "#fafafa"
-        antialiasing: true
-        rotation: 0
-        transformOrigin: Item.Center
-        clip: false
-        anchors.top: parent.top
-        anchors.right: parent.right
-        border.width: 0
-
-        Text {
-            id: fixLabel
-            x: 50
-            y: 27
-            width: 50
-            color: "#a54208"
-            text: qsTr("NO FIX")
-            font.pixelSize: 11
-            horizontalAlignment: Text.AlignHCenter
-        }
-
-        Text {
-            id: clock
-            color: "#000000"
-            text: Qt.formatTime(new Date(), "hh:mm:ss")
-            anchors.top: parent.top
-            anchors.topMargin: 8
-            font.bold: true
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            font.pixelSize: 20
-
-            Timer {
-                id: timer
-                interval: 1000
-                repeat: true
-                running: true
-
-                onTriggered:
-                {
-                    clock.text =  Qt.formatTime(new Date(),"hh:mm:ss")
-                }
-            }
-        }
-
-        Image {
-            id: gpsIcon
-            width: 20
-            height: 20
-            anchors.top: parent.top
-            anchors.topMargin: 3
-            anchors.right: parent.right
-            anchors.rightMargin: 160
-            state: "connected"
-            states:
-            [
-                State {
-                    name: "connected"
-                    PropertyChanges { target: gpsIcon; source: "qrc:///img/gps-icon.png"}
-                },
-                State {
-                    name: "disconnected"
-                    PropertyChanges { target: gpsIcon; source: "qrc:///img/gps-disconnected.png"}
-                }
-            ]
-        }
-
-        Image {
-            id: gsmIcon
-            width: 30
-            height: 24
-            anchors.right: parent.right
-            anchors.rightMargin: 110
-            anchors.top: parent.top
-            anchors.topMargin: 8
-            state: network.mobileSignal
-            states:
-            [
-                State {
-                    name: "5"
-                    PropertyChanges { target: gsmIcon; source: "qrc:///img/signal5.png"}
-                },
-                State {
-                    name: "4"
-                    PropertyChanges { target: gsmIcon; source: "qrc:///img/signal4.png"}
-                },
-                State {
-                    name: "3"
-                    PropertyChanges { target: gsmIcon; source: "qrc:///img/signal3.png"}
-                },
-                State {
-                    name: "2"
-                    PropertyChanges { target: gsmIcon; source: "qrc:///img/signal2.png"}
-                },
-                State {
-                    name: "1"
-                    PropertyChanges { target: gsmIcon; source: "qrc:///img/signal1.png"}
-                },
-                State {
-                    name: "0"
-                    PropertyChanges { target: gsmIcon; source: "qrc:///img/signal0.png"}
-                    PropertyChanges { target: modeIndicator; state: "none" }
-                }
-            ]
-        }
-        Text {
-            id: modeIndicator
-            x: 110
-            y: 7
-            color: "#000000"
-            text: ""
-            font.pixelSize: 11
-            states:
-                [
-                State {
-                    name: "none"
-                    PropertyChanges {
-                        target: modeIndicator; text: ""
-
-                    }
-                },
-                State {
-                    name: "3G"
-                    PropertyChanges {
-                        target: modeIndicator; text: "3G"
-
-                    }
-                },
-                State {
-                    name: "2G"
-                    PropertyChanges {
-                        target: modeIndicator; text: "2G"
-
-                    }
-                }
-            ]
-        }
-
-
     }
 
     InputPanel {

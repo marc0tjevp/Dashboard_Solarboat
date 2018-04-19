@@ -43,4 +43,5 @@ DISTFILES += \
     src/Connectivity.qml \
     src/ChatContainer.qml \
     src/MpptStatus.qml \
-    src/SystemControl.qml
+    src/SystemControl.qml \
+    src/InfoBar.qml

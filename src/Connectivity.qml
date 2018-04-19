@@ -92,7 +92,7 @@ Item {
                     var array = serial.readBytes();
                     var result = "";
                     var beginFound = false;
-                    if (array.length > 0){
+                    if (array.length > 150){
                         network.messages++;
                         jsonMessages.text = "Messages: " + network.messages;
 
@@ -116,23 +116,20 @@ Item {
                         try {
                             var JsonObject= JSON.parse(result);
 
-                            //motor.rpm           = JsonObject.motor.rpm;
-                            //motor.current       = JsonObject.motor.i;
+//                            motor.rpm           = JsonObject.motor.RPM;
+//                            motor.current       = JsonObject.motor.Current;
+//                            motor.tempMTR       = JsonObject.motor.Temp_Motor;
+//                            motor.driveEnable   = JsonObject.motor.Drive_Enable;
+//                            motor.killSwitch    = JsonObject.motor.Drive_Ready;
 
-                            //motor.rpm           = JsonObject.motor.rpm;
-
-                            motor.rpm           = JsonObject.motor.RPM;
-                            motor.current       = JsonObject.motor.Current;
-                            motor.tempMTR       = JsonObject.motor.Temp_Motor;
-                            motor.driveEnable   = JsonObject.motor.Drive_Enable;
-                            motor.killSwitch    = JsonObject.motor.Drive_Ready;
-
-                            gps.longitude       = JsonObject.gps.alt;
+                            gps.longitude       = JsonObject.gps.lat;
                             gps.latitude        = JsonObject.gps.lon;
                             gps.fix             = JsonObject.gps.fix;
                             gps.sats            = JsonObject.gps.sats;
                             gps.course          = JsonObject.gps.course;
                             gps.speed           = JsonObject.gps.speed;
+
+
                             batteryBarSet.values = JsonObject.battery.cells;
 
                             mppt1.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[0];
@@ -186,7 +183,7 @@ Item {
             stepSize: 50
             scale: 0.8
             value: 500
-            to: 500
+            to: 2000
             width: 150
         }
    }
