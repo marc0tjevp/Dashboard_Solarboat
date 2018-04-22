@@ -26,16 +26,6 @@ Rectangle {
     anchors.right: parent.right
     border.width: 0
     
-    Text {
-        id: fixLabel
-        x: 50
-        y: 27
-        width: 50
-        color: "#a54208"
-        text: qsTr("NO FIX")
-        font.pixelSize: 11
-        horizontalAlignment: Text.AlignHCenter
-    }
     
     Text {
         id: clock
@@ -63,106 +53,65 @@ Rectangle {
     
     Image {
         id: gpsIcon
-        width: 20
-        height: 20
+        width: 30
+        height: 30
         anchors.top: parent.top
-        anchors.topMargin: 3
+        anchors.topMargin: 5
         anchors.right: parent.right
-        anchors.rightMargin: 160
-        state: "connected"
+        anchors.rightMargin: 110
+        state: gps.fix ? "nofix" : "fix"
         states:
             [
             State {
-                name: "connected"
+                name: "fix"
                 PropertyChanges { target: gpsIcon; source: "qrc:///img/gps-icon.png"}
             },
             State {
-                name: "disconnected"
+                name: "nofix"
                 PropertyChanges { target: gpsIcon; source: "qrc:///img/gps-disconnected.png"}
             }
         ]
     }
-    
     Image {
-        id: gsmIcon
+        id: networkIcon
         width: 30
-        height: 24
-        anchors.right: parent.right
-        anchors.rightMargin: 110
+        height: 30
         anchors.top: parent.top
-        anchors.topMargin: 8
-        state: network.mobileSignal
+        anchors.topMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 150
+        state: gps.fix ? "nofix" : "fix"
         states:
             [
             State {
-                name: "5"
-                PropertyChanges { target: gsmIcon; source: "qrc:///img/signal5.png"}
+                name: "fix"
+                PropertyChanges { target: networkIcon; source: "qrc:///img/network-icon.png"}
             },
             State {
-                name: "4"
-                PropertyChanges { target: gsmIcon; source: "qrc:///img/signal4.png"}
-            },
-            State {
-                name: "3"
-                PropertyChanges { target: gsmIcon; source: "qrc:///img/signal3.png"}
-            },
-            State {
-                name: "2"
-                PropertyChanges { target: gsmIcon; source: "qrc:///img/signal2.png"}
-            },
-            State {
-                name: "1"
-                PropertyChanges { target: gsmIcon; source: "qrc:///img/signal1.png"}
-            },
-            State {
-                name: "0"
-                PropertyChanges { target: gsmIcon; source: "qrc:///img/signal0.png"}
-                PropertyChanges { target: modeIndicator; state: "none" }
+                name: "nofix"
+                PropertyChanges { target: networkIcon; source: "qrc:///img/network-disconnected.png"}
             }
         ]
     }
-    Text {
-        id: modeIndicator
-        x: 110
-        y: 7
-        color: "#000000"
-        text: ""
-        font.pixelSize: 11
+    Image {
+        id: canbusIcon
+        width: 30
+        height: 30
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 190
+        state: gps.fix ? "nofix" : "fix"
         states:
             [
             State {
-                name: "none"
-                PropertyChanges {
-                    target: modeIndicator; text: ""
-                    
-                }
+                name: "fix"
+                PropertyChanges { target: canbusIcon; source: "qrc:///img/canbus.png"}
             },
             State {
-                name: "3G"
-                PropertyChanges {
-                    target: modeIndicator; text: "3G"
-                    
-                }
-            },
-            State {
-                name: "2G"
-                PropertyChanges {
-                    target: modeIndicator; text: "2G"
-                    
-                }
+                name: "nofix"
+                PropertyChanges { target: canbusIcon; source: "qrc:///img/canbus-disconnected.png"}
             }
         ]
     }
-    
-    Text {
-        id: batteryStatus
-        x: 5
-        y: 8
-        text: "76%"
-        color: "darkgreen"
-        font.bold: true
-        font.pixelSize: 20
-    }
-    
-    
 }

@@ -11,7 +11,7 @@ import QtPositioning 5.6
 import QtCharts 2.2
 import QlChannelSerial 1.0
 import QtGraphicalEffects 1.0
-//import QtWebEngine 1.0
+import QtWebEngine 1.5
 
 Item {
     width: parent.width
@@ -297,12 +297,16 @@ Item {
            y: 10
            font.pixelSize: 12
        }
+
    }
-   /*WebEngineView {
+   WebEngineView {
+       scale: 1
        x: 0
-       y: 480
+       anchors.bottom: parent.bottom
        height: 400
        width: parent.width
        url: "http://192.168.8.1"
-   }*/
+       zoomFactor: 0.75
+   }
+
 }

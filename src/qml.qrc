@@ -4,12 +4,10 @@
         <file>img/gps-icon.png</file>
         <file>img/gsm.png</file>
         <file>img/quit.png</file>
-        <file>img/signal0.png</file>
         <file>img/signal1.png</file>
         <file>img/signal2.png</file>
         <file>img/signal3.png</file>
         <file>img/signal4.png</file>
-        <file>img/signal5.png</file>
         <file>qtquickcontrols2.conf</file>
         <file>main.qml</file>
         <file>Dashboard.qml</file>
@@ -31,5 +29,11 @@
         <file>InfoBar.qml</file>
         <file>img/Maps-Center-Direction-icon.png</file>
         <file>img/enlarge.png</file>
+        <file>img/boat.png</file>
+        <file>ValueSource.qml</file>
+        <file>img/network-disconnected.png</file>
+        <file>img/network-icon.png</file>
+        <file>img/canbus-disconnected.png</file>
+        <file>img/canbus.png</file>
     </qresource>
 </RCC>

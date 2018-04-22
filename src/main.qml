@@ -19,15 +19,19 @@ ApplicationWindow {
     color: "#CCCCCC"
     title: qsTr("Dashboard")
 
+    ValueSource {
+        id: valueSource
+    }
+
     Item {
         id: gps
         property bool   tracking:       true
-        property real   longitude:      53.051307
-        property real   latitude:       5.835714
-        property real   speed:          0
-        property real   fix:            30000
+        property real   longitude:      51.589163
+        property real   latitude:       4.788127
+        property real   speed:          valueSource.kph * 0.3
+        property bool   fix:            false
         property real   sats:           0
-        property real   course:         0
+        property real   course:         valueSource.kph
     }
     Item {
         id: network
@@ -38,7 +42,7 @@ ApplicationWindow {
 
     Item {
         id: motor
-        property real   rpm:            0
+        property real   rpm:            valueSource.rpm * 1000
         property real   current:        0
         property real   tempMTR:        0
         property bool   driveEnable:    false
@@ -65,6 +69,16 @@ ApplicationWindow {
         property real   voltageIn:      0
     }
 
+    Timer {
+        interval: 100
+        repeat: true
+        running: true
+
+        onTriggered:
+        {
+            gps.longitude += 0.00001
+        }
+    }
 
     SwipeView {
         id: swipeView
@@ -80,20 +94,17 @@ ApplicationWindow {
 
         Item {
             id: dashboardTab
-
-                Dashboard {}
+             Dashboard {}
         }
 
 
         Item {
             id: controlTab
-
             SystemControl {}
         }
 
         Item {
             id: detailsTab
-
             Flickable {
                 flickableDirection: Flickable.VerticalFlick
                 width: parent.width;
@@ -114,8 +125,8 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: batteryAxisY
-                        min: 0
-                        max: 5
+                        min: 2.4
+                        max: 4.2
                         visible: true
                     }
                     ValueAxis {
@@ -262,7 +273,7 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.rightMargin: 0
         plugin: mapPlugin
-        center: QtPositioning.coordinate(53.051307, 5.835714)
+        center: QtPositioning.coordinate(51.589163, 4.788127)
         zoomLevel: 19
         state: "small"
         states: [
@@ -282,6 +293,7 @@ ApplicationWindow {
                 }
         MapCircle {
                 id: boatCircle
+                antialiasing: true
                 center: QtPositioning.coordinate(gps.longitude, gps.latitude)
                 onCenterChanged: {
                     if (gps.tracking) {
@@ -289,11 +301,25 @@ ApplicationWindow {
                     }
                 }
 
-                radius: 5.0
+                radius: 1.0
                 color: 'red'
                 opacity: 0.8
                 border.width: 1
             }
+        MapQuickItem {
+          id: marker
+          coordinate: QtPositioning.coordinate(gps.longitude, gps.latitude)
+          anchorPoint.x: image.width * 0.5
+          anchorPoint.y: image.height * 0.5
+
+          sourceItem: Image {
+             id: image
+             width: 35
+             fillMode: Image.PreserveAspectFit
+             source: "/img/boat.png"
+          }
+
+        }
         MapPolyline {
                 line.width: 5
                 opacity: 0.5

@@ -24,68 +24,7 @@ Item {
         width: parent.width/2 - 15
         radius: 5
 
-        SpinBox {
-            id: signalStrength
-            x: 10
-            y: 10
-            width: 150
-            value: network.mobileSignal
-            to: 5
-            onValueChanged:
-            {
-                gsmIcon.state = signalStrength.value
-                if (signalStrength.value == 0)
-                {
-                    modeIndicator.visible = false
-                } else {
-                    modeIndicator.visible = true
-                }
-            }
-        }
-        Label {
-            id: label2
-            x: 175
-            y: 20
-            text: qsTr("Signal")
-        }
 
-        Switch {
-            id: gpsSwitch
-            x: 5
-            y: 50
-            text: qsTr("GPS")
-            checked: (gps.fix < 5000 ? true : false)
-            onCheckedChanged:
-            {
-                if(gpsSwitch.checked)
-                {
-                    fixLabel.text = "GPS FIX"
-                    fixLabel.color = "#2eaa0c"
-                    gpsIcon.state = "connected"
-                } else {
-                    fixLabel.text = "NO FIX"
-                    fixLabel.color = "#a54208"
-                    gpsIcon.state = "disconnected"
-                }
-            }
-        }
-
-        Switch {
-            id: gsmModeSwitch
-            checked: true
-            x: 100
-            y: 50
-            text: qsTr("3G ONLY")
-            onCheckedChanged:
-            {
-                if(gsmModeSwitch.checked)
-                {
-                    modeIndicator.text = "3G"
-                } else {
-                    modeIndicator.text = "2G"
-                }
-            }
-        }
     }
 
     Rectangle {
@@ -118,27 +57,27 @@ Item {
             text: qsTr("Zoom level")
             font.pixelSize: 12
         }
-        Slider {
-            id: bearingSlider
-            x: 10
-            y: 100
-            width: 125
-            height: 48
-            orientation: Qt.Horizontal
-            stepSize: 1
-            to: 360
-            value: map.bearing
-            onValueChanged:
-            {
-                map.bearing = bearingSlider.value;
-            }
-        }
-        Label {
-            id: label1
-            x: 10
-            y: 80
-            text: qsTr("Bearing")
-        }
+//        Slider {
+//            id: bearingSlider
+//            x: 10
+//            y: 100
+//            width: 125
+//            height: 48
+//            orientation: Qt.Horizontal
+//            stepSize: 1
+//            to: 360
+//            value: map.bearing
+//            onValueChanged:
+//            {
+//                map.bearing = bearingSlider.value;
+//            }
+//        }
+//        Label {
+//            id: label1
+//            x: 10
+//            y: 80
+//            text: qsTr("Bearing")
+//        }
 
     }
 
