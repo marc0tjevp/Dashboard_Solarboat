@@ -24,6 +24,19 @@ Item {
         width: parent.width/2 - 15
         radius: 5
 
+        Switch {
+            y: 0
+            onCheckedChanged: network.canbus = !network.canbus
+        }
+        Switch {
+            y: 40
+            onCheckedChanged: network.internet = !network.internet
+        }
+        Switch {
+            y: 80
+            onCheckedChanged: gps.fix = !gps.fix
+        }
+
 
     }
 

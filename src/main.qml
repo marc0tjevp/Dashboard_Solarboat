@@ -26,57 +26,99 @@ ApplicationWindow {
     Item {
         id: gps
         property bool   tracking:       true
+        property bool   fix:            false
         property real   longitude:      51.589163
         property real   latitude:       4.788127
         property real   speed:          valueSource.kph * 0.3
-        property bool   fix:            false
         property real   sats:           0
         property real   course:         valueSource.kph
+        property real   hdop:           0
     }
     Item {
         id: network
-        property int    mobileSignal:   0
-        property int    messages:       0
-        property int    errors:         0
+        property real   messages:       0
+        property real   errors:         0
+        property bool   canbus:         false
+        property bool   internet:       true
     }
 
     Item {
         id: motor
-        property real   rpm:            valueSource.rpm * 1000
-        property real   current:        0
-        property real   tempMTR:        0
-        property bool   driveEnable:    false
+        property real   rpm:            valueSource.rpm * 500
+        property real   voltage:        48
+        property real   current:        valueSource.rpm * 1.5
+        property real   power:          Math.round(motor.voltage * motor.current)
+        property real   temp:           39
+        property bool   driveReady:     true
         property bool   killSwitch:     false
     }
     Item {
         id: mppt1
         property real   currentIn:      0
         property real   voltageIn:      0
+        property real   temp:           0
+        property bool   bnc:            false
+        property bool   undv:           false
+        property bool   ovt:            false
+        property bool   noc:            false
     }
     Item {
         id: mppt2
         property real   currentIn:      0
         property real   voltageIn:      0
+        property real   temp:           0
+        property bool   bnc:            false
+        property bool   undv:           false
+        property bool   ovt:            false
+        property bool   noc:            false
     }
     Item {
         id: mppt3
         property real   currentIn:      0
         property real   voltageIn:      0
+        property real   temp:           0
+        property bool   bnc:            false
+        property bool   undv:           false
+        property bool   ovt:            false
+        property bool   noc:            false
     }
     Item {
         id: mppt4
         property real   currentIn:      0
         property real   voltageIn:      0
+        property real   temp:           0
+        property bool   bnc:            false
+        property bool   undv:           false
+        property bool   ovt:            false
+        property bool   noc:            false
+    }
+    Item {
+        id: battery
+        property real   packVoltage:    0
+        property real   packCurrent:    0
+        property real   packAmphours:   0
+        property real   packHighTemp:   0
+        property real   packSOC:        0
+        property real   packHealth:     0
+        property real   highVoltage:    0
+        property real   avgVoltage:     0
+        property real   lowVoltage:     0
+        property real   cellVoltages:   0
+        property real   bmsStatus:      0
+        property real   relaisStatus:   0
+        property real   errorCodes:     0
     }
 
     Timer {
-        interval: 100
+        interval: 1000
         repeat: true
         running: true
 
         onTriggered:
         {
-            gps.longitude += 0.00001
+
+
+            gps.longitude += 0.00005
         }
     }
 
@@ -254,9 +296,11 @@ ApplicationWindow {
     Plugin {
         id: mapPlugin
         name: "osm"
-        PluginParameter {
-            name: "osm.mapping.highdpi_tiles"; value: "true"
-        }
+        PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
+//        PluginParameter { name: "osm.geocoding.host"; value: "https://nominatim.openstreetmap.org" }
+//        PluginParameter { name: "osm.routing.host"; value: "https://router.project-osrm.org/viaroute" }
+//        PluginParameter { name: "osm.places.host"; value: "https://nominatim.openstreetmap.org/search" }
+        PluginParameter { name: "osm.mapping.highdpi_tiles"; value: false }
     }
 
     Map {
@@ -266,7 +310,7 @@ ApplicationWindow {
         height: parent.height + 200
         antialiasing: false
         tilt: 0
-        bearing: gps.course
+        bearing: gps.tracking ? gps.course : 0
         copyrightsVisible: false
         anchors.top: parent.top
         anchors.topMargin: 40
@@ -311,10 +355,11 @@ ApplicationWindow {
           coordinate: QtPositioning.coordinate(gps.longitude, gps.latitude)
           anchorPoint.x: image.width * 0.5
           anchorPoint.y: image.height * 0.5
+          rotation: gps.tracking ? 0 : gps.course
 
           sourceItem: Image {
              id: image
-             width: 35
+             width: 20
              fillMode: Image.PreserveAspectFit
              source: "/img/boat.png"
           }

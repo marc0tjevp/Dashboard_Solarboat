@@ -59,15 +59,15 @@ Rectangle {
         anchors.topMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 110
-        state: gps.fix ? "nofix" : "fix"
+        state: gps.fix ? "on" : "off"
         states:
             [
             State {
-                name: "fix"
+                name: "on"
                 PropertyChanges { target: gpsIcon; source: "qrc:///img/gps-icon.png"}
             },
             State {
-                name: "nofix"
+                name: "off"
                 PropertyChanges { target: gpsIcon; source: "qrc:///img/gps-disconnected.png"}
             }
         ]
@@ -80,15 +80,15 @@ Rectangle {
         anchors.topMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 150
-        state: gps.fix ? "nofix" : "fix"
+        state: network.internet ? "on" : "off"
         states:
             [
             State {
-                name: "fix"
+                name: "on"
                 PropertyChanges { target: networkIcon; source: "qrc:///img/network-icon.png"}
             },
             State {
-                name: "nofix"
+                name: "off"
                 PropertyChanges { target: networkIcon; source: "qrc:///img/network-disconnected.png"}
             }
         ]
@@ -101,15 +101,15 @@ Rectangle {
         anchors.topMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 190
-        state: gps.fix ? "nofix" : "fix"
+        state: network.canbus ? "on" : "off"
         states:
             [
             State {
-                name: "fix"
+                name: "on"
                 PropertyChanges { target: canbusIcon; source: "qrc:///img/canbus.png"}
             },
             State {
-                name: "nofix"
+                name: "off"
                 PropertyChanges { target: canbusIcon; source: "qrc:///img/canbus-disconnected.png"}
             }
         ]

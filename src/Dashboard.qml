@@ -42,6 +42,17 @@ Item {
             y: 10
             text: "Km/h"
         }
+
+        Text {
+            id: revsMotor
+            text: Math.round(motor.rpm) + " RPM"
+            x: 10
+            y: 10
+            font.pixelSize: 18
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            horizontalAlignment: Text.AlignRight
+        }
     }
 
     Rectangle {
@@ -50,17 +61,6 @@ Item {
         height: 120
         width: 320
         radius: 5
-
-        Text {
-            id: revsMotor
-            text: Math.round(motor.rpm) + " RPM"
-            x: 10
-            y: 10
-            font.pixelSize: 20
-            anchors.right: parent.right
-            anchors.rightMargin: 210
-            horizontalAlignment: Text.AlignRight
-        }
 
         ChartView {
             legend.visible: false
@@ -87,13 +87,13 @@ Item {
             HorizontalPercentBarSeries {
                 axisX: axisX
                 axisY: axisY
-                BarSet { id: motorBar; label: "Motor"; values: [valueSource.rpm]; color: "#278e89" }
-                BarSet { id: solarBar; label: "Solar"; values: [2]; color: "#54c44a" }
+                BarSet { id: motorBar; label: "Motor"; values: [motor.power]; color: "#278e89" }
+                BarSet { id: solarBar; label: "Solar"; values: [160]; color: "#54c44a" }
 //                BarSet { label: "James"; values: [100] }
             }
         }
         Text {
-            text: Math.round(valueSource.rpm * 80) + "W \nMotor"
+            text: Math.round(motor.power) + "W \nMotor"
             x: 15
             y: 85
             font.bold: true
@@ -152,7 +152,7 @@ Item {
         Text {
             x: 150
             y: 50
-            text: motor.tempMTR + " C"
+            text: motor.temp + " C"
             font.pixelSize: 12
         }
         Text {
@@ -166,7 +166,7 @@ Item {
             y: 80
             active: true
             height: 15
-            color: motor.driveEnable ? "green" : "red"
+            color: motor.driveReady ? "green" : "red"
         }
         Text {
             x: 10

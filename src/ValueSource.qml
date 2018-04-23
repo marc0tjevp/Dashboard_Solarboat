@@ -53,7 +53,7 @@ import QtQuick 2.2
 Item {
     id: valueSource
     property real kph: 0
-    property real rpm: 1
+    property real rpm: 0
     property real fuel: 0.85
     property string gear: {
         var g;
@@ -115,7 +115,7 @@ Item {
                     target: valueSource
                     property: "rpm"
                     easing.type: Easing.InOutSine
-                    from: 1
+                    from: 0
                     to: 6.1
                     duration: 3000
                 }
@@ -309,7 +309,7 @@ Item {
                 NumberAnimation {
                     target: valueSource
                     property: "kph"
-                    easing.type: Easing.InOutcontrolSine
+                    easing.type: Easing.InOutSine
                     to: 0
                     duration: 5000
                 }
@@ -317,7 +317,7 @@ Item {
                     target: valueSource
                     property: "rpm"
                     easing.type: Easing.InOutSine
-                    to: 1
+                    to: 0
                     duration: 4500
                 }
             }
