@@ -58,11 +58,10 @@ Item {
                         serial.paramSet('bits', '8');
                         serial.paramSet('parity', 'no');
                         serial.paramSet('stops', '1');
-                        serial.paramSet('dtr', '0');
-                        serial.paramSet('rts', '0');
                     }
                     timer1.start();
                 } else {
+                    network.canbus = false;
                     connectSerial.text = "Connect";
                     serial.close(serial.channels()[comboBox13.currentIndex]);
                     serialOutput.text = "";
@@ -115,19 +114,23 @@ Item {
                         // JSON parser
                         try {
                             var JsonObject= JSON.parse(result);
+                            jsonLength.text =   "Serial Bytes: " + result.length;
 
-//                            motor.rpm           = JsonObject.motor.RPM;
-//                            motor.current       = JsonObject.motor.Current;
-//                            motor.tempMTR       = JsonObject.motor.Temp_Motor;
-//                            motor.driveEnable   = JsonObject.motor.Drive_Enable;
-//                            motor.killSwitch    = JsonObject.motor.Drive_Ready;
+                            motor.rpm           = JsonObject.motor.RPM;
+                            motor.voltage       = JsonObject.motor.Battery_Voltage;
+                            motor.current       = JsonObject.motor.Current;
+                            motor.temp          = JsonObject.motor.Temp_Motor;
+                            motor.driveReady    = JsonObject.motor.Drive_Ready;
+                            motor.driveEnabled  = JsonObject.motor.Drive_Enable;
+                            motor.killSwitch    = JsonObject.motor.Killswitch_Error;
 
-                            gps.longitude       = JsonObject.gps.lat;
+                            gps.longitude       = JsonObject.gps.alt;
                             gps.latitude        = JsonObject.gps.lon;
                             gps.fix             = JsonObject.gps.fix;
                             gps.sats            = JsonObject.gps.sats;
                             gps.course          = JsonObject.gps.course;
                             gps.speed           = JsonObject.gps.speed;
+                            gps.hdop            = JsonObject.gps.hdop;
 
 
                             batteryBarSet.values = JsonObject.battery.cells;
@@ -142,8 +145,10 @@ Item {
                             mppt3.currentIn     = JsonObject.MPPT.MPPT_Current[2];
                             mppt4.currentIn     = JsonObject.MPPT.MPPT_Current[3];
 
+                            network.canbus = true;
 
                         } catch(e) {
+                            network.canbus = false;
                             network.errors++;
                             jsonLength.text =   "Serial Bytes: " + array.length;
                             jsonMessages.text = "Messages: " + network.messages;
@@ -188,117 +193,6 @@ Item {
         }
    }
 
-   Rectangle {
-       x: 10
-       y: 220
-       width: parent.width - 20
-       height: 200
-       radius: 5
-       color: "white"
-
-       Button {
-           x: 400
-           y: 10
-           text: "Get XML"
-           onPressed: {
-               getXML("http://192.168.8.1/api/monitoring/traffic-statistics");
-
-               function getXML(url) {
-                   var client = new XMLHttpRequest();
-                   client.onreadystatechange = function() {
-                       if (client.readyState === XMLHttpRequest.DONE) {
-                           //console.info(client.responseText);
-                           xmlOutput.text = client.responseText;
-                       }
-                   }
-
-                   client.open("GET", url);
-                   client.send();
-               }
-           }
-       }
-       Button {
-           x: 400
-           y: 110
-           text: "Get XML"
-           onPressed: {
-               getXML("http://192.168.8.1/api/monitoring/status");
-
-               function getXML(url) {
-                   var client = new XMLHttpRequest();
-                   client.onreadystatechange = function() {
-                       if (client.readyState === XMLHttpRequest.DONE) {
-                           //console.info(client.responseText);
-                           xmlOutput.text = client.responseText;
-                       }
-                   }
-
-                   client.open("GET", url);
-                   client.send();
-               }
-           }
-       }
-       Button {
-           id: mobileSwitch
-           x: 400
-           y: 60
-           text: "Switch"
-           checkable: true
-           onCheckedChanged: {
-               //getToken("http://hi.link/api/webserver/token");
-               //getToken("http://192.168.8.1/api/monitoring/traffic-statistics");
-               getToken("test.xml");
-
-
-               function getToken(url) {
-                   var request = new XMLHttpRequest();
-                   request.open("GET", url);
-                   request.send();
-                   request.onreadystatechange = function() {
-                       if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-                           console.info(request.getAllResponseHeaders());
-
-                       } else if (request.readyState === XMLHttpRequest.DONE) {
-                           xmlOutput.text = request.responseText;
-                           console.debug(JSON.stringify(request));
-                           mobile.token = request.responseXML.documentElement.childNodes[1].firstChild.nodeValue;
-                           console.debug(mobile.token);
-                       }
-                   }
-               }
-
-               var xhr = new XMLHttpRequest();
-               xhr.open("POST", 'http://192.168.8.1/api/dialup/mobile-dataswitch');
-
-               //Send the proper header information along with the request
-               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.setRequestHeader("Referer", "http://192.168.8.1/html/home.html");
-               xhr.setRequestHeader("__RequestVerificationToken", mobile.token);
-               xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-               xhr.onreadystatechange = function() {//Call a function when the state changes.
-                   if(xhr.readyState === XMLHttpRequest.DONE && xhr.status == 200) {
-                       // Request finished. Do processing here.
-                   }
-               }
-               if (mobileSwitch.checked)
-               {
-                   xhr.send('<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>1</dataswitch></request>');
-               } else {
-                   xhr.send('<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>0</dataswitch></request>');
-               }
-
-
-           }
-       }
-       Text {
-           id: xmlOutput
-           x: 10
-           y: 10
-           font.pixelSize: 12
-       }
-
-   }
    WebEngineView {
        scale: 1
        x: 0

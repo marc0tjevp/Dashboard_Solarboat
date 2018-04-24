@@ -19,19 +19,15 @@ ApplicationWindow {
     color: "#CCCCCC"
     title: qsTr("Dashboard")
 
-    ValueSource {
-        id: valueSource
-    }
-
     Item {
         id: gps
         property bool   tracking:       true
         property bool   fix:            false
         property real   longitude:      51.589163
         property real   latitude:       4.788127
-        property real   speed:          valueSource.kph * 0.3
+        property real   speed:          0
         property real   sats:           0
-        property real   course:         valueSource.kph
+        property real   course:         0
         property real   hdop:           0
     }
     Item {
@@ -39,58 +35,59 @@ ApplicationWindow {
         property real   messages:       0
         property real   errors:         0
         property bool   canbus:         false
-        property bool   internet:       true
+        property bool   internet:       false
     }
 
     Item {
         id: motor
-        property real   rpm:            valueSource.rpm * 500
-        property real   voltage:        48
-        property real   current:        valueSource.rpm * 1.5
+        property real   rpm:            0
+        property real   voltage:        0
+        property real   current:        0
         property real   power:          Math.round(motor.voltage * motor.current)
-        property real   temp:           39
-        property bool   driveReady:     true
-        property bool   killSwitch:     false
+        property real   temp:           0
+        property real   driveReady:     0
+        property real   driveEnabled:   0
+        property real   killSwitch:     0
     }
     Item {
         id: mppt1
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property bool   bnc:            false
-        property bool   undv:           false
-        property bool   ovt:            false
-        property bool   noc:            false
+        property real   bnc:            0
+        property real   undv:           0
+        property real   ovt:            0
+        property real   noc:            0
     }
     Item {
         id: mppt2
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property bool   bnc:            false
-        property bool   undv:           false
-        property bool   ovt:            false
-        property bool   noc:            false
+        property real   bnc:            0
+        property real   undv:           0
+        property real   ovt:            0
+        property real   noc:            0
     }
     Item {
         id: mppt3
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property bool   bnc:            false
-        property bool   undv:           false
-        property bool   ovt:            false
-        property bool   noc:            false
+        property real   bnc:            0
+        property real   undv:           0
+        property real   ovt:            0
+        property real   noc:            0
     }
     Item {
         id: mppt4
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property bool   bnc:            false
-        property bool   undv:           false
-        property bool   ovt:            false
-        property bool   noc:            false
+        property real   bnc:            0
+        property real   undv:           0
+        property real   ovt:            0
+        property real   noc:            0
     }
     Item {
         id: battery
@@ -107,19 +104,6 @@ ApplicationWindow {
         property real   bmsStatus:      0
         property real   relaisStatus:   0
         property real   errorCodes:     0
-    }
-
-    Timer {
-        interval: 1000
-        repeat: true
-        running: true
-
-        onTriggered:
-        {
-
-
-            gps.longitude += 0.00005
-        }
     }
 
     SwipeView {
@@ -167,8 +151,8 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: batteryAxisY
-                        min: 2.4
-                        max: 4.2
+                        min: 0
+                        max: 5000
                         visible: true
                     }
                     ValueAxis {
@@ -296,11 +280,11 @@ ApplicationWindow {
     Plugin {
         id: mapPlugin
         name: "osm"
-        PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
+//        PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
 //        PluginParameter { name: "osm.geocoding.host"; value: "https://nominatim.openstreetmap.org" }
 //        PluginParameter { name: "osm.routing.host"; value: "https://router.project-osrm.org/viaroute" }
 //        PluginParameter { name: "osm.places.host"; value: "https://nominatim.openstreetmap.org/search" }
-        PluginParameter { name: "osm.mapping.highdpi_tiles"; value: false }
+        PluginParameter { name: "osm.mapping.highdpi_tiles"; value: true }
     }
 
     Map {

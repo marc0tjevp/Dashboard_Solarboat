@@ -168,6 +168,13 @@ Item {
             height: 15
             color: motor.driveReady ? "green" : "red"
         }
+        StatusIndicator {
+            x: 140
+            y: 160
+            active: true
+            height: 15
+            color: motor.driveEnabled ? "green" : "red"
+        }
         Text {
             x: 10
             y: 110
@@ -180,6 +187,75 @@ Item {
             active: true
             height: 15
             color: motor.killSwitch ? "green" : "red"
+        }
+//                                tracking:       true
+//                property bool   fix:            false
+//                property real   longitude:      51.589163
+//                property real   latitude:       4.788127
+//                property real   speed:          valueSource.kph * 0.3
+//                property real   sats:           0
+//                property real   course:         valueSource.kph
+//                property real   hdop:           0
+        Text {
+            x: 300
+            y: 10
+            text: "Latitude:"
+        }
+        Text {
+            x: 300
+            y: 50
+            text: "Longitude:"
+        }
+        Text {
+            x: 300
+            y: 90
+            text: "Speed:"
+        }
+        Text {
+            x: 300
+            y: 130
+            text: "Sats:"
+        }
+        Text {
+            x: 300
+            y: 170
+            text: "Course:"
+        }
+        Text {
+            x: 300
+            y: 210
+            text: "HDOP:"
+        }
+
+        Text {
+            x: 400
+            y: 10
+            text: gps.latitude
+        }
+        Text {
+            x: 400
+            y: 50
+            text: gps.longitude
+        }
+        Text {
+            x: 400
+            y: 90
+            text: gps.speed + " Km/h"
+        }
+        Text {
+            x: 400
+            y: 130
+            text: gps.sats
+        }
+        Text {
+            x: 400
+            y: 170
+            text: gps.course + " deg"
+        }
+        Text {
+            x: 400
+            y: 210
+            text: gps.hdop
         }
     }
 }
