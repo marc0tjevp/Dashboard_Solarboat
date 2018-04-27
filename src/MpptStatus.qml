@@ -22,7 +22,7 @@ Item {
     property alias voltageInput: mpptVoltageIn.text
     property alias currentInput: mpptCurrentIn.text
     property alias noCharge: mpptNOC.state
-    property alias batteryNotConnected: mpptBNC.state
+    property alias batteryVoltageLevelReached: mpptBNC.state
     property alias overVoltage: mpptOVT.state
     property alias underVoltage: mpptUNDV.state
 
@@ -122,9 +122,9 @@ Item {
                 ]
             Text {
                 anchors.centerIn: parent
-                text: qsTr("BNC");
+                text: qsTr("BLVR");
                 color: "white"
-                font.pixelSize: 14
+                font.pixelSize: 12
             }
         }
         Rectangle {

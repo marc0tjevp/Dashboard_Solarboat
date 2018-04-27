@@ -116,15 +116,7 @@ Item {
                             var JsonObject= JSON.parse(result);
                             jsonLength.text =   "Serial Bytes: " + result.length;
 
-                            motor.rpm           = JsonObject.motor.RPM;
-                            motor.voltage       = JsonObject.motor.Battery_Voltage;
-                            motor.current       = JsonObject.motor.Current;
-                            motor.temp          = JsonObject.motor.Temp_Motor;
-                            motor.driveReady    = JsonObject.motor.Drive_Ready;
-                            motor.driveEnabled  = JsonObject.motor.Drive_Enable;
-                            motor.killSwitch    = JsonObject.motor.Killswitch_Error;
-
-                            gps.longitude       = JsonObject.gps.alt;
+                            gps.longitude       = JsonObject.gps.lat;
                             gps.latitude        = JsonObject.gps.lon;
                             gps.fix             = JsonObject.gps.fix;
                             gps.sats            = JsonObject.gps.sats;
@@ -132,18 +124,45 @@ Item {
                             gps.speed           = JsonObject.gps.speed;
                             gps.hdop            = JsonObject.gps.hdop;
 
+                            motor.rpm           = JsonObject.Motor.RPM;
+                            motor.voltage       = JsonObject.Motor.Bat;
+                            motor.current       = JsonObject.Motor.I;
+                            motor.temp          = JsonObject.Motor.T_Motor;
+                            motor.driveReady    = JsonObject.Motor.Ready;
+                            motor.driveEnabled  = JsonObject.Motor.Enable;
+                            motor.killSwitch    = JsonObject.Motor.Kill;
 
-                            batteryBarSet.values = JsonObject.battery.cells;
+                            mppt1.voltageIn     = JsonObject.MPPT.Vin[0];
+                            mppt2.voltageIn     = JsonObject.MPPT.Vin[1];
+                            mppt3.voltageIn     = JsonObject.MPPT.Vin[2];
+                            mppt4.voltageIn     = JsonObject.MPPT.Vin[3];
 
-                            mppt1.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[0];
-                            mppt2.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[1];
-                            mppt3.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[2];
-                            mppt4.voltageIn     = JsonObject.MPPT.MPPT_VoltageIn[3];
+                            mppt1.currentIn     = JsonObject.MPPT.I[0];
+                            mppt2.currentIn     = JsonObject.MPPT.I[1];
+                            mppt3.currentIn     = JsonObject.MPPT.I[2];
+                            mppt4.currentIn     = JsonObject.MPPT.I[3];
 
-                            mppt1.currentIn     = JsonObject.MPPT.MPPT_Current[0];
-                            mppt2.currentIn     = JsonObject.MPPT.MPPT_Current[1];
-                            mppt3.currentIn     = JsonObject.MPPT.MPPT_Current[2];
-                            mppt4.currentIn     = JsonObject.MPPT.MPPT_Current[3];
+                            mppt1.bvlr          = JsonObject.MPPT.BVLR[0];
+                            mppt2.bvlr          = JsonObject.MPPT.BVLR[1];
+                            mppt3.bvlr          = JsonObject.MPPT.BVLR[2];
+                            mppt4.bvlr          = JsonObject.MPPT.BVLR[3];
+
+                            mppt1.ovt           = JsonObject.MPPT.OVT[0];
+                            mppt2.ovt           = JsonObject.MPPT.OVT[1];
+                            mppt3.ovt           = JsonObject.MPPT.OVT[2];
+                            mppt4.ovt           = JsonObject.MPPT.OVT[3];
+
+                            mppt1.noc           = JsonObject.MPPT.NOC[0];
+                            mppt2.noc           = JsonObject.MPPT.NOC[1];
+                            mppt3.noc           = JsonObject.MPPT.NOC[2];
+                            mppt4.noc           = JsonObject.MPPT.NOC[3];
+
+                            mppt1.undv          = JsonObject.MPPT.UNDV[0];
+                            mppt2.undv          = JsonObject.MPPT.UNDV[1];
+                            mppt3.undv          = JsonObject.MPPT.UNDV[2];
+                            mppt4.undv          = JsonObject.MPPT.UNDV[3];
+
+                            batteryBarSet.values = JsonObject.bms.cells;
 
                             network.canbus = true;
 

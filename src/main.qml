@@ -54,7 +54,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bnc:            0
+        property real   bvlr:           0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -64,7 +64,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bnc:            0
+        property real   bvlr:            0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -74,7 +74,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bnc:            0
+        property real   bvlr:            0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -84,7 +84,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bnc:            0
+        property real   bvlr:            0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -151,8 +151,8 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: batteryAxisY
-                        min: 0
-                        max: 5000
+                        min: 2.0
+                        max: 4.5
                         visible: true
                     }
                     ValueAxis {
@@ -170,8 +170,13 @@ ApplicationWindow {
                     }
                     LineSeries {
                         axisX : batteryNorm
-                        XYPoint { x: 0; y: 3.65 }
-                        XYPoint { x: 1; y: 3.65 }
+                        XYPoint { x: 0; y: 4.2 }
+                        XYPoint { x: 1; y: 4.2 }
+                    }
+                    LineSeries {
+                        axisX : batteryNorm
+                        XYPoint { x: 0; y: 2.7 }
+                        XYPoint { x: 1; y: 2.7 }
                     }
                 }
                 Rectangle {
@@ -191,13 +196,13 @@ ApplicationWindow {
                     y: 0
                     name: "MPPT #1"
                     indicator: "none"
-                    //status: "Not Connected"
                     voltageInput: Math.round(mppt1.voltageIn * 100)/100
                     currentInput: Math.round(mppt1.currentIn * 100)/100
-                    noCharge: "none"
-                    batteryNotConnected: "none"
-                    overVoltage: "none"
-                    underVoltage: "none"
+                    status: mppt1.temp
+                    noCharge: mppt1.noc
+                    batteryVoltageLevelReached: mppt1.bvlr
+                    overVoltage: mppt1.ovt
+                    underVoltage: mppt1.undv
                 }
 
                 MpptStatus {
@@ -205,18 +210,33 @@ ApplicationWindow {
                     name: "MPPT #2"
                     voltageInput: Math.round(mppt2.voltageIn * 100)/100
                     currentInput: Math.round(mppt2.currentIn * 100)/100
+                    status: mppt2.temp
+                    noCharge: mppt2.noc
+                    batteryVoltageLevelReached: mppt2.bvlr
+                    overVoltage: mppt2.ovt
+                    underVoltage: mppt2.undv
                 }
                 MpptStatus {
                     y: 160
                     name: "MPPT #3"
                     voltageInput: Math.round(mppt3.voltageIn * 100)/100
                     currentInput: Math.round(mppt3.currentIn * 100)/100
+                    status: mppt3.temp
+                    noCharge: mppt3.noc
+                    batteryVoltageLevelReached: mppt3.bvlr
+                    overVoltage: mppt3.ovt
+                    underVoltage: mppt3.undv
                 }
                 MpptStatus {
                     y: 240
                     name: "MPPT #4"
                     voltageInput: Math.round(mppt4.voltageIn * 100)/100
                     currentInput: Math.round(mppt4.currentIn * 100)/100
+                    status: mppt4.temp
+                    noCharge: mppt4.noc
+                    batteryVoltageLevelReached: mppt4.bvlr
+                    overVoltage: mppt4.ovt
+                    underVoltage: mppt4.undv
                 }
             }
         }
