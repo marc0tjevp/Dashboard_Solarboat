@@ -151,7 +151,7 @@ ApplicationWindow {
 
                     ValueAxis {
                         id: batteryAxisY
-                        min: 2.0
+                        min: 2.5
                         max: 4.5
                         visible: true
                     }
@@ -184,12 +184,21 @@ ApplicationWindow {
                     x: 9
                     height: 100
                     width: 532
+                    radius: 5
 
-                    Text {
-                        id: batterySOC
-                        x: 5
-                        text: qsTr("State of Charge: 83%")
+                    ColumnLayout{
+                        spacing: 2
+
+                        Text {
+                            id: batterySOC
+                            text: qsTr("State of Charge: 83%")
+                        }
+                        Text {
+                            text: "Pack "
+                        }
                     }
+
+
                 }
 
                 MpptStatus {

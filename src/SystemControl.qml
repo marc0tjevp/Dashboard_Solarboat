@@ -28,13 +28,30 @@ Item {
             y: 0
             onCheckedChanged: network.canbus = !network.canbus
         }
+        Text {
+            y: 15
+            x: 60
+            text: "CANBUS"
+        }
+
         Switch {
             y: 40
             onCheckedChanged: network.internet = !network.internet
         }
+        Text {
+            y: 55
+            x: 60
+            text: "Internet"
+        }
+
         Switch {
             y: 80
             onCheckedChanged: gps.fix = !gps.fix
+        }
+        Text {
+            y: 95
+            x: 60
+            text: "GSP"
         }
 
 
@@ -70,27 +87,6 @@ Item {
             text: qsTr("Zoom level")
             font.pixelSize: 12
         }
-//        Slider {
-//            id: bearingSlider
-//            x: 10
-//            y: 100
-//            width: 125
-//            height: 48
-//            orientation: Qt.Horizontal
-//            stepSize: 1
-//            to: 360
-//            value: map.bearing
-//            onValueChanged:
-//            {
-//                map.bearing = bearingSlider.value;
-//            }
-//        }
-//        Label {
-//            id: label1
-//            x: 10
-//            y: 80
-//            text: qsTr("Bearing")
-//        }
 
     }
 
@@ -102,63 +98,15 @@ Item {
         width: parent.width - 20
         radius: 5
 
-        SpinBox {
-            id: handleLimit
-            x: 0
-            y: 100
-            enabled: true
-            stepSize: 500
-            scale: 1
-            value: 1500
-            to: 4000
-            textFromValue: function(value, locale) {
-                                       return (qsTr("%1 RPM")).arg(value);
-                              }
-        }
-
-        Button {
-            id: setHandleSpeed
-            x: 200
-            y: 100
-            text: qsTr("Set handle limits")
-            onPressed:
-            {
-                console.info("[INFO] Handle limit set to: " + handleLimit.value + " RPM");
-            }
-        }
-
-        SpinBox {
-            id: motorCurrentLimit
-            x: 0
-            y: 50
-            enabled: true
-            stepSize: 1
-            scale: 1
-            value: 6
-            to: 20
-            textFromValue: function(value, locale) {return (value === 1 ? qsTr("%1 Amp") : qsTr("%1 Amps")).arg(value);}
-        }
-
-        Button {
-            id: setMotorLimit
-            x: 200
-            y: 50
-            text: qsTr("Set current limit")
-            onPressed:
-            {
-                console.info("[INFO] Motor current limit set to: " + motorCurrentLimit.value + " Amps");
-            }
-        }
-
         Process {
             id: process
             onReadyRead: console.debug(readAll());
         }
         Slider {
             id: brightnessSlider
-            x: 6
-            y: 0
-            width: 180
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: setBrightness.left
             height: 48
             orientation: Qt.Horizontal
             stepSize: 1
@@ -167,8 +115,10 @@ Item {
             value: 255
         }
         Button {
-            x: 200
-            y: 0
+            id: setBrightness
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            anchors.top: parent.top
             text: "Set LCD-Brightness"
             onPressed: { process.start("rpi-backlight -b " + brightnessSlider.value + " -s -d 1"); }
         }
