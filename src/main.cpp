@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     ComboBoxModel combo;
     QStringList tmp;
     foreach(const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts()){
-          qDebug() << ( serialPortInfo.portName() + " | " + serialPortInfo.description());
+          //qDebug() << ( serialPortInfo.portName() + " | " + serialPortInfo.description());
           tmp << (serialPortInfo.portName() + " | " + serialPortInfo.description());
     }
     combo.setComboList(tmp);

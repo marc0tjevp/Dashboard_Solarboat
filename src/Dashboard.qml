@@ -23,7 +23,7 @@ Item {
             anchors.bottomMargin: -10
             anchors.right: parent.right
             anchors.rightMargin: 80
-            text: Math.round(gps.speed)
+            text: (gps.speed | 0)
             font.pixelSize: 90
             font.family: "Arial"
         }
@@ -33,7 +33,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: 115
             color: "#444444"
-            text: "," + Math.round(gps.speed * 3)
+            text: "," + (gps.speed % 1 * 10 | 0)
             font.pixelSize: 50
             font.family: "Arial"
         }
@@ -88,7 +88,7 @@ Item {
                 axisX: axisX
                 axisY: axisY
                 BarSet { id: motorBar; label: "Motor"; values: [motor.power]; color: "#278e89" }
-                BarSet { id: solarBar; label: "Solar"; values: [160]; color: "#54c44a" }
+                BarSet { id: solarBar; label: "Solar"; values: [1]; color: "#54c44a" }
 //                BarSet { label: "James"; values: [100] }
             }
         }
@@ -101,7 +101,7 @@ Item {
             color: "white"
         }
         Text {
-            text: 160 + "W \nSolar"
+            text: 0 + "W \nSolar"
             anchors.right: parent.right
             anchors.rightMargin: 20
             y: 85
@@ -118,144 +118,5 @@ Item {
         height: 290
         width: 530
         radius: 5
-
-        Text {
-            x: 10
-            y: 10
-            text: "Revs"
-            font.pixelSize: 12
-        }
-        Text {
-            x: 150
-            y: 10
-            text: Math.round(motor.rpm);
-            font.pixelSize: 12
-        }
-        Text {
-            x: 10
-            y: 30
-            text: "Current"
-            font.pixelSize: 12
-        }
-        Text {
-            x: 150
-            y: 30
-            text: Math.round(motor.current * 100) / 100;
-            font.pixelSize: 12
-        }
-        Text {
-            x: 10
-            y: 50
-            text: "Motor Temp."
-            font.pixelSize: 12
-        }
-        Text {
-            x: 150
-            y: 50
-            text: motor.temp + " C"
-            font.pixelSize: 12
-        }
-        Text {
-            x: 10
-            y: 80
-            text: "driveEnable"
-            font.pixelSize: 12
-        }
-        StatusIndicator {
-            x: 140
-            y: 80
-            active: true
-            height: 15
-            color: motor.driveReady ? "green" : "red"
-        }
-        StatusIndicator {
-            x: 140
-            y: 160
-            active: true
-            height: 15
-            color: motor.driveEnabled ? "green" : "red"
-        }
-        Text {
-            x: 10
-            y: 110
-            text: "killSwitch"
-            font.pixelSize: 12
-        }
-        StatusIndicator {
-            x: 140
-            y: 110
-            active: true
-            height: 15
-            color: motor.killSwitch ? "green" : "red"
-        }
-//                                tracking:       true
-//                property bool   fix:            false
-//                property real   longitude:      51.589163
-//                property real   latitude:       4.788127
-//                property real   speed:          valueSource.kph * 0.3
-//                property real   sats:           0
-//                property real   course:         valueSource.kph
-//                property real   hdop:           0
-        Text {
-            x: 300
-            y: 10
-            text: "Latitude:"
-        }
-        Text {
-            x: 300
-            y: 50
-            text: "Longitude:"
-        }
-        Text {
-            x: 300
-            y: 90
-            text: "Speed:"
-        }
-        Text {
-            x: 300
-            y: 130
-            text: "Sats:"
-        }
-        Text {
-            x: 300
-            y: 170
-            text: "Course:"
-        }
-        Text {
-            x: 300
-            y: 210
-            text: "HDOP:"
-        }
-
-        Text {
-            x: 400
-            y: 10
-            text: gps.latitude
-        }
-        Text {
-            x: 400
-            y: 50
-            text: gps.longitude
-        }
-        Text {
-            x: 400
-            y: 90
-            text: gps.speed + " Km/h"
-        }
-        Text {
-            x: 400
-            y: 130
-            text: gps.sats
-        }
-        Text {
-            x: 400
-            y: 170
-            text: gps.course + " deg"
-        }
-        Text {
-            x: 400
-            y: 210
-            text: gps.hdop
-        }
     }
 }

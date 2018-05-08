@@ -11,6 +11,7 @@ import QtPositioning 5.6
 import QtCharts 2.2
 import QlChannelSerial 1.0
 import QtGraphicalEffects 1.0
+import QtWebEngine 1.5
 
 ApplicationWindow {
     visible: true
@@ -64,7 +65,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bvlr:            0
+        property real   bvlr:           0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -74,7 +75,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bvlr:            0
+        property real   bvlr:           0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -84,7 +85,7 @@ ApplicationWindow {
         property real   currentIn:      0
         property real   voltageIn:      0
         property real   temp:           0
-        property real   bvlr:            0
+        property real   bvlr:           0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
@@ -323,6 +324,7 @@ ApplicationWindow {
         height: parent.height + 200
         antialiasing: false
         tilt: 0
+        gesture.enabled: false
         bearing: gps.tracking ? gps.course : 0
         copyrightsVisible: false
         anchors.top: parent.top
@@ -331,7 +333,7 @@ ApplicationWindow {
         anchors.rightMargin: 0
         plugin: mapPlugin
         center: QtPositioning.coordinate(51.589163, 4.788127)
-        zoomLevel: 19
+        zoomLevel: 17
         state: "small"
         states: [
                 State {
@@ -379,16 +381,77 @@ ApplicationWindow {
 
         }
         MapPolyline {
-                line.width: 5
-                opacity: 0.5
-                line.color: 'red'
-                path: [
-                    { latitude: 51.57024, longitude: 4.74425 },
-                    { latitude: 51.57   , longitude: 4.74432 },
-                    { latitude: 51.57006, longitude: 4.74493 },
-                    { latitude: 51.57035, longitude: 4.74686 }
-                ]
+            line.width: 5
+            opacity: 0.5
+            line.color: 'red'
+            path: [
+                { latitude: 51.57024, longitude: 4.74425 },
+                { latitude: 51.57   , longitude: 4.74432 },
+                { latitude: 51.57006, longitude: 4.74493 },
+                { latitude: 51.57035, longitude: 4.74686 }
+            ]
+        }
+    }
+    Text {
+        id: mapHDOP
+        text: "HDOP: " + gps.hdop + " | Sats: " + gps.sats
+        anchors.left: map.left
+        anchors.leftMargin: 5
+        anchors.bottom: map.bottom
+        anchors.bottomMargin: 245
+        font.pixelSize: 12
+        style: Text.Outline
+        styleColor: "white"
+    }
+    Text {
+        id: mapBearing
+        text: gps.course + "°"
+        anchors.left: map.left
+        anchors.leftMargin: 5
+        anchors.top: map.top
+        anchors.topMargin: 5
+        font.pixelSize: 12
+        style: Text.Outline
+        styleColor: "white"
+    }
+
+    ColumnLayout {
+        anchors.left: map.left
+        anchors.top: map.top
+        anchors.topMargin: 300
+        Button {
+            id: control
+            text: "+"
+            width: 50
+            font.pixelSize: 20
+            onClicked: map.zoomLevel += 1
+
+            contentItem: Text {
+                text: control.text
+                font: control.font
+                opacity: enabled ? 1.0 : 0.3
+                color: control.down ? "#17a81a" : "#21be2b"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
             }
+
+            background: Rectangle {
+                implicitWidth: 50
+                implicitHeight: 50
+                opacity: enabled ? 1 : 0.3
+                border.color: control.down ? "#17a81a" : "#21be2b"
+                border.width: 1
+                radius: 2
+                color: "#00000000"
+            }
+        }
+        Button {
+            text: "-"
+            width: 50
+            font.pixelSize: 20
+            onClicked: map.zoomLevel -= 1
+        }
     }
 
     Image {
@@ -434,9 +497,11 @@ ApplicationWindow {
                 {
                     gps.tracking = false;
                     recenterMap.opacity = 0.5;
+                    map.gesture.enabled = true;
                 } else {
                     gps.tracking = true;
                     recenterMap.opacity = 1;
+                    map.gesture.enabled = false;
                     map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
                 }
             }
@@ -447,6 +512,18 @@ ApplicationWindow {
         id: infoBar
         x: 550
         y: 0
+    }
+
+    WebEngineView {
+        id: webEngineViewer
+        scale: 1
+        x: 0
+        visible: false
+        anchors.bottom: parent.bottom
+        height: 440
+        width: parent.width
+        url: "http://192.168.8.1"
+        zoomFactor: 0.80
     }
 
     InputPanel {

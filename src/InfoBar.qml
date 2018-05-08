@@ -92,6 +92,17 @@ Rectangle {
                 PropertyChanges { target: networkIcon; source: "qrc:///img/network-disconnected.png"}
             }
         ]
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (webEngineViewer.visible)
+                {
+                    webEngineViewer.visible = false;
+                } else {
+                    webEngineViewer.visible = true;
+                }
+            }
+        }
     }
     Image {
         id: canbusIcon
