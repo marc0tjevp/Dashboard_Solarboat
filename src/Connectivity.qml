@@ -161,6 +161,21 @@ Item {
                             mppt3.undv          = JsonObject.MPPT.UNDV[2];
                             mppt4.undv          = JsonObject.MPPT.UNDV[3];
 
+                            battery.packVoltage     = JsonObject.bms.PackVol;
+                            battery.packCurrent     = JsonObject.bms.I;
+                            battery.packAmphours    = JsonObject.bms.AmpHr;
+                            battery.packHighTemp    = JsonObject.bms.Thigh;
+                            battery.packAvgTemp     = JsonObject.bms.Tav;
+                            battery.packSOC         = JsonObject.bms.SOC
+                            battery.packHealth      = 0;                        // MISSING
+                            battery.highVoltage     = JsonObject.bms.Vhigh;
+                            battery.avgVoltage      = JsonObject.bms.Vav;
+                            battery.lowVoltage      = JsonObject.bms.Vlow;
+
+                            battery.discharge       = JsonObject.bms.flags[0];
+                            battery.charge          = JsonObject.bms.flags[1];
+                            battery.isCharging      = JsonObject.bms.flags[2];
+
                             batteryBarSet.values = JsonObject.bms.cells;
 
                             network.canbus = true;

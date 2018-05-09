@@ -105,15 +105,15 @@ ApplicationWindow {
         property real   packCurrent:    0
         property real   packAmphours:   0
         property real   packHighTemp:   0
+        property real   packAvgTemp:    0
         property real   packSOC:        0
         property real   packHealth:     0
         property real   highVoltage:    0
         property real   avgVoltage:     0
         property real   lowVoltage:     0
-        property real   cellVoltages:   0
-        property real   bmsStatus:      0
-        property real   relaisStatus:   0
-        property real   errorCodes:     0
+        property real   discharge:      0
+        property real   charge:         0
+        property real   isCharging:     0
     }
 
     SwipeView {
@@ -198,16 +198,43 @@ ApplicationWindow {
 
                     ColumnLayout{
                         spacing: 2
-
+                        x: 10
                         Text {
-                            text: "SOC \t Test"
+                            text: "packVoltage \t" + battery.packVoltage
                         }
                         Text {
-                            text: "Pack "
+                            text: "packCurrent \t" + battery.packCurrent
+                        }
+                        Text {
+                            text: "packAmphours \t" + battery.packAmphours
+                        }
+                        Text {
+                            text: "packHighTemp \t" + battery.packHighTemp
+                        }
+                        Text {
+                            text: "packSOC \t\t" + battery.packSOC
                         }
                     }
+                    ColumnLayout{
+                        spacing: 2
+                        x: 300
 
-
+                        Text {
+                            text: "packHealth \t" + battery.packHealth
+                        }
+                        Text {
+                            text: "highVoltage \t" + battery.highVoltage
+                        }
+                        Text {
+                            text: "avgVoltage \t" + battery.avgVoltage
+                        }
+                        Text {
+                            text: "lowVoltage \t" + battery.lowVoltage
+                        }
+                        Text {
+                            text: "packAvgTemp \t" + battery.packAvgTemp
+                        }
+                    }
                 }
 
                 MpptStatus {
