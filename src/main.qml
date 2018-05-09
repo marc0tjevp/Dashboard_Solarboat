@@ -222,7 +222,7 @@ ApplicationWindow {
                         StatusIndicator {
                             id: bms1
                             active: true
-                            height: 14
+                            height: 5
                             color: "grey"
                             state: battery.discharge
                             states: [
@@ -239,7 +239,7 @@ ApplicationWindow {
                         StatusIndicator {
                             id: bms2
                             active: true
-                            height: 14
+                            height: 5
                             color: "grey"
                             state: battery.charge
                             states: [
@@ -260,7 +260,7 @@ ApplicationWindow {
 
                         Text {
                             font.pixelSize: 14
-                            text: "packHealth \t\t" + battery.packHealth
+                            text: "packHealth \t" + battery.packHealth
                         }
                         Text {
                             font.pixelSize: 14
@@ -268,11 +268,11 @@ ApplicationWindow {
                         }
                         Text {
                             font.pixelSize: 14
-                            text: "avgVoltage \t\t" + battery.avgVoltage
+                            text: "avgVoltage \t" + battery.avgVoltage
                         }
                         Text {
                             font.pixelSize: 14
-                            text: "lowVoltage \t\t" + battery.lowVoltage
+                            text: "lowVoltage \t" + battery.lowVoltage
                         }
                         Text {
                             font.pixelSize: 14
@@ -281,7 +281,7 @@ ApplicationWindow {
                         StatusIndicator {
                             id: bms3
                             active: true
-                            height: 14
+                            height: 5
                             color: "grey"
                             state: battery.isCharging
                             states: [
