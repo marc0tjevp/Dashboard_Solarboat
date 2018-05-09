@@ -165,7 +165,7 @@ Item {
                             battery.packCurrent     = JsonObject.bms.I;
                             battery.packAmphours    = JsonObject.bms.AmpHr;
                             battery.packHighTemp    = JsonObject.bms.Thigh;
-                            battery.packAvgTemp     = JsonObject.bms.Tav;
+                            battery.packAvgTemp     = JsonObject.bms.Tav ;
                             battery.packSOC         = JsonObject.bms.SOC
                             battery.packHealth      = 0;                        // MISSING
                             battery.highVoltage     = JsonObject.bms.Vhigh;
