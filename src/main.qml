@@ -200,19 +200,58 @@ ApplicationWindow {
                         spacing: 2
                         x: 10
                         Text {
+                            font.pixelSize: 14
                             text: "packVoltage \t" + battery.packVoltage
                         }
                         Text {
+                            font.pixelSize: 14
                             text: "packCurrent \t" + battery.packCurrent
                         }
                         Text {
+                            font.pixelSize: 14
                             text: "packAmphours \t" + battery.packAmphours
                         }
                         Text {
+                            font.pixelSize: 14
                             text: "packHighTemp \t" + battery.packHighTemp
                         }
                         Text {
+                            font.pixelSize: 14
                             text: "packSOC \t\t" + battery.packSOC
+                        }
+                        StatusIndicator {
+                            id: bms1
+                            active: true
+                            height: 14
+                            color: "grey"
+                            state: battery.discharge
+                            states: [
+                                    State {
+                                        name: "1"
+                                        PropertyChanges { target: bms1; color: "green"}
+                                    },
+                                    State {
+                                        name: "0"
+                                        PropertyChanges { target: bms1; color: "#C6002A"}
+                                    }
+                                ]
+                        }
+                        StatusIndicator {
+                            id: bms2
+                            active: true
+                            height: 14
+                            color: "grey"
+                            state: battery.charge
+                            states: [
+                                    State {
+                                        name: "1"
+                                        PropertyChanges { target: bms2; color: "green"}
+                                    },
+                                    State {
+                                        name: "0"
+                                        PropertyChanges { target: bms2; color: "#C6002A"}
+                                    }
+                                ]
                         }
                     }
                     ColumnLayout{
@@ -220,19 +259,41 @@ ApplicationWindow {
                         x: 300
 
                         Text {
-                            text: "packHealth \t" + battery.packHealth
+                            font.pixelSize: 14
+                            text: "packHealth \t\t" + battery.packHealth
                         }
                         Text {
+                            font.pixelSize: 14
                             text: "highVoltage \t" + battery.highVoltage
                         }
                         Text {
-                            text: "avgVoltage \t" + battery.avgVoltage
+                            font.pixelSize: 14
+                            text: "avgVoltage \t\t" + battery.avgVoltage
                         }
                         Text {
-                            text: "lowVoltage \t" + battery.lowVoltage
+                            font.pixelSize: 14
+                            text: "lowVoltage \t\t" + battery.lowVoltage
                         }
                         Text {
+                            font.pixelSize: 14
                             text: "packAvgTemp \t" + battery.packAvgTemp
+                        }
+                        StatusIndicator {
+                            id: bms3
+                            active: true
+                            height: 14
+                            color: "grey"
+                            state: battery.isCharging
+                            states: [
+                                    State {
+                                        name: "1"
+                                        PropertyChanges { target: bms3; color: "green"}
+                                    },
+                                    State {
+                                        name: "0"
+                                        PropertyChanges { target: bms3; color: "#C6002A"}
+                                    }
+                                ]
                         }
                     }
                 }
