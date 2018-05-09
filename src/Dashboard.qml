@@ -45,7 +45,7 @@ Item {
 
         Text {
             id: revsMotor
-            text: Math.round(motor.rpm) + " RPM"
+            text: (motor.rpm | 0) + " RPM"
             x: 10
             y: 10
             font.pixelSize: 18
@@ -88,8 +88,7 @@ Item {
                 axisX: axisX
                 axisY: axisY
                 BarSet { id: motorBar; label: "Motor"; values: [motor.power]; color: "#278e89" }
-                BarSet { id: solarBar; label: "Solar"; values: [1]; color: "#54c44a" }
-//                BarSet { label: "James"; values: [100] }
+                BarSet { id: solarBar; label: "Solar"; values: [mppt.totalPower]; color: "#54c44a" }
             }
         }
         Text {
@@ -101,7 +100,7 @@ Item {
             color: "white"
         }
         Text {
-            text: 0 + "W \nSolar"
+            text: mppt.totalPower + "W \nSolar"
             anchors.right: parent.right
             anchors.rightMargin: 20
             y: 85

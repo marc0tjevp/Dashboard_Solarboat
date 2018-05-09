@@ -1,4 +1,4 @@
-import QtQuick 2.9
+﻿import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
@@ -51,24 +51,31 @@ ApplicationWindow {
         property real   killSwitch:     0
     }
     Item {
+        id: mppt
+        property real   totalPower:     mppt1.power + mppt2.power + mppt3.power + mppt4.power
+    }
+
+    Item {
         id: mppt1
-        property real   currentIn:      0
-        property real   voltageIn:      0
+        property real   currentIn:      1
+        property real   voltageIn:      2
         property real   temp:           0
         property real   bvlr:           0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
+        property real   power:          (mppt1.voltageIn * mppt1.currentIn) | 0
     }
     Item {
         id: mppt2
-        property real   currentIn:      0
-        property real   voltageIn:      0
+        property real   currentIn:      1
+        property real   voltageIn:      2
         property real   temp:           0
         property real   bvlr:           0
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
+        property real   power:          (mppt2.voltageIn * mppt2.currentIn) | 0
     }
     Item {
         id: mppt3
@@ -79,6 +86,7 @@ ApplicationWindow {
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
+        property real   power:          (mppt3.voltageIn * mppt3.currentIn) | 0
     }
     Item {
         id: mppt4
@@ -89,6 +97,7 @@ ApplicationWindow {
         property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
+        property real   power:          (mppt4.voltageIn * mppt4.currentIn) | 0
     }
     Item {
         id: battery
@@ -523,7 +532,7 @@ ApplicationWindow {
         height: 440
         width: parent.width
         url: "http://192.168.8.1"
-        zoomFactor: 0.80
+        zoomFactor: 0.83
     }
 
     InputPanel {
