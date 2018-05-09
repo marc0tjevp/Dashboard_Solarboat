@@ -152,7 +152,7 @@ ApplicationWindow {
 
                 ChartView {
                     title: "Battery Cell-Voltage [V]"
-                    height: 300
+                    height: 400
                     x: 0
                     y: 320
                     width: parent.width
@@ -162,7 +162,7 @@ ApplicationWindow {
                     ValueAxis {
                         id: batteryAxisY
                         min: 2.5
-                        max: 4.5
+                        max: 4.4
                         visible: true
                     }
                     ValueAxis {
@@ -190,7 +190,7 @@ ApplicationWindow {
                     }
                 }
                 Rectangle {
-                    y: 600
+                    y: 700
                     x: 9
                     height: 100
                     width: 532
@@ -200,8 +200,7 @@ ApplicationWindow {
                         spacing: 2
 
                         Text {
-                            id: batterySOC
-                            text: qsTr("State of Charge: 83%")
+                            text: "SOC \t Test"
                         }
                         Text {
                             text: "Pack "
