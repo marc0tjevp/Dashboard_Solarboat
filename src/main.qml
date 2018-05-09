@@ -26,7 +26,7 @@ ApplicationWindow {
         property bool   fix:            false
         property real   longitude:      51.589163
         property real   latitude:       4.788127
-        property real   speed:          0
+        property real   speed:          23.97
         property real   sats:           0
         property real   course:         0
         property real   hdop:           0
