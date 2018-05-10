@@ -336,6 +336,7 @@ ApplicationWindow {
         currentIndex: swipeView.currentIndex
         TabButton {
             height: 40
+            width: 120
             text: qsTr("Dashboard")
         }
         TabButton {
@@ -344,7 +345,7 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
-            width: 100
+            width: 80
             text: qsTr("Details")
         }
         TabButton {
@@ -354,7 +355,7 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
-            width: 60
+            width: 70
             text: qsTr("Chat")
         }
     }
