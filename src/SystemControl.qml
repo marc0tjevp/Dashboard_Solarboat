@@ -73,11 +73,40 @@ Item {
             enabled: true
             stepSize: 1
             scale: 1
-            value: 1
-            to: 6
+            value: 0
+            to: 10
             onValueModified:
             {
-                battery.packSOC = batterySet.value;
+                battery.packSOC = batterySet.value * 10;
+
+            }
+        }
+        Switch {
+            id: bmsIsCharing
+            y: 100
+            text: "Charing"
+            onCheckedChanged: bmsIsCharing.checked ? battery.isCharging = 1 : battery.isCharging = 0
+        }
+        Timer{
+            interval: 500
+            repeat: true
+            running: true
+            onTriggered: {
+                if (battery.isCharging && battery.packSOC <= 20) {
+                    battery.indicator = 6;
+                } else if(battery.isCharging){
+                    battery.indicator = 5;
+                } else if(battery.packSOC <= 20){
+                    battery.indicator = 0;
+                } else if (battery.packSOC <= 40){
+                    battery.indicator = 1;
+                } else if (battery.packSOC <= 60){
+                    battery.indicator = 2;
+                } else if (battery.packSOC <= 80){
+                    battery.indicator = 3;
+                } else if (battery.packSOC <= 100){
+                    battery.indicator = 4;
+                }
             }
         }
 

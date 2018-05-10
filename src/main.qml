@@ -101,6 +101,7 @@ ApplicationWindow {
     }
     Item {
         id: battery
+        property real   indicator:      0
         property real   packVoltage:    0
         property real   packCurrent:    0
         property real   packAmphours:   0
@@ -311,23 +312,11 @@ ApplicationWindow {
 
         Item {
             id: connectivityTab
-
-            Flickable {
-                flickableDirection: Flickable.VerticalFlick
-                width: parent.width;
-                height: parent.height
-                contentWidth: parent.width;
-                contentHeight: 1000
-                ScrollBar.vertical: ScrollBar { width: 5 }
-
-                Connectivity {}
-            }
-
+            Connectivity {}
         }
 
         Item {
             id: chatTabs
-
             ChatContainer {}
         }
     }
@@ -338,7 +327,7 @@ ApplicationWindow {
 
     TabBar {
         id: tabBar
-        width: 500
+        width: 480
         height: 40
         anchors.left: parent.left
         anchors.leftMargin: 0
@@ -365,7 +354,7 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
-            width: 80
+            width: 60
             text: qsTr("Chat")
         }
     }
