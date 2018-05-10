@@ -2,12 +2,6 @@
     <qresource prefix="/">
         <file>img/gps-disconnected.png</file>
         <file>img/gps-icon.png</file>
-        <file>img/gsm.png</file>
-        <file>img/quit.png</file>
-        <file>img/signal1.png</file>
-        <file>img/signal2.png</file>
-        <file>img/signal3.png</file>
-        <file>img/signal4.png</file>
         <file>qtquickcontrols2.conf</file>
         <file>main.qml</file>
         <file>Dashboard.qml</file>
@@ -35,5 +29,12 @@
         <file>img/network-icon.png</file>
         <file>img/canbus-disconnected.png</file>
         <file>img/canbus.png</file>
+        <file>img/battery3.png</file>
+        <file>img/battery4.png</file>
+        <file>img/battery6.png</file>
+        <file>img/battery5.png</file>
+        <file>img/battery2.png</file>
+        <file>img/battery1.png</file>
+        <file>img/battery7.png</file>
     </qresource>
 </RCC>

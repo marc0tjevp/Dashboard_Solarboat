@@ -66,26 +66,19 @@ Item {
         radius: 5
 
         SpinBox {
-            id: mapZoom
+            id: batterySet
             x: 0
             y: 20
             width: 150
             enabled: true
             stepSize: 1
             scale: 1
-            value: map.zoomLevel
-            to: 20
+            value: 1
+            to: 6
             onValueModified:
             {
-                map.zoomLevel = mapZoom.value
+                battery.packSOC = batterySet.value;
             }
-        }
-        Text {
-            id: label3
-            x: 10
-            y: 10
-            text: qsTr("Zoom level")
-            font.pixelSize: 12
         }
 
     }
@@ -111,8 +104,8 @@ Item {
             orientation: Qt.Horizontal
             stepSize: 1
             from: 11
-            to: 255
-            value: 255
+            to: 200
+            value: 128
         }
         Button {
             id: setBrightness

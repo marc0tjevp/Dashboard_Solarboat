@@ -118,7 +118,7 @@ ApplicationWindow {
 
     SwipeView {
         id: swipeView
-        width: parent.width * 0.6875
+        width: parent.width
         height: 440
         anchors.left: parent.left
         anchors.leftMargin: 0
@@ -152,7 +152,7 @@ ApplicationWindow {
 
                 ChartView {
                     title: "Battery Cell-Voltage [V]"
-                    height: 400
+                    height: 350
                     x: 0
                     y: 320
                     width: parent.width
@@ -190,9 +190,9 @@ ApplicationWindow {
                     }
                 }
                 Rectangle {
-                    y: 700
+                    y: 650
                     x: 9
-                    height: 100
+                    height: 150
                     width: 532
                     radius: 5
 
@@ -219,40 +219,15 @@ ApplicationWindow {
                             font.pixelSize: 14
                             text: "packSOC \t\t" + battery.packSOC
                         }
-                        StatusIndicator {
-                            id: bms1
-                            active: true
-                            height: 5
-                            color: "grey"
-                            state: battery.discharge
-                            states: [
-                                    State {
-                                        name: "1"
-                                        PropertyChanges { target: bms1; color: "green"}
-                                    },
-                                    State {
-                                        name: "0"
-                                        PropertyChanges { target: bms1; color: "#C6002A"}
-                                    }
-                                ]
+                        Text {
+                            font.pixelSize: 14
+                            text: "Dischage EN \t" + battery.discharge
                         }
-                        StatusIndicator {
-                            id: bms2
-                            active: true
-                            height: 5
-                            color: "grey"
-                            state: battery.charge
-                            states: [
-                                    State {
-                                        name: "1"
-                                        PropertyChanges { target: bms2; color: "green"}
-                                    },
-                                    State {
-                                        name: "0"
-                                        PropertyChanges { target: bms2; color: "#C6002A"}
-                                    }
-                                ]
+                        Text {
+                            font.pixelSize: 14
+                            text: "Charged EN \t" + battery.charge
                         }
+
                     }
                     ColumnLayout{
                         spacing: 2
@@ -278,22 +253,9 @@ ApplicationWindow {
                             font.pixelSize: 14
                             text: "packAvgTemp \t" + battery.packAvgTemp
                         }
-                        StatusIndicator {
-                            id: bms3
-                            active: true
-                            height: 5
-                            color: "grey"
-                            state: battery.isCharging
-                            states: [
-                                    State {
-                                        name: "1"
-                                        PropertyChanges { target: bms3; color: "green"}
-                                    },
-                                    State {
-                                        name: "0"
-                                        PropertyChanges { target: bms3; color: "#C6002A"}
-                                    }
-                                ]
+                        Text {
+                            font.pixelSize: 14
+                            text: "isCharging \t" + battery.isCharging
                         }
                     }
                 }
@@ -370,9 +332,13 @@ ApplicationWindow {
         }
     }
 
+    InfoBar {
+        id: infoBar
+    }
+
     TabBar {
         id: tabBar
-        width: parent.width * 0.6875
+        width: 500
         height: 40
         anchors.left: parent.left
         anchors.leftMargin: 0
@@ -394,220 +360,14 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
-            text: qsTr("Connectivity")
+            width: 100
+            text: qsTr("Gateway")
         }
         TabButton {
             height: 40
-            width: 60
+            width: 80
             text: qsTr("Chat")
         }
-    }
-
-    Plugin {
-        id: mapPlugin
-        name: "osm"
-//        PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
-//        PluginParameter { name: "osm.geocoding.host"; value: "https://nominatim.openstreetmap.org" }
-//        PluginParameter { name: "osm.routing.host"; value: "https://router.project-osrm.org/viaroute" }
-//        PluginParameter { name: "osm.places.host"; value: "https://nominatim.openstreetmap.org/search" }
-        PluginParameter { name: "osm.mapping.highdpi_tiles"; value: true }
-    }
-
-    Map {
-        id: map
-        x: 550
-        y: 40
-        height: parent.height + 200
-        antialiasing: false
-        tilt: 0
-        gesture.enabled: false
-        bearing: gps.tracking ? gps.course : 0
-        copyrightsVisible: false
-        anchors.top: parent.top
-        anchors.topMargin: 40
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        plugin: mapPlugin
-        center: QtPositioning.coordinate(51.589163, 4.788127)
-        zoomLevel: 17
-        state: "small"
-        states: [
-                State {
-                    name: "small"
-                    PropertyChanges { target: map; width: parent.width * 0.3125}
-                },
-                State {
-                    name: "full"
-                    PropertyChanges { target: map; width: parent.width}
-                }
-            ]
-
-       transitions:
-            Transition {
-                    PropertyAnimation { properties: "width"; easing.type: Easing.InOutQuad }
-                }
-        MapCircle {
-                id: boatCircle
-                antialiasing: true
-                center: QtPositioning.coordinate(gps.longitude, gps.latitude)
-                onCenterChanged: {
-                    if (gps.tracking) {
-                        map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
-                    }
-                }
-
-                radius: 1.0
-                color: 'red'
-                opacity: 0.8
-                border.width: 1
-            }
-        MapQuickItem {
-          id: marker
-          coordinate: QtPositioning.coordinate(gps.longitude, gps.latitude)
-          anchorPoint.x: image.width * 0.5
-          anchorPoint.y: image.height * 0.5
-          rotation: gps.tracking ? 0 : gps.course
-
-          sourceItem: Image {
-             id: image
-             width: 20
-             fillMode: Image.PreserveAspectFit
-             source: "/img/boat.png"
-          }
-
-        }
-        MapPolyline {
-            line.width: 5
-            opacity: 0.5
-            line.color: 'red'
-            path: [
-                { latitude: 51.57024, longitude: 4.74425 },
-                { latitude: 51.57   , longitude: 4.74432 },
-                { latitude: 51.57006, longitude: 4.74493 },
-                { latitude: 51.57035, longitude: 4.74686 }
-            ]
-        }
-    }
-    Text {
-        id: mapHDOP
-        text: "HDOP: " + gps.hdop + " | Sats: " + gps.sats
-        anchors.left: map.left
-        anchors.leftMargin: 5
-        anchors.bottom: map.bottom
-        anchors.bottomMargin: 245
-        font.pixelSize: 12
-        style: Text.Outline
-        styleColor: "white"
-    }
-    Text {
-        id: mapBearing
-        text: gps.course + "°"
-        anchors.left: map.left
-        anchors.leftMargin: 5
-        anchors.top: map.top
-        anchors.topMargin: 5
-        font.pixelSize: 12
-        style: Text.Outline
-        styleColor: "white"
-    }
-
-    ColumnLayout {
-        anchors.left: map.left
-        anchors.top: map.top
-        anchors.topMargin: 300
-        Button {
-            id: control
-            text: "+"
-            width: 50
-            font.pixelSize: 20
-            onClicked: map.zoomLevel += 1
-
-            contentItem: Text {
-                text: control.text
-                font: control.font
-                opacity: enabled ? 1.0 : 0.3
-                color: control.down ? "#17a81a" : "#21be2b"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                elide: Text.ElideRight
-            }
-
-            background: Rectangle {
-                implicitWidth: 50
-                implicitHeight: 50
-                opacity: enabled ? 1 : 0.3
-                border.color: control.down ? "#17a81a" : "#21be2b"
-                border.width: 1
-                radius: 2
-                color: "#00000000"
-            }
-        }
-        Button {
-            text: "-"
-            width: 50
-            font.pixelSize: 20
-            onClicked: map.zoomLevel -= 1
-        }
-    }
-
-    Image {
-        id: fullMap
-        source: "/img/enlarge.png"
-        fillMode: Image.PreserveAspectFit
-        x: 751
-        y: 432
-        width: 50
-        height: 35
-        opacity: 1
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 5
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        MouseArea {
-            anchors.fill: parent
-            onClicked:
-                {
-                    if(map.state == "small")
-                    {
-                        map.state = "full"
-                    } else {
-                        map.state = "small"
-                    }
-                }
-            }
-        }
-
-    Image {
-        id: recenterMap
-        source: "img/Maps-Center-Direction-icon.png"
-        fillMode: Image.PreserveAspectFit
-        height: 35
-        width: 50
-        x: 750
-        y: 50
-        opacity: 1
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (gps.tracking)
-                {
-                    gps.tracking = false;
-                    recenterMap.opacity = 0.5;
-                    map.gesture.enabled = true;
-                } else {
-                    gps.tracking = true;
-                    recenterMap.opacity = 1;
-                    map.gesture.enabled = false;
-                    map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
-                }
-            }
-        }
-    }
-
-    InfoBar {
-        id: infoBar
-        x: 550
-        y: 0
     }
 
     WebEngineView {

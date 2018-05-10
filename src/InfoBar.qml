@@ -14,7 +14,7 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
     id: infoBar
-    width: parent.width * 0.3125
+    width: parent.width
     height: 40
     color: "#fafafa"
     //color: "#161616"
@@ -123,6 +123,49 @@ Rectangle {
                 name: "off"
                 PropertyChanges { target: canbusIcon; source: "qrc:///img/canbus-disconnected.png"}
             }
+        ]
+    }
+
+    Image {
+        id: batteryIcon
+        height: 25
+        fillMode: Image.PreserveAspectFit
+        anchors.top: parent.top
+        anchors.topMargin: 7
+        anchors.right: parent.right
+        anchors.rightMargin: 230
+        state: battery.packSOC
+        states:
+            [
+            State {
+                name: "0"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery1.png"}
+            },
+            State {
+                name: "1"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery2.png"}
+            },
+            State {
+                name: "2"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery3.png"}
+            },
+            State {
+                name: "3"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery4.png"}
+            },
+            State {
+                name: "4"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery5.png"}
+            },
+            State {
+                name: "5"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery6.png"}
+            },
+            State {
+                name: "6"
+                PropertyChanges { target: batteryIcon; source: "qrc:///img/battery7.png"}
+            }
+
         ]
     }
 }
