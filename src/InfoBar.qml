@@ -27,8 +27,35 @@ Rectangle {
         height: parent.height
         width: 320
         anchors.right: parent.right
-        spacing: 5
+        spacing: 10
 
+        Rectangle {
+            height: parent.height
+            width: 110
+            color: "white"
+            border.width: 1
+            border.color: "black"
+            Text {
+                id: clock
+                color: "black"
+                text: "00:00:00"
+                anchors.centerIn: parent
+                font.bold: true
+                font.pixelSize: 20
+
+                Timer {
+                    id: timer
+                    interval: 1000
+                    repeat: true
+                    running: true
+
+                    onTriggered:
+                    {
+                        clock.text =  Qt.formatTime(new Date(),"hh:mm:ss");
+                    }
+                }
+            }
+        }
         Image {
             id: gpsIcon
             fillMode: Image.PreserveAspectFit
@@ -98,73 +125,58 @@ Rectangle {
             ]
         }
 
-        Text {
-            id: clock
-            color: "#000000"
-            text: "00:00:00"
-            anchors.verticalCenter: parent.verticalCenter
-            font.bold: true
-            font.pixelSize: 20
-
-            Timer {
-                id: timer
-                interval: 1000
-                repeat: true
-                running: true
-
-                onTriggered:
-                {
-                    clock.text =  Qt.formatTime(new Date(),"hh:mm:ss");
-                }
+        Rectangle {
+            width: 85
+            height: 40
+            Text {
+                id: batterySOCindicator
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: batteryIcon.left
+                text: battery.packSOC + "%"
+                font.bold: true
             }
-        }
+            Image {
+                id: batteryIcon
+                width: 35
+                rotation: -90
+                fillMode: Image.PreserveAspectFit
+                anchors.top: parent.top
+                anchors.topMargin: 12
+                anchors.right: parent.right
+                state: battery.indicator
+                states:
+                    [
+                    State {
+                        name: "0"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery1.png"}
+                    },
+                    State {
+                        name: "1"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery2.png"}
+                    },
+                    State {
+                        name: "2"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery3.png"}
+                    },
+                    State {
+                        name: "3"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery4.png"}
+                    },
+                    State {
+                        name: "4"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery5.png"}
+                    },
+                    State {
+                        name: "5"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery6.png"}
+                    },
+                    State {
+                        name: "6"
+                        PropertyChanges { target: batteryIcon; source: "qrc:///img/battery7.png"}
+                    }
 
-        Image {
-            id: batteryIcon
-            width: 35
-            rotation: -90
-            fillMode: Image.PreserveAspectFit
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            state: battery.indicator
-            states:
-                [
-                State {
-                    name: "0"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery1.png"}
-                },
-                State {
-                    name: "1"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery2.png"}
-                },
-                State {
-                    name: "2"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery3.png"}
-                },
-                State {
-                    name: "3"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery4.png"}
-                },
-                State {
-                    name: "4"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery5.png"}
-                },
-                State {
-                    name: "5"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery6.png"}
-                },
-                State {
-                    name: "6"
-                    PropertyChanges { target: batteryIcon; source: "qrc:///img/battery7.png"}
-                }
-
-            ]
-        }
-        Text {
-            id: batterySOCindicator
-            anchors.verticalCenter: parent.verticalCenter
-            text: battery.packSOC + "%"
-            font.bold: true
+                ]
+            }
         }
     }
 }
