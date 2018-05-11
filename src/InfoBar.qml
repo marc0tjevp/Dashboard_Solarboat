@@ -33,8 +33,6 @@ Rectangle {
             height: parent.height
             width: 110
             color: "white"
-            border.width: 1
-            border.color: "black"
             Text {
                 id: clock
                 color: "black"

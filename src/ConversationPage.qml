@@ -5,8 +5,9 @@ import io.qt.examples.chattutorial 1.0
 
 Page {
     id: root
+    anchors.fill: parent
 
-    property string inConversationWith
+    property string inConversationWith: "Ernest Hemingway"
 
     ColumnLayout {
         anchors.fill: parent
@@ -79,9 +80,10 @@ Page {
                     Layout.fillWidth: true
                     placeholderText: qsTr("Compose message")
                     wrapMode: TextArea.Wrap
-                    onFocusChanged: {
+                    onFocusChanged:
+                    {
                         if (messageField.focus == true) {
-                            root.height = 190;
+                            root.height = 200;
                         } else {
                             root.height = 440;
                         }
@@ -90,22 +92,24 @@ Page {
 
                 Button {
                     id: sendButton
-                    text: qsTr("Send")
-                    enabled: messageField.length > 0
+                    text: messageField.length > 0 ? "Send" : "Hide"
+                    enabled: true
                     onPressed: {
-                        listView.model.sendMessage(inConversationWith, messageField.text);
-                        messageField.text = "";
+                        if(messageField.length > 0) {
+                            listView.model.sendMessage(inConversationWith, messageField.text);
+                            messageField.text = "";
+                        }
                     }
                 }
             }
         }
     }
-    Button {
-        text: qsTr("Back")
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        onClicked: root.StackView.view.pop()
-    }
+//    Button {
+//        text: qsTr("Back")
+//        anchors.left: parent.left
+//        anchors.leftMargin: 10
+//        anchors.top: parent.top
+//        anchors.topMargin: 10
+//        onClicked: root.StackView.view.pop()
+//    }
 }

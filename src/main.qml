@@ -26,7 +26,7 @@ ApplicationWindow {
         property bool   fix:            false
         property real   longitude:      51.589163
         property real   latitude:       4.788127
-        property real   speed:          23.97
+        property real   speed:          0
         property real   sats:           0
         property real   course:         0
         property real   hdop:           0
@@ -311,13 +311,8 @@ ApplicationWindow {
         }
 
         Item {
-            id: connectivityTab
-            Connectivity {}
-        }
-
-        Item {
             id: chatTabs
-            ChatContainer {}
+            ConversationPage {}
         }
     }
 
@@ -336,7 +331,6 @@ ApplicationWindow {
         currentIndex: swipeView.currentIndex
         TabButton {
             height: 40
-            width: 120
             text: qsTr("Dashboard")
         }
         TabButton {
@@ -345,17 +339,10 @@ ApplicationWindow {
         }
         TabButton {
             height: 40
-            width: 80
-            text: qsTr("Details")
+            text: qsTr("Information")
         }
         TabButton {
             height: 40
-            width: 100
-            text: qsTr("Gateway")
-        }
-        TabButton {
-            height: 40
-            width: 70
             text: qsTr("Chat")
         }
     }
