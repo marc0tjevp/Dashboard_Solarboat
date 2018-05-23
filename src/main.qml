@@ -38,7 +38,6 @@ ApplicationWindow {
         property bool   canbus:         false
         property bool   internet:       false
     }
-
     Item {
         id: motor
         property real   rpm:            0
@@ -54,7 +53,6 @@ ApplicationWindow {
         id: mppt
         property real   totalPower:     mppt1.power + mppt2.power + mppt3.power + mppt4.power
     }
-
     Item {
         id: mppt1
         property real   currentIn:      1
@@ -146,7 +144,7 @@ ApplicationWindow {
                 flickableDirection: Flickable.VerticalFlick
                 width: parent.width;
                 height: parent.height
-                contentWidth: parent.width;
+                contentWidth: 552;
                 contentHeight: 1000
 
                 ScrollBar.vertical: ScrollBar { width: 5 }

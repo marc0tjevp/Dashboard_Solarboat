@@ -65,59 +65,22 @@ Item {
         width: 320
         radius: 5
 
-        ChartView {
-            legend.visible: false
-            antialiasing: true
-            margins.top: 0
-            margins.bottom: 0
-            margins.left: 0
-            margins.right: 0
-            backgroundColor: "#00000000"
-            y: 55
-            height: 80
-            width: parent.width
-
-            ValueAxis {
-                id: axisY
-                visible: false
-            }
-
-            ValueAxis {
-                id: axisX
-                visible: false
-            }
-
-            HorizontalPercentBarSeries {
-                axisX: axisX
-                axisY: axisY
-                BarSet { id: motorBar; label: "Motor"; values: [motor.power]; color: "#278e89" }
-                BarSet { id: solarBar; label: "Solar"; values: [mppt.totalPower]; color: "#54c44a" }
-            }
+        Text {
+            id: timeLeft
+            text: "Time Left: 00:00"
         }
         Text {
-            text: Math.round(motor.power) + "W \nMotor"
-            x: 15
-            y: 85
-            font.bold: true
-            font.pixelSize: 10
-            color: "white"
+            id: batteryCurrent
+            text: "Time Left: 00:00"
         }
-        Text {
-            text: mppt.totalPower + "W \nSolar"
-            anchors.right: parent.right
-            anchors.rightMargin: 20
-            y: 85
-            horizontalAlignment: Text.AlignRight
-            font.bold: true
-            font.pixelSize: 10
-            color: "white"
-        }
+
+
     }
 
     Rectangle {
         x: 10
         y: 140
-        height: 290
+        height: 250
         width: 530
         radius: 5
 
@@ -144,16 +107,113 @@ Item {
             font.pixelSize: 12
         }
 
+        GroupBox{
+           title:"map types"
+           y: 80
+           width: 500
+           ComboBox{
+               width: 450
+               model:   map2.supportedMapTypes
+               textRole:"description"
+               onCurrentIndexChanged: map2.activeMapType = map2.supportedMapTypes[currentIndex]
+           }
+           ComboBox{
+               width: 450
+               y: 50
+               model:   map.supportedMapTypes
+               textRole:"description"
+               onCurrentIndexChanged: map.activeMapType = map.supportedMapTypes[currentIndex]
+           }
+         }
+
+    }
+
+    ChartView {
+        legend.visible: false
+        antialiasing: true
+        margins.top: 0
+        margins.left: 0
+        margins.right: 0
+        backgroundColor: "#00000000"
+        y: 375
+        height: 100
+        width: 550
+
+        ValueAxis {
+            id: axisY
+            visible: false
+        }
+
+        ValueAxis {
+            id: axisX
+            visible: false
+        }
+
+        HorizontalPercentBarSeries {
+            axisX: axisX
+            axisY: axisY
+            BarSet { id: motorBar; label: "Motor"; values: [motor.power + 1]; color: "#278e89" }
+            BarSet { id: solarBar; label: "Solar"; values: [mppt.totalPower + 1]; color: "#54c44a" }
+        }
+    }
+    Text {
+        text: Math.round(motor.power) + "W \nMotor"
+        x: 15
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 13
+        font.bold: true
+        font.pixelSize: 10
+        color: "white"
+    }
+    Text {
+        text: mppt.totalPower + "W \nSolar"
+        anchors.right: parent.right
+        anchors.rightMargin: 300
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 14
+        horizontalAlignment: Text.AlignRight
+        font.bold: true
+        font.pixelSize: 10
+        color: "white"
     }
 
     Plugin {
+//        id: mapPlugin
+//        name: "osm"
+//        //PluginParameter { name: "osm.mapping.highdpi_tiles"; value: false }
+//        PluginParameter { name: 'osm.mapping.offline.directory'; value: 'qrc:/offline_tiles/'}
         id: mapPlugin
-        name: "osm"
-//        PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
-//        PluginParameter { name: "osm.geocoding.host"; value: "https://nominatim.openstreetmap.org" }
-//        PluginParameter { name: "osm.routing.host"; value: "https://router.project-osrm.org/viaroute" }
-//        PluginParameter { name: "osm.places.host"; value: "https://nominatim.openstreetmap.org/search" }
-        PluginParameter { name: "osm.mapping.highdpi_tiles"; value: true }
+        name: "osm" // "mapboxgl", "esri", here, osm
+        // specify plugin parameters if necessary
+        PluginParameter {
+            name:"osm.mapping.custom.host"
+            value:"http://tiles.openseamap.org/seamark/"
+        }
+        PluginParameter {
+            name:"osm.mapping.providersrepository.disable"
+            value:true
+        }
+        PluginParameter {
+            name: "osm.mapping.highdpi_tiles"
+            value: false
+        }
+    }
+    Plugin {
+//        id: mapPlugin
+//        name: "osm"
+//        //PluginParameter { name: "osm.mapping.highdpi_tiles"; value: false }
+//        PluginParameter { name: 'osm.mapping.offline.directory'; value: 'qrc:/offline_tiles/'}
+        id: mapPlugin1
+        name: "osm" // "mapboxgl", "esri", ...
+        // specify plugin parameters if necessary
+        PluginParameter {
+            name:"osm.mapping.custom.host"
+            value:"http://tiles.openseamap.org/seamark/"
+        }
+        PluginParameter {
+            name:"osm.mapping.providersrepository.disable"
+            value:true
+        }
     }
 
     Map {
@@ -226,6 +286,24 @@ Item {
             ]
         }
     }
+
+
+    Map {
+        id: map2
+        height: map.height
+        width: map.width
+        antialiasing: false
+        gesture.enabled: false
+        bearing: map.bearing
+        copyrightsVisible: false
+        anchors.top: parent.top
+        anchors.right: parent.right
+        plugin: mapPlugin
+        center: map.center
+        zoomLevel: map.zoomLevel
+        color: "#00000000"
+    }
+
     Text {
         id: mapHDOP
         text: "HDOP: " + gps.hdop + " | Sats: " + gps.sats

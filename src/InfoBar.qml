@@ -102,6 +102,41 @@ Rectangle {
                     }
                 }
             }
+
+            Timer {
+                interval: 5000
+                repeat: true
+                running: true
+                onTriggered: {
+                    doesConnectionExist();
+
+                    function doesConnectionExist() {
+                        var xhr = new XMLHttpRequest();
+                        var file = "https://www.kirupa.com/blank.png";
+                        var randomNum = Math.round(Math.random() * 10000);
+
+                        xhr.onreadystatechange = function(e) {
+                          if (xhr.readyState == 4) {
+                            if (xhr.status >= 200 && xhr.status < 304) {
+                              //console.log("connection exists!");
+                                network.internet = true;
+                            } else {
+                              //console.log("connection doesn't exist!");
+                                network.internet = false;
+                            }
+                          }
+                        }
+
+                        xhr.open('HEAD', file + "?rand=" + randomNum, true);
+                        xhr.send();
+
+                        //xhr.addEventListener("readystatechange", processRequest, false);
+                    }
+                }
+            }
+
+
+
         }
         Image {
             id: canbusIcon
