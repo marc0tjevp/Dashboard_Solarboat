@@ -113,13 +113,6 @@ Item {
            width: 500
            ComboBox{
                width: 450
-               model:   map2.supportedMapTypes
-               textRole:"description"
-               onCurrentIndexChanged: map2.activeMapType = map2.supportedMapTypes[currentIndex]
-           }
-           ComboBox{
-               width: 450
-               y: 50
                model:   map.supportedMapTypes
                textRole:"description"
                onCurrentIndexChanged: map.activeMapType = map.supportedMapTypes[currentIndex]
@@ -178,10 +171,6 @@ Item {
     }
 
     Plugin {
-//        id: mapPlugin
-//        name: "osm"
-//        //PluginParameter { name: "osm.mapping.highdpi_tiles"; value: false }
-//        PluginParameter { name: 'osm.mapping.offline.directory'; value: 'qrc:/offline_tiles/'}
         id: mapPlugin
         name: "osm" // "mapboxgl", "esri", here, osm
         // specify plugin parameters if necessary
@@ -198,23 +187,6 @@ Item {
             value: false
         }
     }
-    Plugin {
-//        id: mapPlugin
-//        name: "osm"
-//        //PluginParameter { name: "osm.mapping.highdpi_tiles"; value: false }
-//        PluginParameter { name: 'osm.mapping.offline.directory'; value: 'qrc:/offline_tiles/'}
-        id: mapPlugin1
-        name: "osm" // "mapboxgl", "esri", ...
-        // specify plugin parameters if necessary
-        PluginParameter {
-            name:"osm.mapping.custom.host"
-            value:"http://tiles.openseamap.org/seamark/"
-        }
-        PluginParameter {
-            name:"osm.mapping.providersrepository.disable"
-            value:true
-        }
-    }
 
     Map {
         id: map
@@ -228,6 +200,7 @@ Item {
         plugin: mapPlugin
         center: QtPositioning.coordinate(51.589163, 4.788127)
         zoomLevel: 17
+        activeMapType: map2.supportedMapTypes[0]
         state: "small"
         states: [
                 State {
@@ -244,21 +217,6 @@ Item {
             Transition {
                     PropertyAnimation { properties: "width"; easing.type: Easing.InOutQuad }
                 }
-        MapCircle {
-                id: boatCircle
-                antialiasing: true
-                center: QtPositioning.coordinate(gps.longitude, gps.latitude)
-                onCenterChanged: {
-                    if (gps.tracking) {
-                        map.center = QtPositioning.coordinate(gps.longitude, gps.latitude);
-                    }
-                }
-
-                radius: 1.0
-                color: 'red'
-                opacity: 0.8
-                border.width: 1
-            }
         MapQuickItem {
           id: marker
           coordinate: QtPositioning.coordinate(gps.longitude, gps.latitude)
@@ -273,17 +231,6 @@ Item {
              source: "/img/boat.png"
           }
 
-        }
-        MapPolyline {
-            line.width: 5
-            opacity: 0.5
-            line.color: 'red'
-            path: [
-                { latitude: 51.57024, longitude: 4.74425 },
-                { latitude: 51.57   , longitude: 4.74432 },
-                { latitude: 51.57006, longitude: 4.74493 },
-                { latitude: 51.57035, longitude: 4.74686 }
-            ]
         }
     }
 
@@ -301,6 +248,7 @@ Item {
         plugin: mapPlugin
         center: map.center
         zoomLevel: map.zoomLevel
+        activeMapType: map2.supportedMapTypes[6]
         color: "#00000000"
     }
 
