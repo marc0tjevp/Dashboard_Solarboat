@@ -84,40 +84,6 @@ Item {
         width: 530
         radius: 5
 
-        SpinBox {
-            id: mapZoom
-            x: 0
-            y: 20
-            width: 150
-            enabled: true
-            stepSize: 1
-            scale: 1
-            value: map.zoomLevel
-            to: 20
-            onValueModified:
-            {
-                map.zoomLevel = mapZoom.value
-            }
-        }
-        Text {
-            id: label3
-            x: 10
-            y: 10
-            text: qsTr("Zoom level")
-            font.pixelSize: 12
-        }
-
-        GroupBox{
-           title:"map types"
-           y: 80
-           width: 500
-           ComboBox{
-               width: 450
-               model:   map.supportedMapTypes
-               textRole:"description"
-               onCurrentIndexChanged: map.activeMapType = map.supportedMapTypes[currentIndex]
-           }
-         }
 
     }
 
@@ -326,5 +292,25 @@ Item {
                 }
             }
         }
+    }
+
+    // Map zooming buttons
+    Button {
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 55
+        anchors.left: map.left
+        height: 45
+        width: 45
+        text: "+"
+        onPressed: map.zoomLevel = map.zoomLevel + 1
+    }
+    Button {
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 15
+        anchors.left: map.left
+        height: 45
+        width: 45
+        text: "-"
+        onPressed: map.zoomLevel = map.zoomLevel - 1
     }
 }

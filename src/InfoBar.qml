@@ -29,31 +29,7 @@ Rectangle {
         anchors.right: parent.right
         spacing: 10
 
-        Rectangle {
-            height: parent.height
-            width: 110
-            color: "white"
-            Text {
-                id: clock
-                color: "black"
-                text: "00:00:00"
-                anchors.centerIn: parent
-                font.bold: true
-                font.pixelSize: 20
 
-                Timer {
-                    id: timer
-                    interval: 1000
-                    repeat: true
-                    running: true
-
-                    onTriggered:
-                    {
-                        clock.text =  Qt.formatTime(new Date(),"hh:mm:ss");
-                    }
-                }
-            }
-        }
         Image {
             id: gpsIcon
             fillMode: Image.PreserveAspectFit
@@ -209,6 +185,31 @@ Rectangle {
                     }
 
                 ]
+            }
+        }
+        Rectangle {
+            height: parent.height
+            width: 110
+            color: "white"
+            Text {
+                id: clock
+                color: "black"
+                text: "00:00:00"
+                anchors.centerIn: parent
+                font.bold: true
+                font.pixelSize: 20
+
+                Timer {
+                    id: timer
+                    interval: 1000
+                    repeat: true
+                    running: true
+
+                    onTriggered:
+                    {
+                        clock.text =  Qt.formatTime(new Date(),"hh:mm:ss");
+                    }
+                }
             }
         }
     }
