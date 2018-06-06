@@ -204,4 +204,14 @@ Item {
             onPressed: { process.start("rpi-backlight -b " + brightnessSlider.value + " -s -d 1"); }
         }
     }
+
+    Timer {
+        id: influxdbPusher
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: {
+
+        }
+    }
 }

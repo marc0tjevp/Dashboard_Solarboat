@@ -89,11 +89,13 @@ Item {
 
     ChartView {
         legend.visible: false
-        antialiasing: true
+        antialiasing: false
         margins.top: 0
         margins.left: 0
         margins.right: 0
         backgroundColor: "#00000000"
+        animationDuration: 100
+        animationOptions: ChartView.SeriesAnimations
         y: 375
         height: 100
         width: 550
@@ -164,7 +166,7 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         plugin: mapPlugin
-        center: QtPositioning.coordinate(51.589163, 4.788127)
+        center: QtPositioning.coordinate(gps.longitude, gps.latitude)
         zoomLevel: 17
         activeMapType: map2.supportedMapTypes[0]
         state: "small"
@@ -302,7 +304,7 @@ Item {
         height: 45
         width: 45
         text: "+"
-        onPressed: map.zoomLevel = map.zoomLevel + 1
+        onPressed: map.zoomLevel = Math.round(map.zoomLevel + 1)
     }
     Button {
         anchors.bottom: parent.bottom
@@ -311,6 +313,6 @@ Item {
         height: 45
         width: 45
         text: "-"
-        onPressed: map.zoomLevel = map.zoomLevel - 1
+        onPressed: map.zoomLevel = Math.round(map.zoomLevel - 1)
     }
 }
