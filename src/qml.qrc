@@ -36,6 +36,6 @@
         <file>img/battery1.png</file>
         <file>img/battery7.png</file>
         <file>jsonParser.js</file>
-        <file>influxdb.js</file>
+        <file>Information.qml</file>
     </qresource>
 </RCC>

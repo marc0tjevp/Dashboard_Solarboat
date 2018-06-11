@@ -65,15 +65,6 @@ Item {
         width: 320
         radius: 5
 
-        Text {
-            id: timeLeft
-            text: "Time Left: 00:00"
-        }
-        Text {
-            id: batteryCurrent
-            text: "Time Left: 00:00"
-        }
-
 
     }
 

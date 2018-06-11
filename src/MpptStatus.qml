@@ -13,7 +13,7 @@ import QlChannelSerial 1.0
 import QtGraphicalEffects 1.0
 
 Item {
-    width: parent.width
+    width: 550
     height: parent.height
 
     property alias name: mpptNr.text

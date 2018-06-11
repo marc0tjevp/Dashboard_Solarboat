@@ -88,7 +88,7 @@ function func() {
                 battery.charge          = JsonObject.bms.flags[1];
                 battery.isCharging      = JsonObject.bms.flags[2];
 
-                batteryBarSet.values = JsonObject.bms.cells;
+                informationTab.batteryBarSet = JsonObject.bms.cells;
 
                 if (battery.isCharging && battery.packSOC <= 20) {
                     battery.indicator = 6;
@@ -107,18 +107,6 @@ function func() {
                 }
 
                 network.canbus = true;
-
-                // Sending Motor info to InfluxDB
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'https://influxdb.avanssolarboat.nl/write?db=boat_data&u=solarboat&p=ZSzfAkcW55vR', true);
-                xhr.send("motor,mode=testing rpm="+ motor.rpm +"i,power="+ motor.power +"i,current="+ motor.current +",temp="+ motor.temp +",voltage="+ motor.voltage +",ready="+ motor.driveReady +",kill="+ motor.killSwitch);
-
-                // Sending GPS info to InfluxDB
-                var xhr1 = new XMLHttpRequest();
-                xhr1.open("POST", 'https://influxdb.avanssolarboat.nl/write?db=boat_data&u=solarboat&p=ZSzfAkcW55vR', true);
-                xhr1.send("gps,mode=testing speed="+ gps.speed);
-
-                // Sending MPPT info to InfluxDB
 
             } catch(e) {
                 network.canbus = false;

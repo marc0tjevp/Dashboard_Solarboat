@@ -27,6 +27,7 @@ Rectangle {
         height: parent.height
         width: 320
         anchors.right: parent.right
+        anchors.rightMargin: 0
         spacing: 10
 
 
@@ -137,6 +138,7 @@ Rectangle {
         Rectangle {
             width: 85
             height: 40
+            color: "#00000000"
             Text {
                 id: batterySOCindicator
                 anchors.verticalCenter: parent.verticalCenter
@@ -187,28 +189,30 @@ Rectangle {
                 ]
             }
         }
-        Rectangle {
-            height: parent.height
-            width: 110
-            color: "white"
-            Text {
-                id: clock
-                color: "black"
-                text: "00:00:00"
-                anchors.centerIn: parent
-                font.bold: true
-                font.pixelSize: 20
+    }
+    Rectangle {
+        height: parent.height
+        width: 110
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        color: "#00000000"
+        Text {
+            id: clock
+            color: "black"
+            text: "00:00:00"
+            anchors.centerIn: parent
+            font.bold: true
+            font.pixelSize: 20
 
-                Timer {
-                    id: timer
-                    interval: 1000
-                    repeat: true
-                    running: true
+            Timer {
+                id: timer
+                interval: 1000
+                repeat: true
+                running: true
 
-                    onTriggered:
-                    {
-                        clock.text =  Qt.formatTime(new Date(),"hh:mm:ss");
-                    }
+                onTriggered:
+                {
+                    clock.text =  Qt.formatTime(new Date(),"hh:mm:ss");
                 }
             }
         }
