@@ -21,16 +21,17 @@ Item {
 
     SwipeView {
         id: view
-        currentIndex: 1
         anchors.fill: parent
         orientation: Qt.Vertical
+        currentIndex: tabBar.currentIndex
+        interactive: false
 
         Item {
             id: firstPage
 
             ChartView {
                 title: "Battery Cell-Voltage [V]"
-                height: parent.height
+                height: parent.height - 40
                 x: 0
                 y: 0
                 width: 550
@@ -72,7 +73,7 @@ Item {
                 anchors.topMargin: 10
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                height: parent.height - 20
+                height: parent.height - 60
                 width: 240
                 radius: 5
 
@@ -193,14 +194,27 @@ Item {
         }
     }
 
-    PageIndicator {
-        id: indicator
-
-        count: view.count
+    TabBar {
+        id: tabBar
+        width: 800
+        height: 40
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        Layout.fillWidth: true
+        Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
         currentIndex: view.currentIndex
-
-        anchors.bottom: view.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        TabButton {
+            height: 40
+            text: qsTr("Li-Ion Battery")
+        }
+        TabButton {
+            height: 40
+            text: qsTr("Solar Energy")
+        }
+        TabButton {
+            height: 40
+            text: qsTr("Electric Motor")
+        }
     }
 
 
