@@ -18,6 +18,15 @@ Item {
     height: parent.height
     width: parent.width
 
+    Process {
+        id: process
+        onReadyRead: brightnessSlider.value = parseInt(readAll());
+    }
+    Process {
+        id: commandRunner
+        onReadyRead: console.debug(readAll());
+    }
+
     Rectangle {
          x: 10
          y: 10
@@ -136,6 +145,14 @@ Item {
         width: parent.width - 20
         radius: 5
 
+        Button {
+            id: updateBtn
+            text: "Update"
+            onReleased: {
+                commandRunner.start("cd /home/pi/Dashboard_Solarboat/ && git pull");
+            }
+        }
+
     }
 
     Rectangle {
@@ -171,14 +188,7 @@ Item {
             }
         }
 
-        Process {
-            id: process
-            onReadyRead: brightnessSlider.value = parseInt(readAll());
-        }
-        Process {
-            id: telegrafWorker
-            onReadyRead: console.debug(readAll());
-        }
+
         Slider {
             id: brightnessSlider
             anchors.verticalCenter: parent.verticalCenter
@@ -206,26 +216,6 @@ Item {
             anchors.rightMargin: 10
             text: "Set Brightness"
             onPressed: { process.start("rpi-backlight -b " + brightnessSlider.value + " -s -d 1"); }
-        }
-    }
-
-    Timer {
-        id: influxdbPusher
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered: {
-            // Sending Motor info to InfluxDB
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", 'http://localhost:8186/write?db=boat_data', true);
-            xhr.send("motor,mode=testing rpm="+ motor.rpm +"i,power="+ motor.power +"i,current="+ motor.current +",temp="+ motor.temp +",voltage="+ motor.voltage +",ready="+ motor.driveReady +",kill="+ motor.killSwitch);
-
-            // Sending GPS info to InfluxDB
-            var xhr1 = new XMLHttpRequest();
-            xhr1.open("POST", 'http://localhost:8186/write?db=boat_data', true);
-            xhr1.send("gps,mode=testing speed="+ gps.speed);
-
-            // Sending MPPT info to InfluxDB
         }
     }
 }
