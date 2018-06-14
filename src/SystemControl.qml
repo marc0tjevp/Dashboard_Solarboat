@@ -24,7 +24,7 @@ Item {
     }
     Process {
         id: commandRunner
-        onReadyRead: console.debug(readAll());
+        onReadyRead: commandOut.text = readAll();
     }
 
     Rectangle {
@@ -147,10 +147,24 @@ Item {
 
         Button {
             id: updateBtn
+            x: 10
             text: "Update App"
             onReleased: {
                 commandRunner.start("sudo git -C /home/pi/Dashboard_Solarboat pull");
             }
+        }
+        TextArea {
+            id: commandOut
+            anchors.left: updateBtn.right
+            anchors.leftMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            font.pixelSize: 12
+            readOnly: true
+            wrapMode: TextArea.WrapAnywhere
+            placeholderText: "... Nothing yet"
         }
 
     }
