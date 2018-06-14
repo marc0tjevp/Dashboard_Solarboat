@@ -147,9 +147,9 @@ Item {
 
         Button {
             id: updateBtn
-            text: "Update"
+            text: "Update App"
             onReleased: {
-                commandRunner.start("cd /home/pi/Dashboard_Solarboat/ && git pull");
+                commandRunner.start("sudo git -C /home/pi/Dashboard_Solarboat pull");
             }
         }
 
