@@ -32,7 +32,7 @@ TCP_PORT = 8080
 #Setup TCP-Socket
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socketConnected = False
-while !socketSonnected:
+while not socketConnected:
 	try:	
 		socket.connect((TCP_IP, TCP_PORT))
 		socketConnected = True
@@ -43,4 +43,3 @@ while !socketSonnected:
 
 httpd = HTTPServer(('localhost', 8888), SimpleHTTPRequestHandler)
 httpd.serve_forever()
-
