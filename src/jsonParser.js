@@ -108,6 +108,16 @@ function func() {
 
                 network.canbus = true;
 
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", 'http://localhost:8888', true);
+                xhr.send(result + "\n");
+
+//                var buffer = "sendJson '" + result + "'";
+//                telegrafWorker.start(buffer);
+//                console.debug(buffer);
+
+
+
             } catch(e) {
                 network.canbus = false;
                 network.errors++;
