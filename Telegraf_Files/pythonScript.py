@@ -31,11 +31,11 @@ def send_to_telegraf(content):
 		connect_socket()
 
 #Setup TCP-Socket
-def connect_socket():
-	while not socketConnected:
+def connect_socket(self):
+	while not self.socketConnected:
 		try:	
-			socket.connect((TCP_IP, TCP_PORT))
-			socketConnected = True
+			self.socket.connect((TCP_IP, TCP_PORT))
+			self.socketConnected = True
 		except:
 			print("Failed to connect to Telegraf")
 			time.sleep(1)
