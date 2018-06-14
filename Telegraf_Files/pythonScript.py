@@ -1,19 +1,17 @@
-#!/usr/bin/env python
-# /etc/init.d/pythonScript.py
-### BEGIN INIT INFO
-# Provides:          pythonScript.py
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Start daemon at boot time
-# Description:       Enable service provided by daemon.
-### END INIT INFO
+#!/usr/bin/env python3
 
 import socket
 import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from io import BytesIO
+
+# Socket with Telegraf
+TCP_IP = '127.0.0.1'
+TCP_PORT = 8080
+socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socketConnected = False
+
+
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -23,23 +21,29 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         body = self.rfile.read(content_length)
         self.send_response(200)
         self.end_headers()
-        socket.send(body)
+        send_to_telegraf(body)
 
 
-TCP_IP = '127.0.0.1'
-TCP_PORT = 8080
+def send_to_telegraf(content):
+	try:
+		socket.send(content)
+	except socket.timeout:
+		connect_socket()
 
 #Setup TCP-Socket
-socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-socketConnected = False
-while not socketConnected:
-	try:	
-		socket.connect((TCP_IP, TCP_PORT))
-		socketConnected = True
-	except:
-		print("Failed to connect to Telegraf")
-		time.sleep(1)
+def connect_socket():
+	while not socketConnected:
+		try:	
+			socket.connect((TCP_IP, TCP_PORT))
+			socketConnected = True
+		except:
+			print("Failed to connect to Telegraf")
+			time.sleep(1)
 
 
+connect_socket()
+
+# HTTP listener for JSON data from Dashboard
 httpd = HTTPServer(('localhost', 8888), SimpleHTTPRequestHandler)
 httpd.serve_forever()
+
