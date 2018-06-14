@@ -8,7 +8,7 @@ from io import BytesIO
 # Socket with Telegraf
 TCP_IP = '127.0.0.1'
 TCP_PORT = 8080
-socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socket = None 
 
 
 
@@ -32,7 +32,8 @@ def send_to_telegraf(content):
 def connect_socket():
 	connected = False
 	while not connected:
-		try:	
+		try:
+			socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)	
 			socket.connect((TCP_IP, TCP_PORT))
 			connected = True
 		except:
