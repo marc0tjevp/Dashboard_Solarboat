@@ -190,19 +190,26 @@ Rectangle {
         zoomFactor: 0.83
     }
 
-    InputPanel {
-            id: inputPanel
-            y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
-            anchors.left: parent.left
-            anchors.right: parent.right
-            focus: true
-            z:100
-        }
+//    InputPanel {
+//            id: inputPanel
+//            y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            focus: true
+//            z:100
+//        }
 }
 Rectangle{
     anchors.left: devForceSize.right
     height: devForceSize.height
     width: parent.width - devForceSize.width
+    color: "#000000"
+}
+Rectangle{
+    x: 0
+    anchors.top: devForceSize.bottom
+    anchors.bottom: parent.bottom
+    width: parent.width
     color: "#000000"
 }
 }

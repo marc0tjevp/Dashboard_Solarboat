@@ -191,6 +191,24 @@ Item {
         }
         Item {
             id: thirdPage
+
+            Rectangle {
+                x: 10
+                y: 10
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
+                radius: 5
+
+                ColumnLayout{
+                    spacing: 2
+                    x: 10
+
+
+                }
+
+            }
         }
     }
 
