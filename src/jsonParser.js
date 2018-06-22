@@ -75,10 +75,10 @@ function func() {
                 mppt3.undv          = JsonObject.MPPT.UNDV[2];
                 mppt4.undv          = JsonObject.MPPT.UNDV[3];
 
-                mppt1.temp          = JsonObject.MPPT.Temp[0];
-                mppt2.temp          = JsonObject.MPPT.Temp[1];
-                mppt3.temp          = JsonObject.MPPT.Temp[2];
-                mppt4.temp          = JsonObject.MPPT.Temp[3];
+                //mppt1.temp          = JsonObject.MPPT.Temp[0];
+                //mppt2.temp          = JsonObject.MPPT.Temp[1];
+                //mppt3.temp          = JsonObject.MPPT.Temp[2];
+                //mppt4.temp          = JsonObject.MPPT.Temp[3];
 
                 battery.packVoltage     = JsonObject.bms.PackVol;
                 battery.packCurrent     = JsonObject.bms.I;
