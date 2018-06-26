@@ -155,15 +155,15 @@ Item {
                     y: 10
                     Text {
                         font.pixelSize: 18
-                        text: "SOLAR: \t" + mppt.totalPower + "W"
+                        text: "SOLAR: \t    " + mppt.totalPower + " W"
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "MOTOR: \t" + motor.power + "W"
+                        text: "MOTOR:     " + motor.power + " W"
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "BATT: \t" + battery.power + "W"
+                        text: "BATT: \t    " + battery.power + " W"
                     }
                 }
 
@@ -172,7 +172,7 @@ Item {
             MpptStatus {
                 y: 0
                 name: "MPPT #1"
-                indicator: "1"
+                indicator: ((mppt1.noc + mppt1.bvlr + mppt1.ovt + mppt1.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt1.voltageIn * 100)/100
                 currentInput: Math.round(mppt1.currentIn * 100)/100
                 status: mppt1.temp
@@ -185,7 +185,7 @@ Item {
             MpptStatus {
                 y: 90
                 name: "MPPT #2"
-                indicator: "1"
+                indicator: ((mppt2.noc + mppt2.bvlr + mppt2.ovt + mppt2.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt2.voltageIn * 100)/100
                 currentInput: Math.round(mppt2.currentIn * 100)/100
                 status: mppt2.temp
@@ -197,7 +197,7 @@ Item {
             MpptStatus {
                 y: 180
                 name: "MPPT #3"
-                indicator: "1"
+                indicator: ((mppt3.noc + mppt3.bvlr + mppt3.ovt + mppt3.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt3.voltageIn * 100)/100
                 currentInput: Math.round(mppt3.currentIn * 100)/100
                 status: mppt3.temp
@@ -209,7 +209,7 @@ Item {
             MpptStatus {
                 y: 270
                 name: "MPPT #4"
-                indicator: "1"
+                indicator: ((mppt4.noc + mppt4.bvlr + mppt4.ovt + mppt4.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt4.voltageIn * 100)/100
                 currentInput: Math.round(mppt4.currentIn * 100)/100
                 status: mppt4.temp
@@ -232,7 +232,7 @@ Item {
                 radius: 5
 
                 ColumnLayout{
-                    spacing: 5
+                    spacing: 2
                     x: 10
                     y: 10
                     Text {
@@ -241,15 +241,15 @@ Item {
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "Voltage: \t\t" + motor.voltage + "V"
+                        text: "Voltage: \t" + motor.voltage
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "Current: \t\t" + motor.current + "A"
+                        text: "Current: \t\t" + motor.current
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "Power: \t\t" + motor.power + "W"
+                        text: "Power: \t\t" + motor.power
                     }
                     Text {
                         font.pixelSize: 18
@@ -265,13 +265,41 @@ Item {
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "KisslSwitch: \t" + motor.killSwitch
+                        text: "Set RPM: \t" + motor.setRPM
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "Max Current: \t" + motor.setCurrent
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "State: \t\t" + motor.state
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "KillSwitch: \t" + motor.killSwitch
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "FailSafe: \t" + motor.failSafe
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "Timeout: \t" + motor.timeout
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "OverVolt.: \t" + motor.overVoltage
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "UnderVolt.: \t" + motor.underVoltage
                     }
                 }
             }
 
             ChartView {
-                legend.visible: true
+                id: viewer
                 antialiasing: true
                 margins.top: 0
                 margins.left: 0
@@ -281,43 +309,38 @@ Item {
                 animationOptions: ChartView.SeriesAnimations
                 x: 300
                 y: 10
-                height: parent.height - 40
+                height: parent.height - 80
                 width: 480
 
-                ValueAxis {
-                    id: axisY
-                    visible: true
-                    tickCount: 8
-                    min: 0
-                    max: 4000
-                }
+                LineSeries {
+                    name: "Motor"
+                    axisX: ValueAxis {
+                        property real minValue: 2000
+                        property real maxValue: 2011
+                        property real range: 5
+                        min: minValue + sb.position * (maxValue - minValue - range)
+                        max: minValue + sb.position * (maxValue - minValue - range) + range
+                        tickCount: 12
+                        visible: false
+                    }
 
-                ValueAxis {
-                    id: axisX
-                    visible: true
+                    axisY: ValueAxis {
+                        min: 0
+                        max: 4000
+                        tickCount: 5
+                        labelFormat: "%.0f"
+                    }
+                    XYPoint { x: 2000; y: 0.0 }
+                    XYPoint { x: 2001; y: 3.2 }
+                    XYPoint { x: 2002; y: 2.4 }
+                    XYPoint { x: 2003; y: 2.1 }
+                    XYPoint { x: 2004; y: 2.6 }
+                    XYPoint { x: 2008; y: 2.3 }
+                    XYPoint { x: 2011; y: 3.1 }
                 }
 
                 LineSeries {
                     name: "Solar"
-                    axisX: axisX
-                    axisY: axisY
-                    XYPoint { x: 2000; y: 300 }
-                    XYPoint { x: 2001; y: 312 }
-                    XYPoint { x: 2002; y: 568 }
-                    XYPoint { x: 2003; y: 587 }
-                    XYPoint { x: 2004; y: 534 }
-                    XYPoint { x: 2005; y: 523 }
-                    XYPoint { x: 2006; y: 222 }
-                    XYPoint { x: 2007; y: 289 }
-                    XYPoint { x: 2008; y: 245 }
-                    XYPoint { x: 2009; y: 212 }
-                    XYPoint { x: 2010; y: 211 }
-                    XYPoint { x: 2011; y: 200 }
-                }
-                LineSeries {
-                    name: "Solar"
-                    axisX: axisX
-                    axisY: axisY
                     XYPoint { x: 2000; y: 1267 }
                     XYPoint { x: 2001; y: 1297 }
                     XYPoint { x: 2002; y: 1295 }
@@ -332,9 +355,7 @@ Item {
                     XYPoint { x: 2011; y: 1998 }
                 }
                 LineSeries {
-                    name: "Solar"
-                    axisX: axisX
-                    axisY: axisY
+                    name: "Battry"
                     XYPoint { x: 2000; y: 1067 }
                     XYPoint { x: 2001; y: 1097 }
                     XYPoint { x: 2002; y: 1095 }
@@ -348,6 +369,16 @@ Item {
                     XYPoint { x: 2010; y: 2775 }
                     XYPoint { x: 2011; y: 1798 }
                 }
+            }
+
+            Slider {
+                id: sb
+                anchors {
+                    bottom: viewer.bottom
+                    left: viewer.left
+                    right: viewer.right
+                }
+                height: 30
             }
         }
     }

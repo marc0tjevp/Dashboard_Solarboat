@@ -246,6 +246,7 @@ Item {
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: 40
+            font.pixelSize: 20
             text: "No Status"
 
         }

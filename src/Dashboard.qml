@@ -71,7 +71,7 @@ Item {
             y: 10
             Text {
                 font.pixelSize: 18
-                text: "Set RPM: \t\t" + motor.setRPM
+                text: "Set RPM: \t" + motor.setRPM
             }
             Text {
                 font.pixelSize: 18

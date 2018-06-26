@@ -85,7 +85,7 @@ Item {
              font.pixelSize: 12
              readOnly: true
              wrapMode: TextArea.WrapAnywhere
-             placeholderText: "[1] Select the correct device in the dropdown menu.\n[2] Press Connect.\n\nIf the correct device is not shown: Check dmesg + Restart program. \n\nThis system is designed for Gateway Firmware 4.1.2."
+             placeholderText: "[1] Select the correct device in the dropdown menu.\n[2] Press Connect.\n\nIf the correct device is not shown: Check dmesg + Restart program. \n\nThis system is designed for Gateway Firmware 4.2.0."
          }
 
          Timer {
