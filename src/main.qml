@@ -49,15 +49,17 @@ Rectangle {
         property real   rpm:            0
         property real   voltage:        0
         property real   current:        0
-        property real   power:          Math.round(motor.voltage * motor.current)
+        property real   power:          (motor.voltage * motor.current) | 0
         property real   temp:           0
         property real   driveReady:     0
         property real   driveEnabled:   0
         property real   killSwitch:     0
+        property real   setRPM:         0
+        property real   setCurrent:     0
     }
     Item {
         id: mppt
-        property real   totalPower:     mppt1.power + mppt2.power + mppt3.power + mppt4.power
+        property real   totalPower:     (mppt1.power + mppt2.power + mppt3.power + mppt4.power) | 0
     }
     Item {
         id: mppt1
@@ -105,6 +107,7 @@ Rectangle {
     }
     Item {
         id: battery
+        property real   power:          (battery.packCurrent * battery.packVoltage) | 0
         property real   indicator:      0
         property real   packVoltage:    0
         property real   packCurrent:    0

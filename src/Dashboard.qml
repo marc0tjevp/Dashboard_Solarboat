@@ -65,6 +65,19 @@ Item {
         width: 320
         radius: 5
 
+        ColumnLayout{
+            spacing: 5
+            x: 10
+            y: 10
+            Text {
+                font.pixelSize: 18
+                text: "Set RPM: \t\t" + motor.setRPM
+            }
+            Text {
+                font.pixelSize: 18
+                text: "Set Current: \t" + motor.setCurrent
+            }
+        }
 
     }
 
@@ -109,23 +122,23 @@ Item {
         }
     }
     Text {
-        text: Math.round(motor.power) + "W \nMotor"
+        text: Math.round(motor.power) + "W"
         x: 15
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 13
         font.bold: true
-        font.pixelSize: 10
+        font.pixelSize: 20
         color: "white"
     }
     Text {
-        text: mppt.totalPower + "W \nSolar"
+        text: mppt.totalPower + "W"
         anchors.right: parent.right
         anchors.rightMargin: 300
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 14
         horizontalAlignment: Text.AlignRight
         font.bold: true
-        font.pixelSize: 10
+        font.pixelSize: 20
         color: "white"
     }
 

@@ -33,7 +33,7 @@ Item {
         x: 10
         y: 10
         width: parent.width - 20
-        height: 70
+        height: 80
         radius: 5
 
         Text {
