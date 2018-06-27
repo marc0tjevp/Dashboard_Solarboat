@@ -232,10 +232,10 @@ Item {
 
         Text {
             id: mpptPowerOuput
-            anchors.left: parent.left
-            anchors.leftMargin: 420
+            anchors.right: parent.right
+            anchors.rightMargin: 30
             anchors.verticalCenter: parent.verticalCenter
-            text: Math.round(mpptVoltageIn.text * mpptCurrentIn.text) + " W"
+            text: ((mpptVoltageIn.text * mpptCurrentIn.text) | 0) + " W"
             font.pixelSize: 25
             font.weight: Font.Black
         }

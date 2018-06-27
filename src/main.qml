@@ -68,19 +68,19 @@ Rectangle {
     }
     Item {
         id: mppt1
-        property real   currentIn:      1
-        property real   voltageIn:      2
+        property real   currentIn:      0
+        property real   voltageIn:      0
         property real   temp:           0
         property real   bvlr:           0
-        property real   undv:           1
+        property real   undv:           0
         property real   ovt:            0
         property real   noc:            0
         property real   power:          (mppt1.voltageIn * mppt1.currentIn) | 0
     }
     Item {
         id: mppt2
-        property real   currentIn:      1
-        property real   voltageIn:      2
+        property real   currentIn:      0
+        property real   voltageIn:      0
         property real   temp:           0
         property real   bvlr:           0
         property real   undv:           0

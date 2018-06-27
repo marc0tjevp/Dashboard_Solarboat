@@ -122,7 +122,7 @@ Item {
         }
     }
     Text {
-        text: Math.round(motor.power) + "W"
+        text: Math.round(motor.power) + " W"
         x: 15
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 13
@@ -131,9 +131,9 @@ Item {
         color: "white"
     }
     Text {
-        text: mppt.totalPower + "W"
+        text: mppt.totalPower + " W"
         anchors.right: parent.right
-        anchors.rightMargin: 300
+        anchors.rightMargin: 265
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 14
         horizontalAlignment: Text.AlignRight
