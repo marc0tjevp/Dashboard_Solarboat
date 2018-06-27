@@ -51,6 +51,8 @@ Rectangle {
         property real   current:        0
         property real   power:          (motor.voltage * motor.current) | 0
         property real   temp:           0
+        property real   tempPCB:        0
+        property real   direction:      0
         property real   driveReady:     0
         property real   driveEnabled:   0
         property real   killSwitch:     0
