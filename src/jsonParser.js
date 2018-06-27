@@ -41,6 +41,8 @@ function func() {
                 motor.voltage       = JsonObject.Motor.Bat;
                 motor.current       = JsonObject.Motor.I;
                 motor.temp          = JsonObject.Motor.T_Motor;
+                motor.tempPCB       = JsonObject.Motor.T_PCB;
+                motor.direction     = JsonObject.Motor.Dir;
                 motor.driveReady    = JsonObject.Motor.Ready;
                 motor.driveEnabled  = JsonObject.Motor.Enable;
                 motor.killSwitch    = JsonObject.Motor.Kill;
