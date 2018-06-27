@@ -7,6 +7,7 @@ import QtGraphicalEffects 1.0
 import QtLocation 5.9
 import QtPositioning 5.8
 import QtQuick.Layouts 1.3
+import QtWebEngine 1.5
 
 Item {
     id: dashboard
@@ -88,7 +89,13 @@ Item {
         width: 530
         radius: 5
 
-
+        WebEngineView {
+            id: webEngineViewer2
+            height: parent.height
+            width: parent.width
+            url: "https://dashboard.avanssolarboat.nl/d-solo/-qO4NuSmz/telegraf?panelId=32&orgId=1&refresh=10s&theme=light"
+            zoomFactor: 1
+        }
     }
 
     ChartView {

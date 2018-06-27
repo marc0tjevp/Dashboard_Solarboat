@@ -233,8 +233,8 @@ Item {
 
                 ColumnLayout{
                     spacing: 2
-                    x: 10
-                    y: 10
+                    x: 5
+                    y: 5
                     Text {
                         font.pixelSize: 18
                         text: "RPM: \t\t" + motor.rpm
@@ -253,7 +253,15 @@ Item {
                     }
                     Text {
                         font.pixelSize: 18
-                        text: "Temp: \t\t" + motor.temp
+                        text: "Temp Motor: \t" + motor.temp
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "Temp PCB: \t" + motor.tempPCB
+                    }
+                    Text {
+                        font.pixelSize: 18
+                        text: "Direction: \t" + motor.direction
                     }
                     Text {
                         font.pixelSize: 18
