@@ -72,44 +72,44 @@ Rectangle {
         id: mppt1
         property real   currentIn:      0
         property real   voltageIn:      0
-        property real   temp:           0
-        property real   bvlr:           0
-        property real   undv:           0
-        property real   ovt:            0
-        property real   noc:            0
+        property string   temp:           "No Temp"
+        property real   bvlr:           1
+        property real   undv:           1
+        property real   ovt:            1
+        property real   noc:            1
         property real   power:          (mppt1.voltageIn * mppt1.currentIn) | 0
     }
     Item {
         id: mppt2
         property real   currentIn:      0
         property real   voltageIn:      0
-        property real   temp:           0
-        property real   bvlr:           0
-        property real   undv:           0
-        property real   ovt:            0
-        property real   noc:            0
+        property string   temp:           "No Temp"
+        property real   bvlr:           1
+        property real   undv:           1
+        property real   ovt:            1
+        property real   noc:            1
         property real   power:          (mppt2.voltageIn * mppt2.currentIn) | 0
     }
     Item {
         id: mppt3
         property real   currentIn:      0
         property real   voltageIn:      0
-        property real   temp:           0
-        property real   bvlr:           0
-        property real   undv:           0
-        property real   ovt:            0
-        property real   noc:            0
+        property string   temp:           "No Temp"
+        property real   bvlr:           1
+        property real   undv:           1
+        property real   ovt:            1
+        property real   noc:            1
         property real   power:          (mppt3.voltageIn * mppt3.currentIn) | 0
     }
     Item {
         id: mppt4
         property real   currentIn:      0
         property real   voltageIn:      0
-        property real   temp:           0
-        property real   bvlr:           0
-        property real   undv:           0
-        property real   ovt:            0
-        property real   noc:            0
+        property string   temp:           "No Temp"
+        property real   bvlr:           1
+        property real   undv:           1
+        property real   ovt:            1
+        property real   noc:            1
         property real   power:          (mppt4.voltageIn * mppt4.currentIn) | 0
     }
     Item {
@@ -200,14 +200,14 @@ Rectangle {
         zoomFactor: 0.83
     }
 
-//    InputPanel {
-//            id: inputPanel
-//            y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            focus: true
-//            z:100
-//        }
+    InputPanel {
+            id: inputPanel
+            y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
+            anchors.left: parent.left
+            anchors.right: parent.right
+            focus: true
+            z:100
+        }
 }
 Rectangle{
     anchors.left: devForceSize.right

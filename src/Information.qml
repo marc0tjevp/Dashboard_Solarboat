@@ -55,7 +55,7 @@ Item {
                     id: batteryChart
                     axisY: batteryAxisY
                     axisX: BarCategoryAxis { categories: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ] }
-                    BarSet { id: batteryBarSet; label: "Cell"; values: [3.1, 3.1, 3.3, 3.8, 3.2, 3.0, 4.0, 4.1, 4.0, 3.2, 3.2, 4.0] }
+                    BarSet { id: batteryBarSet; label: "Cell"; values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
                 }
                 LineSeries {
                     axisX : batteryNorm
@@ -169,9 +169,36 @@ Item {
 
             }
 
+            Text {
+                anchors.centerIn: mppt1Status
+                font.pixelSize: 30
+                font.bold: true
+                text: "MPPT 1 IS NOT CONNECTED"
+            }
+            Text {
+                anchors.centerIn: mppt2Status
+                font.pixelSize: 30
+                font.bold: true
+                text: "MPPT 2 IS NOT CONNECTED"
+            }
+            Text {
+                anchors.centerIn: mppt3Status
+                font.pixelSize: 30
+                font.bold: true
+                text: "MPPT 3 IS NOT CONNECTED"
+            }
+            Text {
+                anchors.centerIn: mppt4Status
+                font.pixelSize: 30
+                font.bold: true
+                text: "MPPT 4 IS NOT CONNECTED"
+            }
+
             MpptStatus {
+                id: mppt1Status
                 y: 0
                 name: "MPPT #1"
+                visible: mppt1.voltageIn > 15 ? true : false
                 indicator: ((mppt1.noc + mppt1.bvlr + mppt1.ovt + mppt1.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt1.voltageIn * 100)/100
                 currentInput: Math.round(mppt1.currentIn * 100)/100
@@ -183,8 +210,10 @@ Item {
             }
 
             MpptStatus {
-                y: 90
+                id: mppt2Status
+                y: 100
                 name: "MPPT #2"
+                visible: mppt2.voltageIn > 15 ? true : false
                 indicator: ((mppt2.noc + mppt2.bvlr + mppt2.ovt + mppt2.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt2.voltageIn * 100)/100
                 currentInput: Math.round(mppt2.currentIn * 100)/100
@@ -195,8 +224,10 @@ Item {
                 underVoltage: mppt2.undv
             }
             MpptStatus {
-                y: 180
+                id: mppt3Status
+                y: 205
                 name: "MPPT #3"
+                visible: mppt3.voltageIn > 15 ? true : false
                 indicator: ((mppt3.noc + mppt3.bvlr + mppt3.ovt + mppt3.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt3.voltageIn * 100)/100
                 currentInput: Math.round(mppt3.currentIn * 100)/100
@@ -207,8 +238,10 @@ Item {
                 underVoltage: mppt3.undv
             }
             MpptStatus {
-                y: 270
+                id: mppt4Status
+                y: 310
                 name: "MPPT #4"
+                visible: mppt4.voltageIn > 15 ? true : false
                 indicator: ((mppt4.noc + mppt4.bvlr + mppt4.ovt + mppt4.undv) === 0) ? "1" : "0"
                 voltageInput: Math.round(mppt4.voltageIn * 100)/100
                 currentInput: Math.round(mppt4.currentIn * 100)/100
@@ -232,161 +265,83 @@ Item {
                 radius: 5
 
                 ColumnLayout{
-                    spacing: 2
+                    spacing: 5
                     x: 5
                     y: 5
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "RPM: \t\t" + motor.rpm
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Voltage: \t" + motor.voltage
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Current: \t\t" + motor.current
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Power: \t\t" + motor.power
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Temp Motor: \t" + motor.temp
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Temp PCB: \t" + motor.tempPCB
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Direction: \t" + motor.direction
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "DriveReady: \t" + motor.driveReady
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "DriveEnabled: \t" + motor.driveEnabled
                     }
+                }
+                ColumnLayout{
+                    spacing: 5
+                    x: 400
+                    y: 5
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Set RPM: \t" + motor.setRPM
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Max Current: \t" + motor.setCurrent
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "State: \t\t" + motor.state
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "KillSwitch: \t" + motor.killSwitch
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "FailSafe: \t" + motor.failSafe
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "Timeout: \t" + motor.timeout
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "OverVolt.: \t" + motor.overVoltage
                     }
                     Text {
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         text: "UnderVolt.: \t" + motor.underVoltage
                     }
                 }
-            }
-
-            ChartView {
-                id: viewer
-                antialiasing: true
-                margins.top: 0
-                margins.left: 0
-                margins.right: 0
-                backgroundColor: "#00000000"
-                animationDuration: 100
-                animationOptions: ChartView.SeriesAnimations
-                x: 300
-                y: 10
-                height: parent.height - 80
-                width: 480
-
-                LineSeries {
-                    name: "Motor"
-                    axisX: ValueAxis {
-                        property real minValue: 2000
-                        property real maxValue: 2011
-                        property real range: 5
-                        min: minValue + sb.position * (maxValue - minValue - range)
-                        max: minValue + sb.position * (maxValue - minValue - range) + range
-                        tickCount: 12
-                        visible: false
-                    }
-
-                    axisY: ValueAxis {
-                        min: 0
-                        max: 4000
-                        tickCount: 5
-                        labelFormat: "%.0f"
-                    }
-                    XYPoint { x: 2000; y: 0.0 }
-                    XYPoint { x: 2001; y: 3.2 }
-                    XYPoint { x: 2002; y: 2.4 }
-                    XYPoint { x: 2003; y: 2.1 }
-                    XYPoint { x: 2004; y: 2.6 }
-                    XYPoint { x: 2008; y: 2.3 }
-                    XYPoint { x: 2011; y: 3.1 }
-                }
-
-                LineSeries {
-                    name: "Solar"
-                    XYPoint { x: 2000; y: 1267 }
-                    XYPoint { x: 2001; y: 1297 }
-                    XYPoint { x: 2002; y: 1295 }
-                    XYPoint { x: 2003; y: 2633 }
-                    XYPoint { x: 2004; y: 2367 }
-                    XYPoint { x: 2005; y: 3432 }
-                    XYPoint { x: 2006; y: 3454 }
-                    XYPoint { x: 2007; y: 3378 }
-                    XYPoint { x: 2008; y: 3398 }
-                    XYPoint { x: 2009; y: 3411 }
-                    XYPoint { x: 2010; y: 2975 }
-                    XYPoint { x: 2011; y: 1998 }
-                }
-                LineSeries {
-                    name: "Battry"
-                    XYPoint { x: 2000; y: 1067 }
-                    XYPoint { x: 2001; y: 1097 }
-                    XYPoint { x: 2002; y: 1095 }
-                    XYPoint { x: 2003; y: 2433 }
-                    XYPoint { x: 2004; y: 2167 }
-                    XYPoint { x: 2005; y: 3232 }
-                    XYPoint { x: 2006; y: 3254 }
-                    XYPoint { x: 2007; y: 3178 }
-                    XYPoint { x: 2008; y: 3198 }
-                    XYPoint { x: 2009; y: 3211 }
-                    XYPoint { x: 2010; y: 2775 }
-                    XYPoint { x: 2011; y: 1798 }
-                }
-            }
-
-            Slider {
-                id: sb
-                anchors {
-                    bottom: viewer.bottom
-                    left: viewer.left
-                    right: viewer.right
-                }
-                height: 30
             }
         }
     }

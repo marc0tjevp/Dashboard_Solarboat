@@ -1,6 +1,8 @@
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QGuiApplication>
+#include <QtWebEngine/qtwebengineglobal.h>
 #include <QQmlContext>
 #include <QDebug>
 #include <QSerialPort>
@@ -46,7 +48,9 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+    //QGuiApplication app(argc, argv);
 
+    QtWebEngine::initialize();
 
     qmlRegisterType<QlChannelSerial>("QlChannelSerial", 1,0, "QlChannelSerial");
     qmlRegisterType<Process>("Process", 1, 0, "Process");
@@ -72,6 +76,7 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    app.setWindowIcon(QIcon("qrc:/img/boat.png"));
     return app.exec();
+
+
 }

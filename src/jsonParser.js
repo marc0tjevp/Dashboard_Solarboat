@@ -37,23 +37,6 @@ function func() {
                 gps.speed           = JsonObject.gps.speed;
                 gps.hdop            = JsonObject.gps.hdop;
 
-                motor.rpm           = JsonObject.Motor.RPM;
-                motor.voltage       = JsonObject.Motor.Bat;
-                motor.current       = JsonObject.Motor.I;
-                motor.temp          = JsonObject.Motor.T_Motor;
-                motor.tempPCB       = JsonObject.Motor.T_PCB;
-                motor.direction     = JsonObject.Motor.Dir;
-                motor.driveReady    = JsonObject.Motor.Ready;
-                motor.driveEnabled  = JsonObject.Motor.Enable;
-                motor.killSwitch    = JsonObject.Motor.Kill;
-                motor.setRPM        = JsonObject.Motor.Hn;
-                motor.setCurrent    = JsonObject.Motor.Hi;
-                motor.state         = JsonObject.Motor.St;
-                motor.failSafe      = JsonObject.Motor.Fault[0];
-                motor.timeout       = JsonObject.Motor.Fault[1];
-                motor.overVoltage   = JsonObject.Motor.Fault[2];
-                motor.underVoltage  = JsonObject.Motor.Fault[3];
-
                 mppt1.voltageIn     = JsonObject.MPPT.Vin[0];
                 mppt2.voltageIn     = JsonObject.MPPT.Vin[1];
                 mppt3.voltageIn     = JsonObject.MPPT.Vin[2];
@@ -84,10 +67,27 @@ function func() {
                 mppt3.undv          = JsonObject.MPPT.UNDV[2];
                 mppt4.undv          = JsonObject.MPPT.UNDV[3];
 
-                mppt1.temp          = JsonObject.MPPT.Temp[0];
-                mppt2.temp          = JsonObject.MPPT.Temp[1];
-                mppt3.temp          = JsonObject.MPPT.Temp[2];
-                mppt4.temp          = JsonObject.MPPT.Temp[3];
+//                mppt1.temp          = JsonObject.MPPT.Temp[0];
+//                mppt2.temp          = JsonObject.MPPT.Temp[1];
+//                mppt3.temp          = JsonObject.MPPT.Temp[2];
+//                mppt4.temp          = JsonObject.MPPT.Temp[3];
+
+                motor.rpm           = JsonObject.Motor.RPM;
+                motor.voltage       = JsonObject.Motor.Bat;
+                motor.current       = JsonObject.Motor.I;
+                motor.temp          = JsonObject.Motor.T_Motor;
+                motor.tempPCB       = JsonObject.Motor.T_PCB;
+                motor.direction     = JsonObject.Motor.Dir;
+                motor.driveReady    = JsonObject.Motor.Ready;
+                motor.driveEnabled  = JsonObject.Motor.Enable;
+                motor.killSwitch    = JsonObject.Motor.Kill;
+                motor.setRPM        = JsonObject.Motor.Hn;
+                motor.setCurrent    = JsonObject.Motor.Hi;
+                motor.state         = JsonObject.Motor.St;
+                motor.failSafe      = JsonObject.Motor.Fault[0];
+                motor.timeout       = JsonObject.Motor.Fault[1];
+                motor.overVoltage   = JsonObject.Motor.Fault[2];
+                motor.underVoltage  = JsonObject.Motor.Fault[3];
 
                 battery.packVoltage     = JsonObject.bms.PackVol;
                 battery.packCurrent     = JsonObject.bms.I;

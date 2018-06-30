@@ -9,11 +9,12 @@ import QtPositioning 5.8
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.5
 
-Item {
+Rectangle {
     id: dashboard
 
     height: parent.height
     width: parent.width
+    color: "#222526"
 
     Rectangle {
         x: 10
@@ -78,27 +79,33 @@ Item {
                 font.pixelSize: 18
                 text: "Set Current: \t" + motor.setCurrent
             }
+            Button{
+                text: "Reload"
+                onReleased: {
+                    webEngineViewer.reload();
+                    webEngineViewer2.reload();
+                }
+            }
         }
 
     }
-
-    Rectangle {
-        x: 10
-        y: 140
-        height: 250
-        width: 530
-        radius: 5
+    Item {
+        anchors.bottom: parent.bottom
+        width: 550
+        height: 270
 
         WebEngineView {
             id: webEngineViewer2
-            height: parent.height
+            height: parent.height + 40
             width: parent.width
-            url: "https://dashboard.avanssolarboat.nl/d-solo/-qO4NuSmz/telegraf?panelId=32&orgId=1&refresh=10s&theme=light"
+            anchors.top: parent.top
+            anchors.topMargin: -30
+            url: "https://dashboard.avanssolarboat.nl/d-solo/sLxYIKvik/dashboard_1-tables?orgId=1&refresh=10s&panelId=2&theme=dark"
             zoomFactor: 1
         }
     }
-
     ChartView {
+        id: energyGraph
         legend.visible: false
         antialiasing: false
         margins.top: 0
@@ -107,9 +114,10 @@ Item {
         backgroundColor: "#00000000"
         animationDuration: 100
         animationOptions: ChartView.SeriesAnimations
-        y: 375
+        y: 110
+        x: -10
         height: 100
-        width: 550
+        width: 570
 
         ValueAxis {
             id: axisY
@@ -130,24 +138,28 @@ Item {
     }
     Text {
         text: Math.round(motor.power) + " W"
-        x: 15
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 13
+        anchors.top: energyGraph.top
+        anchors.topMargin: 27
+        anchors.left: energyGraph.left
+        anchors.leftMargin: 15
         font.bold: true
         font.pixelSize: 20
         color: "white"
     }
     Text {
         text: mppt.totalPower + " W"
-        anchors.right: parent.right
-        anchors.rightMargin: 265
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 14
+        anchors.top: energyGraph.top
+        anchors.topMargin: 27
+        anchors.right: energyGraph.right
+        anchors.rightMargin: 15
         horizontalAlignment: Text.AlignRight
         font.bold: true
         font.pixelSize: 20
         color: "white"
     }
+
+
+
 
     Plugin {
         id: mapPlugin

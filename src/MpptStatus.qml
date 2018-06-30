@@ -14,7 +14,7 @@ import QtGraphicalEffects 1.0
 
 Item {
     width: 550
-    height: parent.height
+    height: 70
 
     property alias name: mpptNr.text
     property alias status: mpptStatus.text
@@ -33,7 +33,7 @@ Item {
         x: 10
         y: 10
         width: parent.width - 20
-        height: 80
+        height: parent.height
         radius: 5
 
         Text {
