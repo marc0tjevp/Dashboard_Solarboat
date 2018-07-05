@@ -12,6 +12,7 @@ import QtCharts 2.2
 import QlChannelSerial 1.0
 import QtGraphicalEffects 1.0
 import QtWebEngine 1.5
+import "content"
 
 Item {
     height: parent.height
@@ -164,6 +165,18 @@ Item {
                     Text {
                         font.pixelSize: 18
                         text: "BATT: \t    " + battery.power + " W"
+                    }
+                    Item {
+                        width: 200
+                        height: 300
+
+                        //! [the dial in use]
+                        // Dial with a slider to adjust it
+                        Dial {
+                            id: dial
+                            anchors.centerIn: parent
+                            value: 50 + (battery.packCurrent * 2)
+                        }
                     }
                 }
 

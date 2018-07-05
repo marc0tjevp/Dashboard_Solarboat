@@ -73,11 +73,11 @@ Rectangle {
             y: 10
             Text {
                 font.pixelSize: 18
-                text: "Set RPM: \t" + motor.setRPM
+                text: "Set RPM: \t\t" + motor.setRPM
             }
             Text {
                 font.pixelSize: 18
-                text: "Set Current: \t" + motor.setCurrent
+                text: "Pack Voltage: \t" + battery.packVoltage
             }
             Button{
                 text: "Reload"
